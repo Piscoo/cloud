@@ -1,0 +1,106 @@
+.loginPage {
+	width: 100%;
+	display: flex;
+	justify-content: flex-start;
+	position: relative;
+	.to-register, .to-login {
+		position: absolute;
+		top: 40px;
+		right: 40px;
+		font-size: 16px;
+		color: #758199;
+		.go {
+			cursor: pointer;
+			color: #1733FF;
+		}
+	}
+	.form-title {
+		font-size: 28px;
+		color: #333;
+		font-weight: bold;
+		text-align: center;
+	}
+	.form-input {
+		margin-top: 24px;
+		height: 70px;
+		background: #F9F9FB;
+		border-radius: 8px;
+		border: none;
+		font-size: 16px;
+		.ant-input {
+			background-color: transparent;
+		}
+	}
+	.login-form-side {
+		.form-box {
+			width: 57.7%;
+			margin-top: 24px;
+			.options {
+				margin-top: 16px;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				font-size: 16px;
+				.auto-login {
+					.ant-checkbox-wrapper {
+						font-size: 16px;
+					}
+				}
+				.forgot {
+					color: #0360FF;
+					cursor: pointer;
+				}
+			}
+			.login-now {
+				margin-top: 70px;
+				background: #0360FF;
+				border-radius: 8px;
+				height: 70px;
+				line-height: 70px;
+				font-size: 24px;
+				font-weight: 500;
+				color: #FFFFFF;
+				text-align: center;
+				cursor: pointer;
+			}
+		}
+	}
+	.login-form-side, .reset-form-side {
+		width: 54.2%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	.reset-form-side {
+		.reset-form {
+			width: 84%;
+		}
+		.sub-form-title {
+			margin-top: 20px;
+			font-size: 18px;
+			color: #666666;
+			text-align: center;
+		}
+		.email-name {
+			margin-top: 90px;
+			color: #333;
+			text-align: left;
+			font-size: 22px;
+		}
+		.email-input {
+			margin-top: 14px;
+		}
+		.submit {
+			width: 430px;
+			height: 70px;
+			margin: 120px auto 0;
+			background: #0360FF;
+			border-radius: 8px;
+			color: #FFFFFF;
+			font-size: 20px;
+			text-align: center;
+			line-height: 70px;
+			cursor: pointer;
+		}
+	}
+}

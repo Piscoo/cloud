@@ -1,0 +1,56 @@
+.loginLeftSide {
+	width: 45.8%;
+	.container {
+		width: 100%;
+		min-height: 100vh;
+		max-height: 100vh;
+		padding-bottom: 122.73%;
+		background: url('@/images/login/login-bg.png') center no-repeat;
+		background-size: cover;
+		position: relative;
+		.content {
+			width: 100%;
+			position: absolute;
+			left: 0;
+			top: 0;
+			padding: 50px 90px;
+			max-height: 100%;
+		}
+	}
+	.logo {
+		width: 70px;
+		height: 54.5px;
+		display: block;
+		background: url('@/images/logo.svg') center no-repeat;
+		background-size: contain;
+	}
+	.bot-info {
+		margin-top: 18.5vh;
+		.welcome {
+			font-size: 34px;
+			font-weight: 600;
+			color: #FFFFFF;
+		}
+		.notice {
+			margin-top: 22px;
+			font-size: 18px;
+			color: rgba(255, 255, 255, 0.56);
+			line-height: 34px;
+			letter-spacing: 1px;
+		}
+		.img {
+			margin-top: 12.6vh;
+			width: 100%;
+			padding-bottom: 60%;
+			background: url('@/images/home/cloud.png') center no-repeat;
+			background-size: contain;
+		}
+		.slogan {
+			margin-top: 40px;
+			font-size: 14px;
+			color: rgba(255, 255, 255, 0.7);;
+			letter-spacing: 1px;
+			text-align: center;
+		}
+	}
+}
