@@ -135,8 +135,8 @@ const Home = () => {
 					<Link className="logo" to="/">云主机</Link>
 					<div className="right-nav">
 						<div className="nav-item language">中文</div>
-						<div className="nav-item register">注册账号</div>
-						<div className="nav-item login">用户登录</div>
+						<Link to='/register' className="nav-item register">注册账号</Link>
+						<Link to='/login' className="nav-item login">用户登录</Link>
 					</div>
 				</div>
 				<div className="info-container">

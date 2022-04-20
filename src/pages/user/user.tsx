@@ -1,7 +1,12 @@
 
-import Layout from '@/components/layout/layout'
-const About = () => {
-	return <div>This is about page.</div>
+import Breadcrumb from '@/components/breadcrumb/breadcrumb'
+const User = () => {
+	return (
+		<div>
+			This is user page.
+			<Breadcrumb></Breadcrumb>
+		</div>
+	)
 }
 
-export default About;
+export default User;

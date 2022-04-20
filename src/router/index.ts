@@ -8,6 +8,7 @@ const NotFound = lazy(() => import('@/pages/404'));
 const Login = lazy(() => import('@/pages/login'));
 // const Login = lazy(() => import('@/pages/login/loginForm'));
 const Register = lazy(() => import('@/pages/login/register'));
+const Customize = lazy(() => import('@/pages/customize/customize'));
 
 const routers = [
 	{
@@ -24,19 +25,22 @@ const routers = [
 	{
 		path: '/user',
 		component: User,
-		name: 'User'
+		name: 'User',
+		exact: true
 	},
 	{
 		path: '/404',
 		component: NotFound,
 	},
 	{
-		path: '/products',
+		path: '/user/products',
 		component: MyProduct,
+		exact: true
 	},
 	{
-		path: '/product/:id',
+		path: '/user/products/:id',
 		component: ProductDetail,
+		exact: true
 	},
 	{
 		path: '/login',
@@ -45,6 +49,10 @@ const routers = [
 	{
 		path: '/register',
 		component: Register,
+	},
+	{
+		path: '/customize',
+		component: Customize
 	}
 ]
 
