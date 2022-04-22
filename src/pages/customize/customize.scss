@@ -31,6 +31,10 @@
 				display: flex;
 				align-items: center;
 				// justify-content: ;
+
+				&.system-block {
+					margin-top: 50px;
+				}
 			}
 		}
 		.block-label {
@@ -154,6 +158,124 @@
 							z-index: 1;
 						}
 					}
+				}
+			}
+			.platform-box {
+				display: flex;
+				justify-content: flex-start;
+				align-items: center;
+				.intel-radio {
+					margin-left: 30px;
+				}
+			}
+			.internet-speed {
+				margin-top: 20px;
+				.ant-slider-rail, .ant-slider-step {
+					height: 12px;
+					border-radius: 6px;
+				}
+				.ant-slider-track {
+					height: 12px;
+					width: 31.5789%;
+					background-color: rgb(3, 96, 255);
+					background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.5) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0.5) 75%, transparent 75%, transparent);
+					background-size: 9px 9px;
+					border-radius: 6px;
+				}
+				.ant-slider-dot {
+					width: 1px;
+					height: 10px;
+					background: #DBDBDB;
+					border: none;
+					bottom: -10px;
+					top: unset;
+				}
+				.ant-slider-handle {
+					width: 18px;
+					height: 34px;
+					background: #FFFFFF;
+					box-shadow: 0px 0px 8px 0px #C1CBDB;
+					border-radius: 9px;
+					border: none;
+					top: -2px;
+				}
+				.ant-slider-mark {
+					top: 26px;
+					color: #999999;
+					font-size: 14px;
+				}
+				.ant-slider-with-marks {
+					margin-bottom: 18px;
+				}
+				.ant-input-number {
+					margin:  0 10px 0 30px;
+				}
+				.speed-input-num {
+					color: #999999;
+					display: flex;
+					// justify-content: ;
+					align-items: center;
+				}
+			}
+			.system-disk-container, .data-disk-container {
+				display: flex;
+				align-items: center;
+				.type-selector {
+					position: relative;
+					.ant-select {
+						width: 90%;
+					}
+					.tip {
+						margin-top: 12px;
+						font-size: 12px;
+						color: #999;
+						position: absolute;
+					}
+				}
+				.size-inputer {
+					display: flex;
+					justify-content: flex-start;
+					align-items: center;
+					font-size: 14px;
+					color: #999;
+					.ant-input-number {
+						color: #333;
+						font-size: 16px;
+						margin-right: 10px;
+					}
+				}
+				.buy-guide {
+					font-size: 12px;
+					color: #0360ff;
+					width: max-content;
+					padding: 0 16px 0 20px;
+					position: relative;
+					cursor: pointer;
+					&::before, &::after {
+						content: '';
+						width: 12px;
+						height: 12px;
+						position: absolute;
+						top: 50%;
+						transform: translateY(-50%);
+					}
+					&::before {
+						left: 0;
+						background: url('@/images/customize/question.svg') center no-repeat;
+						background-size: contain;
+					}
+					&::after {
+						right: 0;
+						background: url('@/images/customize/guide.svg') center no-repeat;
+						background-size: contain;
+					}
+				}
+				.notice {
+					margin-left: 20px;
+					font-size: 12px;
+					color: #0360ff;
+					width: max-content;
+					cursor: pointer;
 				}
 			}
 		}

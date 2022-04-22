@@ -1,3 +1,4 @@
+import Request from './index'
 export const login = (data) => {
 	console.log(data)
 }
