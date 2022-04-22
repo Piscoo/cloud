@@ -3,6 +3,7 @@
 	color: #333;
 	font-size: 16px;
 	background: #F9F9FB;
+	padding-bottom: 176px;
 	.wrapper {
 		width: 62.5%;
 		max-width: 1200px;
@@ -27,7 +28,6 @@
 			padding: 24px 40px;
 			background: #fff;
 			.block-item {
-				margin-top: 30px;
 				display: flex;
 				align-items: center;
 				// justify-content: ;
@@ -35,11 +35,18 @@
 				&.system-block {
 					margin-top: 50px;
 				}
+				&:not(:first-child)  {
+					margin-top: 30px;
+				}
+				&.login-way-block {
+					padding-bottom: 32px;
+				}
 			}
 		}
 		.block-label {
 			width: 90px;
 			text-align: left;
+			font-weight: 500;
 		}
 		.block-content {
 			width: calc(100% - 90px);
@@ -244,6 +251,11 @@
 						margin-right: 10px;
 					}
 				}
+				.num-inputer {
+					.ant-input-number {
+						margin-left: 20px;
+					}
+				}
 				.buy-guide {
 					font-size: 12px;
 					color: #0360ff;
@@ -275,6 +287,163 @@
 					font-size: 12px;
 					color: #0360ff;
 					width: max-content;
+					cursor: pointer;
+				}
+			}
+			.data-disk-container {
+				background: #F9F9FA;
+				border-radius: 4px;
+				padding: 16px 16px 40px;
+				margin-top: 20px;
+				position: relative;
+				.delete-item {
+					width: 24px;
+					height: 24px;
+					border-radius: 50%;
+					background: url("@/images/customize/delete.svg") center no-repeat;
+					background-size: contain;
+					cursor: pointer;
+					position: absolute;
+					right: 16px;
+					top: 50%;
+					transform: translateY(-50%);
+				}
+			}
+			&.data-disk {
+				.add-new-one {
+					margin-top: 16px;
+					font-size: 12px;
+					width: max-content;
+					position: relative;
+					padding: 0 18px;
+					.blue {
+						color: #0360FF;
+						cursor: pointer;
+					}
+					.gray {
+						color: #666666;
+						margin-left: 10px;
+					}
+					.orange {
+						color: #FF8035;
+					}
+					&::before, &::after {
+						content: '';
+						width: 12px;
+						height: 12px;
+						position: absolute;
+						top: 50%;
+						transform: translateY(-50%);
+					}
+					&::before {
+						left: 0;
+						background: url('@/images/customize/add.svg') center no-repeat;
+						background-size: contain;
+					}
+					&::after {
+						right: 0;
+						background: url('@/images/customize/question.svg') center no-repeat;
+						background-size: contain;
+					}
+				}
+			}
+			&.login-way {
+				position: relative;
+				.auto-password {
+					width: max-content;
+					background: #0360FF;
+					color: #fff;
+					font-size: 14px;
+					line-height: 36px;
+					padding: 0 18px;
+					border-radius: 4px;
+					cursor: pointer;
+				}
+				.tip {
+					position: absolute;
+					color: #E9661E;
+					font-size: 12px;
+					margin-top: 12px;
+					.blue {
+						color: #0360FF;
+					}
+				}
+			}
+
+			&.rebuy-content {
+				.tip {
+					margin-top: 12px;
+					font-size: 12px;
+					color: #999999;
+					.know-more {
+						color: #0360FF;
+						margin-left: 20px;
+						width: max-content;
+						position: relative;
+						padding-right: 18px;
+						&::after {
+							content: '';
+							width: 12px;
+							height: 12px;
+							background: url('@/images/customize/guide.svg') center no-repeat;
+							background-size: contain;
+							position: absolute;
+							right: 0;
+							top: 50%;
+							transform: translateY(-50%);
+							cursor: pointer;
+						}
+					}
+				}
+			}
+		}
+	}
+	.page-bot {
+		width: 100%;
+		height: 176px;
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		background: rgba(255, 255, 255, 0.8);
+		box-shadow: 0px -13px 19px 1px rgba(0, 0, 0, 0.05);
+		backdrop-filter: blur(3px);
+		.block {
+			padding: 24px 40px;
+			display: flex;
+			align-items: center;
+			.block-label {
+				width: 90px;
+				text-align: left;
+				font-weight: 500;
+			}
+			.block-content {
+				width: calc(100% - 90px);
+				.money {
+					font-size: 35px;
+					color: #E9661E;
+					.fee {
+						font-size: 18px;
+					}
+				}
+				.contract {
+					margin-top: 10px;
+					font-size: 14px;
+					color: #333333;
+					.blue {
+						cursor: pointer;
+						color: #0360FF;
+					}
+				}
+				.buy-now {
+					width: max-content;
+					height: 36px;
+					margin-top: 20px;
+					background: #E9661E;
+					border-radius: 4px;
+					line-height: 36px;
+					color: #fff;
+					font-size: 16px;
+					padding: 0 16px;
 					cursor: pointer;
 				}
 			}
