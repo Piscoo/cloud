@@ -1,6 +1,6 @@
-
-import { useState } from 'react'
-import { Tabs, Radio, Select, Checkbox, Slider, InputNumber, Row, Col, Input } from 'antd'
+import React, { useState } from 'react'
+import { Tabs, Radio, Select, Checkbox, Slider, InputNumber, Row, Col, Input, Modal } from 'antd'
+import { Link } from 'react-router-dom'
 import Header from '@/components/header/header'
 import Breadcrumb from '@/components/breadcrumb/breadcrumb'
 import './customize.scss'
@@ -108,7 +108,7 @@ export default function Customize() {
 	const [isUseFreeNet, setIsUseFreeNet] = useState<boolean>(false);
 	const changeUseFreeNetwork = (e) => {
 		setIsUseFreeNet(e.target.value);
-	}
+	};
 
 	const [internetSpeed, setInternetSpeed] = useState<number>(1);
 	const speedSliderMarks = {
@@ -117,19 +117,19 @@ export default function Customize() {
 		100: '100Mbps', 
 		150: '150Mbps', 
 		199: '200Mbps', 
-	}
+	};
 	const changeInternetSpeed = (e) => {
 		setInternetSpeed(e);
-	}
+	};
 
 	const [systemDiskType, setSystemDiskType] = useState<string>('high');
 	const changeSystemDiskType = (value) => {
 		setSystemDiskType(value);
-	}
+	};
 	const [systemDiskSize, setSystemDiskSize] = useState<number>(8);
 	const changeSystemDiskSize = (e) => {
 		setSystemDiskSize(e);
-	}
+	};
 
 	interface DataDiskItem {
 		dataDiskTypeValue: string,
@@ -158,21 +158,75 @@ export default function Customize() {
 		dataDiskTypeValue: '1',
 		dataDiskSize: 8,
 		dataDiskNum: 1
-	}
-	const [dataDiskList, setDataDiskList] = useState<Array<DataDiskItem>>([defaultDataDiskItem, defaultDataDiskItem]);
+	};
+	const [dataDiskList, setDataDiskList] = useState<Array<DataDiskItem>>([defaultDataDiskItem]);
+
 	const changeDataDiskItemValue = (key: string, e: string | number, index: number) => {
-		console.log(key, e, index)
 		const copy: Array<DataDiskItem> = dataDiskList.map((item, idx) => {
-			if(idx == index) {
-				item[key] = e;
-				return {
-					...item
-				}
-			} else {
-				return item;
-			}
+			const newValue = { ...item, [key]: e };
+			return idx == index ? newValue : item;
 		})
 		setDataDiskList(copy);
+	};
+
+	const deleteDataDiskItem = (index: number): void => {
+		dataDiskList.splice(index, 1);
+		console.log(dataDiskList.length)
+		setDataDiskList([...dataDiskList]);
+	};
+	const addANewDataDiskItem = ()  => {
+		setDataDiskList([...dataDiskList, defaultDataDiskItem]);
+	};
+
+	const buyTimeList = [
+		{ label: '1个月', value: 'one month' },
+		{ label: '2个月', value: 'two months' },
+		{ label: '3个月', value: 'three months' },
+		{ label: '半年', value: 'half year' },
+		{ label: '1年', value: 'one years' },
+		{ label: '2年', value: 'two years' },
+		{ label: '3年', value: 'three years' },
+		{ label: '4年', value: 'four years' },
+		{ label: '5年', value: 'five years' },
+	];
+	const [buyTimeValue, setBuyTimeValue] = useState<string>('one month');
+
+	const changeBuyTimeValue = (e): void => {
+		setBuyTimeValue(e.target.value);
+	};
+
+	const [rebuyOrNot, setRebuyOrNot] = useState<boolean>(false);
+	const changeRebuyOrNot = (e) => {
+		setRebuyOrNot(e.target.checked);
+	};
+
+	const [buyNumber, setBuyNumber] = useState<number>(1);
+	const changeBuyNumber = (e: number): void => {
+		setBuyNumber(e);
+	}
+
+	const [agreeContract, setAgreeContract] = useState<boolean>(false);
+	const changeAgreeContract = (e) => {
+		setAgreeContract(e.target.checked);
+	};
+
+
+	const needLoginModalContent = (
+		<>
+			<p>请先登录账户后购买本产品！</p>
+			<div className="btns">
+				<Link to="/register" className="btn register">立即注册</Link>
+				<Link to="/login/" className="btn login">账号登录</Link>
+			</div>
+		</>
+	);
+
+	const [isNeedLoginModalVisible, setIsNeedLoginModalVisible] = useState<boolean>(false);
+	const buyNow = () => {
+		if(!localStorage.userInfo) {
+			console.log('oops')
+			setIsNeedLoginModalVisible(true);
+		}
 	};
 
 
@@ -250,7 +304,7 @@ export default function Customize() {
 								</div>
 								<div className="internet-speed">
 									<Row>
-										<Col span={12}>
+										<Col span={15}>
 											<Slider
 												min={1}
 												max={200}
@@ -308,7 +362,7 @@ export default function Customize() {
 													<Option value={item.value} key={item.value}>{item.label}</Option>
 												))}
 											</Select>
-											<div className="tip">购买成功后，系统盘不支持更换介质</div>
+											<div className="tip">基准性能：1880 IOPS, 101.5 MB/s 带宽</div>
 										</Col>
 										<Col span={4} className="size-inputer">
 											<InputNumber
@@ -317,31 +371,93 @@ export default function Customize() {
 												onChange={(e) => changeDataDiskItemValue('dataDiskSize', e, index)}
 											/>GB
 										</Col>
+										<Col span={4} className="num-inputer">
+											数量<InputNumber
+												min={1}
+												value={disk.dataDiskNum}
+												onChange={(e) => changeDataDiskItemValue('dataDiskNum', e, index)}
+											/>
+										</Col>
 										<Col className="notice">
 											用快照创建硬盘
 										</Col>
+										{dataDiskList.length > 1 && <div className="delete-item" onClick={() => deleteDataDiskItem(index)}></div>}
 									</Row>
 								))}
+								<div className="add-new-one">
+									<span className="blue" onClick={addANewDataDiskItem}>新建云硬盘数据盘</span>
+									<span className="gray">还可增加<span className="orange">{20 - dataDiskList.length}</span>块数据盘</span>
+								</div>
 							</div>
 						</div>
 					</div>
 					<div className="block">
-						<div className="block-item">
+						<div className="block-item login-way-block">
 							<div className="block-label">登录方式</div>
-							<div className="block-content"></div>
+							<div className="block-content login-way">
+								<div className="auto-password">自动生成密码</div>
+								<div className="tip">自动生成的密码将在服务器创建完成后通过站内信发送给您。您也可以在创建完成后，登录CVM控制台重置密码，<span className="blue">如何重置密码？</span></div>
+							</div>
 						</div>
 					</div>
 					<div className="block">
-						<div className="block-item">
+						<div className="block-item buy-time">
 							<div className="block-label">购买时长</div>
-							<div className="block-content"></div>
+							<div className="block-content">
+								<Radio.Group
+									options={buyTimeList}
+									onChange={() => changeBuyTimeValue}
+									value={buyTimeValue}
+									optionType="button"
+									size="large"
+								/>
+								{/* <span>使用快照创建硬盘</span> */}
+							</div>
 						</div>
 						<div className="block-item">
+							<div className="block-label"></div>
+							<div className="block-content rebuy-content">
+								<Checkbox className="auto-rebuy" onChange={changeRebuyOrNot}>账户余额足够时，设备到期后按月自动续费</Checkbox>
+								<div className="tip">如需备案请购买国内服务器3个月及以上<span className="know-more">了解详情</span></div>
+							</div>
+						</div>
+						<div className="block-item buy-number">
 							<div className="block-label">购买数量</div>
-							<div className="block-content"></div>
+							<div className="block-content">
+								<InputNumber
+									min={1}
+									value={buyNumber}
+									onChange={(e) => changeBuyNumber(e)}
+								/>
+							</div>
 						</div>
 					</div>
 				</div>
+			</div>
+			<div className="page-bot">
+				<div className="wrapper">
+					<div className="block">
+						<div className="block-label">费用</div>
+						<div className="block-content">
+							<div className="money">
+								159.9 <span className="fee">元</span>
+							</div>
+							<div className="contract">
+								<Checkbox onChange={changeAgreeContract}>同意<span className="blue">《云服务协议》</span>、<span className="blue">《退款规则》</span>和<span className="blue">《云服务虚拟货币相关活动声明》</span></Checkbox>
+							</div>
+							<div className="buy-now" onClick={buyNow}>立即购买</div>
+						</div>
+					</div>
+				</div>
+				<Modal
+					title="需要登录"
+					centered
+					maskClosable={true}
+					visible={isNeedLoginModalVisible}
+					footer={null}
+				>
+					<div>{needLoginModalContent}</div>
+				</Modal>
 			</div>
 		</div>
 	)
