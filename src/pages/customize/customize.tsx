@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Tabs, Radio, Select, Checkbox, Slider, InputNumber, Row, Col, Input, Modal } from 'antd'
 import { Link } from 'react-router-dom'
 import Header from '@/components/header/header'
@@ -59,19 +59,31 @@ const machineList = [
 ];
 
 
-export default function Customize() {
-	const [areasList, setAreasList] = useState();
-	const getParamList = () => {
-		hostParameter().then(res => {
-			// if(res.data.code == 0) {
-				const areas = res?.data?.areas;
-				setAreasList(areas);
-			// }
-		})
-	}
+const Customize = () => {
+	const [parameterList, setParameterList] = useState({platform: []});
+	const [platformList, setPlatformList] = useState<Array<string>>([]);
+	
+	
 	useEffect(() => {
+		let didCancel = false;
+		const getParamList = async () => {
+			const res = await	hostParameter();
+			// hostParameter().then(res => {
+			// 	const parameter = res.data;
+			// 	setParameterList(parameter);
+			// 	setPlatformList(res.data?.platform);
+			// })
+			if(!didCancel) setPlatformList(res.data.platform);
+		}
 		getParamList();
+		return () => {
+			didCancel = true;
+		}
 	}, [])
+
+	const radioItem = platformList.map(item => {
+		<Radio value={item} key={item}>{item}</Radio>
+	})
 
 	const [activeAreaId, setActiveAreaId] = useState<number>(3);
 	const chooseAreaItem = (item) => {
@@ -214,16 +226,7 @@ export default function Customize() {
 		}
 	};
 
-	const areaTabContent = (
-		<>
-			{Object.entries(areasList|| {}).map(([key, value]) => {
-				// <TabPane tab={key} key={key}>test</TabPane>
-				<div><div>{key}</div>
-				<div></div></div>
-			})}
-		</>
-	)
-	
+
 
 	return (
 		<div className="customize-page">
@@ -239,9 +242,9 @@ export default function Customize() {
 						<div className="block-item">
 							<div className="block-label">地域</div>
 							<div className="block-content">
-								{/* <Tabs defaultActiveKey="1" onChange={changeAreaTab}> */}
-									{areaTabContent}
-								{/* </Tabs> */}
+								<Tabs defaultActiveKey="1" onChange={changeAreaTab}>
+									<TabPane tab={'key'} key='0'>test</TabPane>
+								</Tabs>
 							</div>
 						</div>
 					</div>
@@ -271,8 +274,7 @@ export default function Customize() {
 							<div className="block-label">平台</div>
 							<div className="block-content platform-box">
 								<Radio.Group onChange={changePlatformValue} value={platformValue}>
-									<Radio value={'amd'}>AMD</Radio>
-									<Radio value={'intel'} className="intel-radio">INTEL</Radio>
+										{radioItem}
 								</Radio.Group>
 							</div>
 						</div>
@@ -444,3 +446,5 @@ export default function Customize() {
 		</div>
 	)
 }
+
+export default Customize

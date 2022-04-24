@@ -80,6 +80,7 @@ export const registerAccount = (data) => {
 	})
 }
 
+// 获取首页推荐主机
 export const recommendHosts = () => {
 	return cloudRequest({
 		url: '/host/recommend',
