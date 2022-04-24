@@ -8,7 +8,7 @@ export interface RequestInterceptors {
 	requestInterceptorsCatch?: (err: any) => any;
 
 	// 响应拦截
-	responseInterceptors?: (config: AxiosResponse) => AxiosResponse;
+	responseInterceptors?: <T = AxiosResponse>(config: T) => T;
 	responseInterceptorsCatch?: (err: any) => any;
 }
 
