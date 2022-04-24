@@ -5,10 +5,16 @@
 	position: relative;
 	.to-register, .to-login {
 		position: absolute;
-		top: 40px;
-		right: 40px;
+		top: 0;
+		right: 0;
+		padding: 10px 40px;
 		font-size: 16px;
 		color: #758199;
+		width: 100%;
+		background: #fff;
+		line-height: 40px;
+		text-align: right;
+		z-index: 10;
 		.go {
 			cursor: pointer;
 			color: #1733FF;
@@ -32,6 +38,7 @@
 		}
 	}
 	.login-form-side {
+		position: relative;
 		.form-box {
 			width: 57.7%;
 			margin-top: 24px;

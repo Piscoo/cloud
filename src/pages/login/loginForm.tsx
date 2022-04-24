@@ -1,15 +1,17 @@
 import './login.scss'
-import { Input, Checkbox } from 'antd'
+import { Input, Checkbox, message } from 'antd'
 import { UserOutlined, LockOutlined  } from '@ant-design/icons'
 import { login } from '@/request/api'
 import { Link } from 'react-router-dom'
+import { isEmail } from '@/utils/is'
 
 interface formProps {
 	changeFormType: (value: string) => void
+	loginSuccess: () => void
 }
 
 export default function LoginForm(props: formProps) {
-	const { changeFormType } = props;
+	const { changeFormType, loginSuccess } = props;
 	let email: string = '';
 	let password: string | number = '';
 	let autoLogin: boolean = false;
@@ -27,12 +29,39 @@ export default function LoginForm(props: formProps) {
 	}
 
 	const loginNow = () => {
-		const data = {
-			email,
-			password,
-			autoLogin
+		if(!email || !password) {
+			message.warning('请输入完整账号密码');
+			return;
 		}
-		login(data);
+		const data = {
+			emAil: email,
+			pAsswOrd: password,
+		}
+		// autoLogin
+		login(data).then(res => {
+			const code = res.data.code;
+			switch(code) {
+				case 0:
+					message.success('登录成功');
+					const userInfo = {
+						email: res.data.email,
+						firstName: res.data.first_name,
+						lastName: res.data.last_name
+					}
+					localStorage.setItem('userInfo', JSON.stringify(userInfo));
+					loginSuccess();
+				break;
+				case -5:
+					message.error('账号不存在');
+				break;
+				case -6:
+					message.error('密码错误');
+				break;
+				default:
+					message.error(res.data.msg);
+				break;
+			}
+		})
 	}
 
   return (
@@ -41,7 +70,7 @@ export default function LoginForm(props: formProps) {
 				<div className="form-title">用户登录</div>
 				<div className="form">
 					<Input className="form-input email-input" size="large" placeholder="请输入邮箱" suffix={<UserOutlined />} onChange={inputEmail}></Input>
-					<Input className="form-input password-input" size="large" placeholder="请输入密码" suffix={<LockOutlined />} onChange={inputPassword}></Input>
+					<Input.Password className="form-input password-input" size="large" placeholder="请输入密码" onChange={inputPassword} onPressEnter={loginNow}></Input.Password>
 				</div>
 				<div className="options">
 					<div className="auto-login">

@@ -15,7 +15,7 @@ class Request {
 
 		this.instance.interceptors.request.use(
 			(res: AxiosRequestConfig) => {
-				console.log('全局请求拦截器', res);
+				// console.log('全局请求拦截器', res);
 				return res;
 			},
 			(err: any) => err,
@@ -31,7 +31,7 @@ class Request {
 
 		this.instance.interceptors.response.use(
 			(res: AxiosResponse) => {
-				console.log('全局响应拦截器', res);
+				// console.log('全局响应拦截器', res);
 				return res;
 			},
 			(err: any) => err,
@@ -55,16 +55,16 @@ class Request {
 }
 const request = new Request({
 	baseURL: baseUrl,
+	timeout: 1000 * 10,
 	interceptors: {
+		//实例请求拦截器
 		requestInterceptors: config => {
-			console.log('实例请求拦截器');
 			return config;
 		},
+		// 实例响应拦截器
 		responseInterceptors: result => {
-			console.log('实例响应拦截器');
 			return result;
 		}
 	}
 })
-// export default Request;
 export default request;

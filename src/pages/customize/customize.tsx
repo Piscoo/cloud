@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Tabs, Radio, Select, Checkbox, Slider, InputNumber, Row, Col, Input, Modal } from 'antd'
 import { Link } from 'react-router-dom'
 import Header from '@/components/header/header'
 import Breadcrumb from '@/components/breadcrumb/breadcrumb'
 import './customize.scss'
+import { hostParameter } from '@/request/api'
 
 const { TabPane } = Tabs;
 const { Option } = Select;
@@ -11,35 +12,6 @@ const changeAreaTab = (key) => {
 	console.log(key)
 }
 
-const areaList = {
-	china: [
-		{id: 1, name: '华南（广州）'},
-		{id: 2, name: '华南（广州）'},
-		{id: 3, name: '华南（广州）', discount: true},
-		{id: 4, name: '华南（广州）'},
-		{id: 5, name: '华南（广州）'},
-		{id: 6, name: '华南（广州）'},
-		{id: 7, name: '华南（广州）'},
-		{id: 8, name: '华南（广州）'},
-		{id: 9, name: '华南（广州）'},
-		{id: 10, name: '华南（广州）'},
-		{id: 11, name: '华南（广州）', empty: true},
-	],
-	overseas: [
-		{id: 12, name: '东海岸（美国）'},
-		{id: 13, name: '东海岸（美国）'},
-		{id: 14, name: '东海岸（美国）'},
-		{id: 15, name: '东海岸（美国）'},
-		{id: 16, name: '东海岸（美国）', discount: true},
-		{id: 17, name: '东海岸（美国）'},
-		{id: 18, name: '东海岸（美国）'},
-		{id: 19, name: '东海岸（美国）'},
-		{id: 20, name: '东海岸（美国）'},
-		{id: 21, name: '东海岸（美国）', empty: true},
-		{id: 22, name: '东海岸（美国）'},
-		{id: 23, name: '东海岸（美国）'},
-	]
-};
 
 const machineList = [
 	{
@@ -87,8 +59,20 @@ const machineList = [
 ];
 
 
-
 export default function Customize() {
+	const [areasList, setAreasList] = useState();
+	const getParamList = () => {
+		hostParameter().then(res => {
+			// if(res.data.code == 0) {
+				const areas = res?.data?.areas;
+				setAreasList(areas);
+			// }
+		})
+	}
+	useEffect(() => {
+		getParamList();
+	}, [])
+
 	const [activeAreaId, setActiveAreaId] = useState<number>(3);
 	const chooseAreaItem = (item) => {
 		if(item.empty) return;
@@ -100,6 +84,7 @@ export default function Customize() {
 		setActiveMachineId(item.id);
 	};
 
+	
 	const [platformValue, setPlatformValue] = useState<string>('amd');
 	const changePlatformValue = (e) => {
 		setPlatformValue(e.target.value);
@@ -229,6 +214,16 @@ export default function Customize() {
 		}
 	};
 
+	const areaTabContent = (
+		<>
+			{Object.entries(areasList|| {}).map(([key, value]) => {
+				// <TabPane tab={key} key={key}>test</TabPane>
+				<div><div>{key}</div>
+				<div></div></div>
+			})}
+		</>
+	)
+	
 
 	return (
 		<div className="customize-page">
@@ -244,22 +239,9 @@ export default function Customize() {
 						<div className="block-item">
 							<div className="block-label">地域</div>
 							<div className="block-content">
-								<Tabs defaultActiveKey="1" onChange={changeAreaTab}>
-									<TabPane tab="中国" key="1">
-										<div className="area-list-box">
-											{areaList.china.map(item => (
-												<div className={`area-item ${item.empty ? 'empty' : ''} ${activeAreaId == item.id ? 'active' : ''} ${item.discount ? 'discount' : ''}`} key={item.id} onClick={() => chooseAreaItem(item)}>{item.name}</div>
-											))}
-										</div>
-									</TabPane>
-									<TabPane tab="海外" key="2">
-										<div className="area-list-box">
-											{areaList.overseas.map(item => (
-												<div className={`area-item ${item.empty ? 'empty' : ''} ${activeAreaId == item.id ? 'active' : ''} ${item.discount ? 'discount' : ''}`} key={item.id} onClick={() => chooseAreaItem(item)}>{item.name}</div>
-											))}
-										</div>
-									</TabPane>
-								</Tabs>
+								{/* <Tabs defaultActiveKey="1" onChange={changeAreaTab}> */}
+									{areaTabContent}
+								{/* </Tabs> */}
 							</div>
 						</div>
 					</div>

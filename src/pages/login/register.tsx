@@ -4,14 +4,16 @@ import { Input, Switch, Checkbox, Modal, InputNumber, message } from 'antd'
 import copy from 'copy-to-clipboard'
 import LeftBlock from './leftBlock'
 import './register.scss'
+import { registerAccount } from '@/request/api'
+import { isEmail } from '@/utils/is'
 
 
-function Register() {
+function Register(props) {
 	const [firstName, setFirstName] = useState<string>();
 	const [lastName, setLastName] = useState<string>();
-	const [email, setEmail] = useState<string>();
-	const [isSubscribe, setIsSubscribe] = useState<boolean>();
-	const [agreeTerms, setAgreeTerms] = useState<boolean>();
+	const [email, setEmail] = useState<string>('');
+	const [isSubscribe, setIsSubscribe] = useState<boolean>(true);
+	const [agreeTerms, setAgreeTerms] = useState<boolean>(false);
 	const [password, setPassword] = useState<string>();
 	const [rePassword, setRePassword] = useState<string>();
 	const [strengthProgress, setStrengthProgress] = useState<string>('');
@@ -83,16 +85,72 @@ function Register() {
 		}
 	}
 
-	const goRegister = () => {
-		const data = {
-			firstName,
-			lastName,
-			email,
-			isSubscribe,
-			agreeTerms,
-			password,
+	const checkForm = () => {
+		const msgList = {
+			noName: '请输入姓名',
+			noEmail: '请输入邮箱',
+			noPassword: '请输入密码',
+			passwordWrong: '密码至少六位',
+			passwordNotSame: '两次输入的密码不一致',
+			emailWrong: '请输入正确的邮箱地址'
 		};
-		console.log(data);
+
+		if(!firstName || !lastName) {
+			message.warning(msgList.noName);
+			return false;
+		}
+		if(!email) {
+			message.warning(msgList.noEmail);
+			return false;
+		}
+		if(!password || !rePassword) {
+			message.warning(msgList.noPassword);
+			return false;
+		}
+		if(!isEmail(email)) {
+			message.warning(msgList.emailWrong);
+			return false;
+		}
+		if(password.length < 8) {
+			message.warning(msgList.passwordWrong);
+			return false;
+		}
+		if(password !== rePassword) {
+			message.warning(msgList.passwordNotSame);
+			return false;
+		}
+		return true;
+	}
+	const goRegister = () => {
+		const okToGo: boolean = checkForm();
+		console.log(okToGo);
+		if(!okToGo) return;
+		const data = {
+			first_name: firstName,
+			last_name: lastName,
+			emAil: email,
+			is_subscribe: isSubscribe,
+			pAsswOrd: password,
+			confirm_pAsswOrd: rePassword
+		};
+		// agreeTerms,
+		registerAccount(data).then(res => {
+			const code = res?.data?.code;
+			switch(code) {
+				case 0:
+					message.success('注册成功，请登录');
+					const timer = setTimeout(() => {
+						props.history.push('/login');
+					}, 1000);
+					clearTimeout(timer);
+					break;
+				case -9: 
+					message.error("该邮箱已注册");
+				break;
+				default:
+					break;
+			}
+		})
 	}
 
 	// 使用随机生成的密码当作密码

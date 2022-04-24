@@ -14,13 +14,46 @@ interface cloudResponse<T> {
 const cloudRequest = <D, T = any>(config: cloudRequestConfig<D>) => {
 	const { method = 'GET' } = config;
 	if(method == 'get' || method == 'GET') {
-		config.params = config.data;
+		config.params = config?.data;
 	}
 	return Request.request<cloudResponse<T>>(config);
 }
 
+const commonInterceptors = {
+	requestInterceptors(res: any) {
+		return res;
+	},
+	responseInterceptors(result: any) {
+		return result;
+	}
+};
+
 export const login = (data) => {
-	console.log(data)
+	interface Req {
+		emAil: string
+		pAsswOrd: string
+	}
+	interface Res {
+		code: number
+		email: string
+		first_name: string
+		last_name: string
+		msg?: string
+	}
+	return cloudRequest<Req, Res>({
+		url: '/user/signin',
+		method: 'POST',
+		data,
+		interceptors: commonInterceptors
+	})
+}
+
+export const signout = () => {
+	return cloudRequest({
+		url: '/user/signout',
+		method: 'GET',
+		interceptors: commonInterceptors
+	})
 }
 
 export const resetPassword = (data) => {
@@ -43,15 +76,23 @@ export const registerAccount = (data) => {
 		url: '/user/signup',
 		method: 'POST',
 		data,
-		interceptors: {
-			requestInterceptors(res) {
-				console.log('注册接口请求拦截');
-				return res;
-			},
-			responseInterceptors(result) {
-				console.log('注册接口响应拦截');
-				return result;
-			}
-		}
+		interceptors: commonInterceptors
+	})
+}
+
+export const recommendHosts = () => {
+	return cloudRequest({
+		url: '/host/recommend',
+		method: 'GET',
+		interceptors: commonInterceptors
+	})
+}
+
+// 自定义配置页参数
+export const hostParameter = () => {
+	return cloudRequest({
+		url: '/host/parameter',
+		method: 'GET',
+		interceptors: commonInterceptors
 	})
 }

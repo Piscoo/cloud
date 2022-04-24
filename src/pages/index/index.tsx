@@ -1,6 +1,9 @@
-import { Popover, Button } from 'antd'
+import { useEffect, useState } from 'react'
+import { Popover } from 'antd'
 import "./index.scss"
 import { Link } from 'react-router-dom'
+import UserDropdown from '@/components/userDropdown/userDropdown'
+import { recommendHosts } from '@/request/api'
 
 
 interface benefit {
@@ -12,6 +15,22 @@ interface benefit {
 const buyLink = '/customize';
 
 const Home = () => {
+	const [userInfo, setUserInfo] = useState<string>();
+	useEffect(() => {
+		const user_info = localStorage.getItem('userInfo') || undefined;
+		setUserInfo(user_info);
+	})
+	const [machineList, setMachineList] = useState<Array<any>>([]);
+
+	const getRecommendHost = () => {
+		recommendHosts().then(res => {
+			const machines = res.data?.recommends;
+			setMachineList(machines);
+		})
+	}
+	useEffect(() => {
+		getRecommendHost();
+	}, [])
 	const benefitsList: Array<benefit> = [
 		{
 			name: "高速链路",
@@ -36,84 +55,39 @@ const Home = () => {
 		</div>
 	);
 
-	const machineList: Array<any> = [
-		{
-			id: 1,
-			name: '洛杉矶A',
-			city: '美国',
-			configure: {
-				'CPU': '1核CPU',
-				'宽带': '1GB带宽',
-				'内存': '1GB内存',
-				'硬盘驱动器': '20GB HDD',
-			},
-			supportList: ['支持AVX-512指令集', '支持AVX-512指令集'],
-			price: 48,
-		},
-		{
-			id: 2,
-			name: '洛杉矶A',
-			city: '美国',
-			configure: {
-				'CPU': '1核CPU',
-				'宽带': '1GB带宽',
-				'内存': '1GB内存',
-				'硬盘驱动器': '20GB HDD',
-			},
-			supportList: ['支持AVX-512指令集', '支持AVX-512指令集'],
-			price: 48,
-		},
-		{
-			id: 3,
-			name: '标准型SA 2核',
-			city: '广州',
-			configure: {
-				'CPU': '1核CPU',
-				'宽带': '1GB带宽',
-				'内存': '1GB内存',
-				'硬盘驱动器': '20GB HDD',
-			},
-			supportList: ['支持AVX-512指令集', '支持AVX-512指令集'],
-			price: 48,
-		},
-		{
-			id: 4,
-			name: '标准型SA 2核',
-			city: '广州',
-			configure: {
-				'CPU': '1核CPU',
-				'宽带': '1GB带宽',
-				'内存': '1GB内存',
-				'硬盘驱动器': '20GB HDD',
-			},
-			supportList: ['支持AVX-512指令集', '支持AVX-512指令集'],
-			price: 48,
-		},
-	];
-
-	const machineItem = machineList.map(machine =>
-		<div className="machine" key={machine.id}>
+	const machineItem = machineList.map((machine, index) =>
+		<div className="machine" key={index}>
 			<div className="machine-info">
-				<div className="name">{machine.name}</div>
-				<div className="city">{machine.city}</div>
+				<div className="name">{machine.city}</div>
+				<div className="city">{machine.country}</div>
 			</div>
 			<div className="machine-config">
 				<div className="config-list">
-					{Object.keys(machine.configure).map((key) =>
-						<div className="config-item" key={key}>
-							<div className="config-name">{key}</div>
-							<div className="config-value">{machine.configure[key]}</div>
-						</div>
-					)}
+					<div className="config-item">
+						<div className="config-name">CPU</div>
+						<div className="config-value">{machine.cpu}核 CPU</div>
+					</div>
+					<div className="config-item">
+						<div className="config-name">宽带</div>
+						<div className="config-value">{machine.bandwidth}GB 带宽</div>
+					</div>
+					<div className="config-item">
+						<div className="config-name">内存</div>
+						<div className="config-value">{machine.ram}GB 内存</div>
+					</div>
+					<div className="config-item">
+						<div className="config-name">硬盘驱动器</div>
+						<div className="config-value">{machine.disk_capacity}GB HDD</div>
+					</div>
 				</div>
 				<div className="machine-support">
-					{machine.supportList.map((support: string, index: number) =>
+					{machine.features.map((support: string, index: number) =>
 						<span className="support-item" key={index}>{support}</span>
 					)}
 				</div>
 			</div>
 			<div className="choose">
-				<div className="price"><span className="price-num">¥{machine.price}</span>/月</div>
+				<div className="price"><span className="price-num">¥{machine.purchase_month}</span>/月</div>
 				<Link className="buy-now" to={buyLink}>立即选购</Link>
 			</div>
 		</div>
@@ -135,8 +109,13 @@ const Home = () => {
 					<Link className="logo" to="/">云主机</Link>
 					<div className="right-nav">
 						<div className="nav-item language">中文</div>
-						<Link to='/register' className="nav-item register">注册账号</Link>
-						<Link to='/login' className="nav-item login">用户登录</Link>
+						{!userInfo && 
+							<>
+								<Link to='/register' className="nav-item register">注册账号</Link>
+								<Link to='/login' className="nav-item login">用户登录</Link>
+							</>
+						}
+						{userInfo && <UserDropdown />}
 					</div>
 				</div>
 				<div className="info-container">

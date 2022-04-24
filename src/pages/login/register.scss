@@ -8,12 +8,19 @@
 		width: 54.2%;
 		max-height: 100vh;
 		overflow: hidden;
+		position: relative;
 		.to-login {
 			position: absolute;
-			top: 40px;
-			right: 40px;
+			top: 0;
+			right: 0;
+			padding: 10px 40px;
 			font-size: 16px;
 			color: #758199;
+			width: 100%;
+			background: #fff;
+			line-height: 40px;
+			text-align: right;
+			z-index: 10;
 			.go {
 				color: #1733FF;
 			}
