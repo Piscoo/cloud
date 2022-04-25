@@ -235,6 +235,18 @@ const Customize = () => {
 		// 	setIsNeedLoginModalVisible(true);
 		// 	return;
 		// }
+		// city: "New York",
+		// model: "cpu4ram8",
+		// os: "Centos",
+		// os_bits: "x64",
+		// os_Distribution: "",
+		// platform: "Intel",
+		// bandwidth: 200,
+		// system_disk_capacity: 100,
+		// data_disk_capacity: 100,
+		// data_disk_nb: 2,
+		// purchase_month: 5,
+		// coupon_id: "NlLcmLqy5cqA"
 		console.log(dataDiskList)
 		console.log(platformValue)
 		console.log(buyTimeValue)
