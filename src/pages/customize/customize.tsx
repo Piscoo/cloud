@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Tabs, Radio, Select, Checkbox, Slider, InputNumber, Row, Col, Input, Modal } from 'antd'
+import { Tabs, Radio, Select, Checkbox, Slider, InputNumber, Row, Col, Tooltip, Modal } from 'antd'
 import { Link } from 'react-router-dom'
 import Header from '@/components/header/header'
 import Breadcrumb from '@/components/breadcrumb/breadcrumb'
@@ -48,58 +48,92 @@ const machineList = [
 		suit: '有一定访问量的网站或APP',
 		system: '50GB，高性能云硬盘',
 		disk: false,
-	},
-	{
-		id: 6,
-		name: '基础配置（2核2GB）',
-		suit: '有一定访问量的网站或APP',
-		system: '50GB，高性能云硬盘',
-		disk: false,
-	},
+	}
 ];
 
 
 const Customize = () => {
-	const [parameterList, setParameterList] = useState({platform: []});
-	const [platformList, setPlatformList] = useState<Array<string>>([]);
 	
+	interface IParam {
+		areas: IAreas
+		model: string[]
+		platform: string[]
+		os: IOs
+	}
+	interface IAreas {
+		[key: string]: ICountry
+	}
+	interface ICountry {
+		[key: string]: string[]
+	}
+	interface IOs {
+		[key: string]: {
+			[key: string]: string[]
+		}
+	}
+	const defaultParam: IParam = {
+		areas: {},
+		model: [],
+		platform: [],
+		os: {},
+	};
+	const [parameterList, setParameterList] = useState<IParam>(defaultParam);
 	
 	useEffect(() => {
-		let didCancel = false;
 		const getParamList = async () => {
 			const res = await	hostParameter();
-			// hostParameter().then(res => {
-			// 	const parameter = res.data;
-			// 	setParameterList(parameter);
-			// 	setPlatformList(res.data?.platform);
-			// })
-			if(!didCancel) setPlatformList(res.data.platform);
+			const param: IParam = res.data;
+			setParameterList(param);
 		}
 		getParamList();
-		return () => {
-			didCancel = true;
-		}
-	}, [])
+	}, []);
 
-	const radioItem = platformList.map(item => {
-		<Radio value={item} key={item}>{item}</Radio>
-	})
-
-	const [activeAreaId, setActiveAreaId] = useState<number>(3);
+	const [activeAreaId, setActiveAreaId] = useState<string>('');
 	const chooseAreaItem = (item) => {
-		if(item.empty) return;
-		setActiveAreaId(item.id);
+		// if(item.empty) return;
+		setActiveAreaId(item);
 	};
+	const areaTabPaneContent = Object.entries(parameterList.areas).map(([key, area]) => (
+		<TabPane tab={key} key={key} className="area-tabpane">
+			{Object.entries(area).map(([country, citylist]) => (
+				<div className="area-list-box" key={`${country}+${citylist}`}>
+					{citylist.map(item => (
+					<div className={`area-item ${activeAreaId === item ? 'active' : ''} `} key={item} onClick={() => chooseAreaItem(item)}>{item} ({country})</div>
+				))}
+				</div>
+			))}
+		</TabPane>
+	))
+
+	const radioItem = parameterList.platform.map(item => (
+		<Radio value={item} key={item}>{item}</Radio>
+	))
+
+	const [systemOperator, setSystemOperator] = useState<string>();
+	const [systemBits, setSystemBits] = useState<string>('');
+	const [systemPlatform, setSysTemPlatform] = useState<string>('');
+
+	const changeSystemOperator = (value) => {
+		setSystemOperator(value);
+	};
+	const changeSystemBits = (value) => {
+		setSystemBits(value);
+	}
+	const changeSystemPlatform = (value) => {
+		setSysTemPlatform(value);
+	}
+
 
 	const [activeMachineId, setActiveMachineId] = useState<number>(1);
-	const chooseMachineItem = (item) => {
+	const [choosedModel, setChoosedModel] = useState<string>();
+	const chooseMachineItem = (item, index) => {
 		setActiveMachineId(item.id);
+		setChoosedModel(parameterList.model[index])
 	};
 
-	
-	const [platformValue, setPlatformValue] = useState<string>('amd');
-	const changePlatformValue = (e) => {
-		setPlatformValue(e.target.value);
+	const [platformValue, setPlatformValue] = useState<string>('both');
+	const changePlatformValue = (value) => {
+		setPlatformValue(value);
 	};
 
 	const [isUseFreeNet, setIsUseFreeNet] = useState<boolean>(false);
@@ -107,7 +141,7 @@ const Customize = () => {
 		setIsUseFreeNet(e.target.value);
 	};
 
-	const [internetSpeed, setInternetSpeed] = useState<number>(1);
+	const [internetSpeed, setInternetSpeed] = useState<number>(200);
 	const speedSliderMarks = {
 		1: '1Mbps', 
 		50: '50Mbps', 
@@ -123,7 +157,7 @@ const Customize = () => {
 	const changeSystemDiskType = (value) => {
 		setSystemDiskType(value);
 	};
-	const [systemDiskSize, setSystemDiskSize] = useState<number>(8);
+	const [systemDiskSize, setSystemDiskSize] = useState<number>(50);
 	const changeSystemDiskSize = (e) => {
 		setSystemDiskSize(e);
 	};
@@ -131,30 +165,18 @@ const Customize = () => {
 	interface DataDiskItem {
 		dataDiskTypeValue: string,
 		dataDiskSize: number,
-		dataDiskNum: number
+		// dataDiskNum: number
 	}
 	const dataDiskSelectOptions = [
 		{
 			value: '1',
-			label: '高性能云硬盘'
-		},
-		{
-			value: '2',
-			label: '中性能云硬盘'
-		},
-		{
-			value: '3',
-			label: '低性能云硬盘'
-		},
-		{
-			value: '4',
-			label: '高性能机械盘'
+			label: 'SSD 云硬盘'
 		},
 	];
 	const defaultDataDiskItem: DataDiskItem = {
 		dataDiskTypeValue: '1',
-		dataDiskSize: 8,
-		dataDiskNum: 1
+		dataDiskSize: 50,
+		// dataDiskNum: 1
 	};
 	const [dataDiskList, setDataDiskList] = useState<Array<DataDiskItem>>([defaultDataDiskItem]);
 
@@ -176,19 +198,19 @@ const Customize = () => {
 	};
 
 	const buyTimeList = [
-		{ label: '1个月', value: 'one month' },
-		{ label: '2个月', value: 'two months' },
-		{ label: '3个月', value: 'three months' },
-		{ label: '半年', value: 'half year' },
-		{ label: '1年', value: 'one years' },
-		{ label: '2年', value: 'two years' },
-		{ label: '3年', value: 'three years' },
-		{ label: '4年', value: 'four years' },
-		{ label: '5年', value: 'five years' },
+		{ label: '1个月', value: 1 },
+		{ label: '2个月', value: 2 },
+		{ label: '3个月', value: 3 },
+		{ label: '半年', value: 6 },
+		{ label: '1年', value: 12 },
+		{ label: '2年', value: 24 },
+		{ label: '3年', value: 36 },
+		{ label: '4年', value: 48 },
+		{ label: '5年', value: 60 },
 	];
-	const [buyTimeValue, setBuyTimeValue] = useState<string>('one month');
+	const [buyTimeValue, setBuyTimeValue] = useState<number>(6);
 
-	const changeBuyTimeValue = (e): void => {
+	const changeBuyTimeValue = (e) => {
 		setBuyTimeValue(e.target.value);
 	};
 
@@ -207,23 +229,18 @@ const Customize = () => {
 		setAgreeContract(e.target.checked);
 	};
 
-
-	const needLoginModalContent = (
-		<>
-			<p>请先登录账户后购买本产品！</p>
-			<div className="btns">
-				<Link to="/register" className="btn register">立即注册</Link>
-				<Link to="/login/" className="btn login">账号登录</Link>
-			</div>
-		</>
-	);
-
 	const [isNeedLoginModalVisible, setIsNeedLoginModalVisible] = useState<boolean>(false);
 	const buyNow = () => {
-		if(!localStorage.userInfo) {
-			console.log('oops')
-			setIsNeedLoginModalVisible(true);
-		}
+		// if(!localStorage.userInfo) {
+		// 	setIsNeedLoginModalVisible(true);
+		// 	return;
+		// }
+		console.log(dataDiskList)
+		console.log(platformValue)
+		console.log(buyTimeValue)
+		console.log(buyNumber)
+		console.log(choosedModel)
+		// bandwidth: 200,
 	};
 
 
@@ -243,7 +260,7 @@ const Customize = () => {
 							<div className="block-label">地域</div>
 							<div className="block-content">
 								<Tabs defaultActiveKey="1" onChange={changeAreaTab}>
-									<TabPane tab={'key'} key='0'>test</TabPane>
+									{areaTabPaneContent}
 								</Tabs>
 							</div>
 						</div>
@@ -253,9 +270,12 @@ const Customize = () => {
 							<div className="block-label">机型</div>
 							<div className="block-content">
 								<div className="machine-container">
-									{machineList.map(item => (
-										<div className={`machine-item ${activeMachineId == item.id ? 'active' : ''}`} key={item.id} onClick={() => chooseMachineItem(item)}>
-											<div className="machine-name">{item.name}</div>
+									{machineList.map((item, index) => (
+										<div className={`machine-item ${activeMachineId == item.id ? 'active' : ''}`} key={item.id} onClick={() => chooseMachineItem(item, index)}>
+											<div className="machine-name">
+												{/* {item.name} */}
+												{parameterList.model[index]}
+											</div>
 											<div className="machine-suit">{item.suit}</div>
 											<div className="machine-system">系统盘：{item.system}</div>
 											<div className="machine-disk">数据盘：{item.disk ? '有' : '无'}</div>
@@ -268,7 +288,40 @@ const Customize = () => {
 					<div className="block">
 						<div className="block-item">
 							<div className="block-label">操作系统</div>
-							<div className="block-content"></div>
+							<div className="block-content">
+								<Row>
+									<Col span={4} className="system-select">
+										<Select value={systemOperator} onChange={changeSystemOperator} style={{width: '90%'}}>
+											{Object.keys(parameterList.os || {}).map(k => {
+												return (
+													<Option value={k} key={k} className={k}>
+														{/* <img className='sys-logo' src={`src/images/customize/${k}.png`} /> */}
+														{k}
+													</Option>
+												)
+											})}
+										</Select>
+									</Col>
+									<Col span={3}>
+										<Select value={systemBits} style={{width: '90%'}} onChange={changeSystemBits}>
+											{systemOperator && parameterList.os[systemOperator] && Object.keys(parameterList.os[systemOperator] || {}).map(k => {
+												return (
+													<Option value={k} key={k}>{k.replace('x', '')}位</Option>
+												)
+											})}
+										</Select>
+									</Col>
+									<Col span={5}>
+										<Select value={systemPlatform} style={{width: '90%'}} onChange={changeSystemPlatform}>
+											{systemOperator && systemBits && (parameterList.os[systemOperator][systemBits]).map(k => {
+												return (
+													<Option value={k} key={k}>{systemOperator} {k} {systemBits.replace('x', '')}位</Option>
+												)
+											})}
+										</Select>
+									</Col>
+								</Row>
+							</div>
 						</div>
 						<div className="block-item">
 							<div className="block-label">平台</div>
@@ -291,6 +344,7 @@ const Customize = () => {
 										<Col span={15}>
 											<Slider
 												min={1}
+												disabled
 												max={200}
 												marks={speedSliderMarks}
 												onChange={changeInternetSpeed}
@@ -301,6 +355,7 @@ const Customize = () => {
 											<InputNumber
 												min={1}
 												max={200}
+												disabled
 												value={internetSpeed}
 												onChange={changeInternetSpeed}
 											/>Mbps
@@ -315,19 +370,18 @@ const Customize = () => {
 									<Row className="system-disk-container">
 										<Col span={6} className="type-selector">
 											<Select defaultValue="high" onChange={changeSystemDiskType}>
-												<Option value="high">高性能云硬盘</Option>
-												<Option value="middle">中性能云硬盘</Option>
-												<Option value="low">低性能云硬盘</Option>
-												<Option value="machine ">高性能机械盘</Option>
+												<Option value="high">SSD 云硬盘</Option>
 											</Select>
 											<div className="tip">购买成功后，系统盘不支持更换介质</div>
 										</Col>
 										<Col span={4} className="size-inputer">
-											<InputNumber
-												min={1}
-												value={systemDiskSize}
-												onChange={changeSystemDiskSize}
-											/>GB
+											<Tooltip title="可选硬盘容量：50-1024GB">
+												<InputNumber
+													min={50}
+													value={systemDiskSize}
+													onChange={changeSystemDiskSize}
+												/>GB
+											</Tooltip>
 										</Col>
 										<Col className="buy-guide">
 											选购指引
@@ -349,19 +403,21 @@ const Customize = () => {
 											<div className="tip">基准性能：1880 IOPS, 101.5 MB/s 带宽</div>
 										</Col>
 										<Col span={4} className="size-inputer">
-											<InputNumber
-												min={1}
-												value={disk.dataDiskSize}
-												onChange={(e) => changeDataDiskItemValue('dataDiskSize', e, index)}
-											/>GB
+											<Tooltip title="可选硬盘容量：50-1024GB">
+												<InputNumber
+													min={50}
+													value={disk.dataDiskSize}
+													onChange={(e) => changeDataDiskItemValue('dataDiskSize', e, index)}
+												/>GB
+											</Tooltip>
 										</Col>
-										<Col span={4} className="num-inputer">
+										{/* <Col span={4} className="num-inputer">
 											数量<InputNumber
 												min={1}
 												value={disk.dataDiskNum}
 												onChange={(e) => changeDataDiskItemValue('dataDiskNum', e, index)}
 											/>
-										</Col>
+										</Col> */}
 										<Col className="notice">
 											用快照创建硬盘
 										</Col>
@@ -370,7 +426,7 @@ const Customize = () => {
 								))}
 								<div className="add-new-one">
 									<span className="blue" onClick={addANewDataDiskItem}>新建云硬盘数据盘</span>
-									<span className="gray">还可增加<span className="orange">{20 - dataDiskList.length}</span>块数据盘</span>
+									<span className="gray">还可增加<span className="orange">{5 - dataDiskList.length}</span>块数据盘</span>
 								</div>
 							</div>
 						</div>
@@ -390,12 +446,11 @@ const Customize = () => {
 							<div className="block-content">
 								<Radio.Group
 									options={buyTimeList}
-									onChange={() => changeBuyTimeValue}
+									onChange={changeBuyTimeValue}
 									value={buyTimeValue}
 									optionType="button"
 									size="large"
 								/>
-								{/* <span>使用快照创建硬盘</span> */}
 							</div>
 						</div>
 						<div className="block-item">
@@ -433,16 +488,25 @@ const Customize = () => {
 						</div>
 					</div>
 				</div>
-				<Modal
-					title="需要登录"
-					centered
-					maskClosable={true}
-					visible={isNeedLoginModalVisible}
-					footer={null}
-				>
-					<div>{needLoginModalContent}</div>
-				</Modal>
 			</div>
+
+			{isNeedLoginModalVisible && (
+				<div className='need-login-modal' onClick={() => {setIsNeedLoginModalVisible(false)}}>
+					<div className="modal-content" onClick={(e) => {e.stopPropagation()}}>
+						<div className="header-title">
+							<div>需要登录</div>
+							<div className="close" onClick={() => {setIsNeedLoginModalVisible(false)}}></div>
+						</div>
+						<div className="modal-body">
+							<div>请先登录账户后购买本产品！</div>
+							<div className="btns">
+								<Link to="/register" className="btn register">立即注册</Link>
+								<Link to="/login/" className="btn login">账号登录</Link>
+							</div>
+						</div>
+					</div>
+				</div>
+			)}
 		</div>
 	)
 }

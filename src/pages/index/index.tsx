@@ -77,7 +77,7 @@ const Home = () => {
 					</div>
 					<div className="config-item">
 						<div className="config-name">硬盘驱动器</div>
-						<div className="config-value">{machine.disk_capacity}GB HDD</div>
+						<div className="config-value">{machine.system_disk_capacity + machine.data_disk_capacity * machine.data_disk_nb}GB HDD</div>
 					</div>
 				</div>
 				<div className="machine-support">

@@ -53,7 +53,7 @@
 			.ant-tabs-tab {
 				padding: 0 0 12px;
 			}
-			.area-list-box {
+			.area-tabpane, .area-list-box {
 				display: flex;
 				flex-wrap: wrap;
 				align-items: center;
@@ -108,6 +108,12 @@
 						top: 0;
 						right: 0;
 					}
+				}
+			}
+			.system-select {
+				.sys-logo {
+					width: 14px;
+					vertical-align: middle;
 				}
 			}
 			.machine-container {
@@ -184,7 +190,7 @@
 				.ant-slider-track {
 					height: 12px;
 					width: 31.5789%;
-					background-color: rgb(3, 96, 255);
+					background-color: rgb(3, 96, 255)!important;
 					background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.5) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0.5) 75%, transparent 75%, transparent);
 					background-size: 9px 9px;
 					border-radius: 6px;
@@ -307,6 +313,9 @@
 					right: 16px;
 					top: 50%;
 					transform: translateY(-50%);
+				}
+				.notice {
+					margin-left: 0;
 				}
 			}
 			&.data-disk {
@@ -445,6 +454,70 @@
 					font-size: 16px;
 					padding: 0 16px;
 					cursor: pointer;
+				}
+			}
+		}
+	}
+	.need-login-modal {
+		width: 100vw;
+		height: 100vh;
+		position: fixed;
+		top: 0;
+		left: 0;
+		background-color: #00000073;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		.modal-content {
+			width: 520px;
+			background: #fff;
+			position: relative;
+			border-radius: 8px;
+			overflow: hidden;
+			.header-title {
+				width: 100%;
+				height: 58px;
+				color: #fff;
+				background: #0360FF;
+				font-size: 20px;
+				padding: 0 24px;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				.close {
+					width: 20px;
+					height: 20px;
+					background: url('@/images/customize/close.svg') center no-repeat;
+					background-size: contain;
+					cursor: pointer;
+				}
+			}
+			.modal-body {
+				padding: 30px 24px;
+				font-size: 18px;
+				color: #333333;
+				letter-spacing: 1px;
+				.btns {
+					margin-top: 80px;
+					text-align: center;
+					.btn {
+						// width: 120px;
+						height: 40px;
+						line-height: 40px;
+						display: inline-block;
+						border-radius: 6px;
+						padding: 0 24px;
+						cursor: pointer;
+					}
+					.register {
+						background: rgba(3, 96, 255, .16);
+						color: #0360FF;
+						margin-right: 16px;
+					}
+					.login {
+						background: #0360ff;
+						color: #fff;
+					}
 				}
 			}
 		}
