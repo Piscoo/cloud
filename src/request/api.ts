@@ -97,3 +97,46 @@ export const hostParameter = () => {
 		interceptors: commonInterceptors
 	})
 }
+
+interface orderReq {
+	city: string
+	model: string
+	os: string
+	os_bits: string
+	os_distribution: string
+	platform: string
+	bandwidth: number
+	system_disk_capacity: number
+	data_disk_capacity: number[]
+	purchase_month: number
+	coupon_id?: string
+}
+
+// 下单
+export const generateOrder = (data: orderReq) => {
+	interface Res {
+		code: number
+		order_id: string
+	}
+	return cloudRequest<orderReq, Res>({
+		url: '/host/order',
+		method: 'POST',
+		data,
+		interceptors: commonInterceptors
+	})
+}
+
+// 获取自定义配置价格
+export const customizePrice = (data: orderReq) => {
+
+	interface Res {
+		code: number
+		price: number
+	}
+	return cloudRequest<orderReq, Res>({
+		url: '/host/customize',
+		method: 'POST',
+		data,
+		interceptors: commonInterceptors
+	})
+}

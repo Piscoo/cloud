@@ -55,7 +55,7 @@ const Home = () => {
 		</div>
 	);
 
-	const machineItem = machineList.map((machine, index) =>
+	const machineItem = (machineList || []).map((machine, index) =>
 		<div className="machine" key={index}>
 			<div className="machine-info">
 				<div className="name">{machine.city}</div>
@@ -81,7 +81,7 @@ const Home = () => {
 					</div>
 				</div>
 				<div className="machine-support">
-					{machine.features.map((support: string, index: number) =>
+					{(machine.features || []).map((support: string, index: number) =>
 						<span className="support-item" key={index}>{support}</span>
 					)}
 				</div>

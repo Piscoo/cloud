@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
-import { Tabs, Radio, Select, Checkbox, Slider, InputNumber, Row, Col, Tooltip, Modal } from 'antd'
+import { Tabs, Radio, Select, Checkbox, Slider, InputNumber, Row, Col, Tooltip, Modal, message } from 'antd'
 import { Link } from 'react-router-dom'
 import Header from '@/components/header/header'
 import Breadcrumb from '@/components/breadcrumb/breadcrumb'
 import './customize.scss'
-import { hostParameter } from '@/request/api'
+import { hostParameter, customizePrice } from '@/request/api'
 
 const { TabPane } = Tabs;
 const { Option } = Select;
@@ -52,7 +52,7 @@ const machineList = [
 ];
 
 
-const Customize = () => {
+const Customize = (props) => {
 	
 	interface IParam {
 		areas: IAreas
@@ -71,102 +71,25 @@ const Customize = () => {
 			[key: string]: string[]
 		}
 	}
-	const defaultParam: IParam = {
-		areas: {},
-		model: [],
-		platform: [],
-		os: {},
-	};
-	const [parameterList, setParameterList] = useState<IParam>(defaultParam);
-	
-	useEffect(() => {
-		const getParamList = async () => {
-			const res = await	hostParameter();
-			const param: IParam = res.data;
-			setParameterList(param);
-		}
-		getParamList();
-	}, []);
-
-	const [activeAreaId, setActiveAreaId] = useState<string>('');
-	const chooseAreaItem = (item) => {
-		// if(item.empty) return;
-		setActiveAreaId(item);
-	};
-	const areaTabPaneContent = Object.entries(parameterList.areas).map(([key, area]) => (
-		<TabPane tab={key} key={key} className="area-tabpane">
-			{Object.entries(area).map(([country, citylist]) => (
-				<div className="area-list-box" key={`${country}+${citylist}`}>
-					{citylist.map(item => (
-					<div className={`area-item ${activeAreaId === item ? 'active' : ''} `} key={item} onClick={() => chooseAreaItem(item)}>{item} ({country})</div>
-				))}
-				</div>
-			))}
-		</TabPane>
-	))
-
-	const radioItem = parameterList.platform.map(item => (
-		<Radio value={item} key={item}>{item}</Radio>
-	))
-
-	const [systemOperator, setSystemOperator] = useState<string>();
-	const [systemBits, setSystemBits] = useState<string>('');
-	const [systemPlatform, setSysTemPlatform] = useState<string>('');
-
-	const changeSystemOperator = (value) => {
-		setSystemOperator(value);
-	};
-	const changeSystemBits = (value) => {
-		setSystemBits(value);
-	}
-	const changeSystemPlatform = (value) => {
-		setSysTemPlatform(value);
-	}
-
-
-	const [activeMachineId, setActiveMachineId] = useState<number>(1);
-	const [choosedModel, setChoosedModel] = useState<string>();
-	const chooseMachineItem = (item, index) => {
-		setActiveMachineId(item.id);
-		setChoosedModel(parameterList.model[index])
-	};
-
-	const [platformValue, setPlatformValue] = useState<string>('both');
-	const changePlatformValue = (value) => {
-		setPlatformValue(value);
-	};
-
-	const [isUseFreeNet, setIsUseFreeNet] = useState<boolean>(false);
-	const changeUseFreeNetwork = (e) => {
-		setIsUseFreeNet(e.target.value);
-	};
-
-	const [internetSpeed, setInternetSpeed] = useState<number>(200);
-	const speedSliderMarks = {
-		1: '1Mbps', 
-		50: '50Mbps', 
-		100: '100Mbps', 
-		150: '150Mbps', 
-		199: '200Mbps', 
-	};
-	const changeInternetSpeed = (e) => {
-		setInternetSpeed(e);
-	};
-
-	const [systemDiskType, setSystemDiskType] = useState<string>('high');
-	const changeSystemDiskType = (value) => {
-		setSystemDiskType(value);
-	};
-	const [systemDiskSize, setSystemDiskSize] = useState<number>(50);
-	const changeSystemDiskSize = (e) => {
-		setSystemDiskSize(e);
-	};
-
 	interface DataDiskItem {
 		dataDiskTypeValue: string,
 		dataDiskSize: number,
 		// dataDiskNum: number
 	}
+
+	interface ICustomize {
+		city: string
+		model: string
+		os: string
+		os_bits: string
+		os_distribution: string
+		platform: string
+		bandwidth: number
+		system_disk_capacity: number
+		data_disk_capacity: number[]
+		purchase_month: number
+	}
+
 	const dataDiskSelectOptions = [
 		{
 			value: '1',
@@ -178,14 +101,155 @@ const Customize = () => {
 		dataDiskSize: 50,
 		// dataDiskNum: 1
 	};
+
+	const defaultParam: IParam = {
+		areas: {},
+		model: [],
+		platform: [],
+		os: {},
+	};
+
+	const [parameterList, setParameterList] = useState<IParam>(defaultParam);
+	const [totalPrice, setTotalPrice] = useState<number | string>('_ _');
+	const [choosedArea, setChoosedArea] = useState<string>('');
+	const [choosedCountry, setChoosedCountry] = useState<string>('');
+	const [choosedModel, setChoosedModel] = useState<string>('');
+	const [systemOperator, setSystemOperator] = useState<string>('');
+	const [systemBits, setSystemBits] = useState<string>('');
+	const [systemPlatform, setSysTemPlatform] = useState<string>('');
+	const [platformValue, setPlatformValue] = useState<string>('both');
+	const [systemDiskSize, setSystemDiskSize] = useState<number>(50);	
+	const [buyTimeValue, setBuyTimeValue] = useState<number>(6);
+	const [activeMachineId, setActiveMachineId] = useState<number>(1);
 	const [dataDiskList, setDataDiskList] = useState<Array<DataDiskItem>>([defaultDataDiskItem]);
+	const [internetSpeed, setInternetSpeed] = useState<number>(200);
+	const [isUseFreeNet, setIsUseFreeNet] = useState<boolean>(false);
+	const [systemDiskType, setSystemDiskType] = useState<string>('high');
+	const [rebuyOrNot, setRebuyOrNot] = useState<boolean>(false);
+	const [buyNumber, setBuyNumber] = useState<number>(1);
+	const [agreeContract, setAgreeContract] = useState<boolean>(false);
+	const [isNeedLoginModalVisible, setIsNeedLoginModalVisible] = useState<boolean>(false);
+
+	const customizeData: ICustomize = {
+		city: choosedArea,
+		model: choosedModel,
+		os: systemOperator,
+		os_bits: systemBits,
+		os_distribution: systemPlatform,
+		platform: platformValue,
+		bandwidth: 200,
+		system_disk_capacity: systemDiskSize,
+		data_disk_capacity: [50],
+		purchase_month: buyTimeValue,
+	}
+	const [customizeReqData, setCustomizeReqData] = useState<ICustomize>(customizeData);
+	const propsCustomizeData = props.location.state?.customizeData;
+	if(propsCustomizeData) {
+		console.log(propsCustomizeData)
+		// todo  setXXStateValue
+	}
+	useEffect(() => {
+		const getParamList = async () => {
+			const res = await	hostParameter();
+			const param: IParam = res.data;
+			setParameterList(param);
+		}
+		getParamList();
+	}, []);
+
+	useEffect(() => {
+		const getCustomizePrice = async () => {
+			const res = await customizePrice(customizeReqData);
+			if(res.data.code == 0) {
+				setTotalPrice(res.data.price);
+			}
+		}
+		if(!choosedArea || !choosedModel || !systemOperator || !systemBits || !systemPlatform || !platformValue) return;
+		getCustomizePrice();
+	}, [customizeReqData])
+	
+	const chooseAreaItem = (item, country) => {
+		setChoosedArea(item);
+		setChoosedCountry(country);
+		setCustomizeReqData({...customizeReqData, ['city']: item});
+	};
+	const changeSystemOperator = (value) => {
+		setSystemOperator(value);
+		setCustomizeReqData({...customizeReqData, ['os']: value});
+	};
+
+	const changeSystemBits = (value) => {
+		setSystemBits(value);
+		setCustomizeReqData({...customizeReqData, ['os_bits']: value});
+	};
+
+	const changeSystemPlatform = (value) => {
+		setSysTemPlatform(value);
+		setCustomizeReqData({...customizeReqData, ['os_distribution']: value});
+	};
+
+	const chooseMachineItem = (item, index) => {
+		setActiveMachineId(item.id);
+		setChoosedModel(parameterList.model[index]);
+		setCustomizeReqData({...customizeReqData, ['model']: parameterList.model[index]});
+	};
+
+	const changePlatformValue = (e) => {
+		setPlatformValue(e.target.value);
+		setCustomizeReqData({...customizeReqData, ['platform']: e.target.value});
+	};
+
+	const changeUseFreeNetwork = (e) => {
+		setIsUseFreeNet(e.target.value);
+	};
+
+	const speedSliderMarks = {
+		1: '1Mbps', 
+		50: '50Mbps', 
+		100: '100Mbps', 
+		150: '150Mbps', 
+		199: '200Mbps', 
+	};
+	const changeInternetSpeed = (e) => {
+		setInternetSpeed(e);
+	};
+
+	const changeSystemDiskType = (value) => {
+		setSystemDiskType(value);
+	};
+
+	const changeSystemDiskSize = (e) => {
+		setSystemDiskSize(e);
+		setCustomizeReqData({...customizeReqData, ['system_disk_capacity']: e});
+	};
+
+	const areaTabPaneContent = (Object.entries(parameterList.areas) || []).map(([key, area]) => (
+		<TabPane tab={key} key={key} className="area-tabpane">
+			{(Object.entries(area) || []).map(([country, citylist]) => (
+				<div className="area-list-box" key={`${country}+${citylist}`}>
+					{citylist.map(item => (
+					<div className={`area-item ${choosedArea === item ? 'active' : ''} `} key={item} onClick={() => chooseAreaItem(item, country)}>{item} ({country})</div>
+				))}
+				</div>
+			))}
+		</TabPane>
+	));
+
+	const radioItem = parameterList.platform.map(item => (
+		<Radio value={item} key={item}>{item}</Radio>
+	));
 
 	const changeDataDiskItemValue = (key: string, e: string | number, index: number) => {
 		const copy: Array<DataDiskItem> = dataDiskList.map((item, idx) => {
 			const newValue = { ...item, [key]: e };
 			return idx == index ? newValue : item;
 		})
+		const diskSizes: number[] = [];
+		copy.forEach(item => {
+			diskSizes.push(item.dataDiskSize);
+		});
 		setDataDiskList(copy);
+		setCustomizeReqData({...customizeReqData, ['data_disk_capacity']: diskSizes});
 	};
 
 	const deleteDataDiskItem = (index: number): void => {
@@ -208,51 +272,42 @@ const Customize = () => {
 		{ label: '4年', value: 48 },
 		{ label: '5年', value: 60 },
 	];
-	const [buyTimeValue, setBuyTimeValue] = useState<number>(6);
 
 	const changeBuyTimeValue = (e) => {
 		setBuyTimeValue(e.target.value);
+		setCustomizeReqData({...customizeReqData, ['purchase_month']: e.target.value});
 	};
 
-	const [rebuyOrNot, setRebuyOrNot] = useState<boolean>(false);
 	const changeRebuyOrNot = (e) => {
 		setRebuyOrNot(e.target.checked);
 	};
 
-	const [buyNumber, setBuyNumber] = useState<number>(1);
 	const changeBuyNumber = (e: number): void => {
 		setBuyNumber(e);
 	}
 
-	const [agreeContract, setAgreeContract] = useState<boolean>(false);
 	const changeAgreeContract = (e) => {
 		setAgreeContract(e.target.checked);
 	};
 
-	const [isNeedLoginModalVisible, setIsNeedLoginModalVisible] = useState<boolean>(false);
 	const buyNow = () => {
-		// if(!localStorage.userInfo) {
-		// 	setIsNeedLoginModalVisible(true);
-		// 	return;
-		// }
-		// city: "New York",
-		// model: "cpu4ram8",
-		// os: "Centos",
-		// os_bits: "x64",
-		// os_Distribution: "",
-		// platform: "Intel",
-		// bandwidth: 200,
-		// system_disk_capacity: 100,
-		// data_disk_capacity: 100,
-		// data_disk_nb: 2,
-		// purchase_month: 5,
-		// coupon_id: "NlLcmLqy5cqA"
-		console.log(dataDiskList)
-		console.log(platformValue)
-		console.log(buyTimeValue)
-		console.log(buyNumber)
-		console.log(choosedModel)
-		// bandwidth: 200,
+		if(!localStorage.userInfo) {
+			setIsNeedLoginModalVisible(true);
+			return;
+		}
+		if(!agreeContract) {
+			message.warning('请勾选同意服务条款');
+			return;
+		}
+		if(!choosedArea || !choosedModel || !systemOperator || !systemBits || !systemPlatform || !platformValue) {
+			message.warning('请选择您需要的配置');
+			return;
+		}
+		localStorage.setItem('customizeData', JSON.stringify(customizeReqData));
+		props.history.push({
+			pathname: '/confirm-order',
+			state: {customizeData: customizeReqData}
+		});
 	};
 
 
@@ -325,11 +380,9 @@ const Customize = () => {
 									</Col>
 									<Col span={5}>
 										<Select value={systemPlatform} style={{width: '90%'}} onChange={changeSystemPlatform}>
-											{systemOperator && systemBits && (parameterList.os[systemOperator][systemBits]).map(k => {
-												return (
+											{systemOperator && systemBits && (parameterList.os[systemOperator][systemBits]).map(k => (
 													<Option value={k} key={k}>{systemOperator} {k} {systemBits.replace('x', '')}位</Option>
-												)
-											})}
+												))}
 										</Select>
 									</Col>
 								</Row>
@@ -390,6 +443,7 @@ const Customize = () => {
 											<Tooltip title="可选硬盘容量：50-1024GB">
 												<InputNumber
 													min={50}
+													step={10}
 													value={systemDiskSize}
 													onChange={changeSystemDiskSize}
 												/>GB
@@ -418,6 +472,7 @@ const Customize = () => {
 											<Tooltip title="可选硬盘容量：50-1024GB">
 												<InputNumber
 													min={50}
+													step={10}
 													value={disk.dataDiskSize}
 													onChange={(e) => changeDataDiskItemValue('dataDiskSize', e, index)}
 												/>GB
@@ -491,7 +546,7 @@ const Customize = () => {
 						<div className="block-label">费用</div>
 						<div className="block-content">
 							<div className="money">
-								159.9 <span className="fee">元</span>
+								{totalPrice} <span className="fee">元</span>
 							</div>
 							<div className="contract">
 								<Checkbox onChange={changeAgreeContract}>同意<span className="blue">《云服务协议》</span>、<span className="blue">《退款规则》</span>和<span className="blue">《云服务虚拟货币相关活动声明》</span></Checkbox>
@@ -513,7 +568,7 @@ const Customize = () => {
 							<div>请先登录账户后购买本产品！</div>
 							<div className="btns">
 								<Link to="/register" className="btn register">立即注册</Link>
-								<Link to="/login/" className="btn login">账号登录</Link>
+								<Link to={{pathname: "/login/", state:{callbackUrl: location.pathname}}} className="btn login">账号登录</Link>
 							</div>
 						</div>
 					</div>
