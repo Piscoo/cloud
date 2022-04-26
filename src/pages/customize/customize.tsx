@@ -8,10 +8,6 @@ import { hostParameter, customizePrice } from '@/request/api'
 
 const { TabPane } = Tabs;
 const { Option } = Select;
-const changeAreaTab = (key) => {
-	console.log(key)
-}
-
 
 const machineList = [
 	{
@@ -50,7 +46,6 @@ const machineList = [
 		disk: false,
 	}
 ];
-
 
 const Customize = (props) => {
 	
@@ -129,7 +124,8 @@ const Customize = (props) => {
 	const [buyNumber, setBuyNumber] = useState<number>(1);
 	const [agreeContract, setAgreeContract] = useState<boolean>(false);
 	const [isNeedLoginModalVisible, setIsNeedLoginModalVisible] = useState<boolean>(false);
-
+	const [activeTab, setActiveTab] = useState<string>('');
+ 
 	const customizeData: ICustomize = {
 		city: choosedArea,
 		model: choosedModel,
@@ -168,6 +164,10 @@ const Customize = (props) => {
 		getCustomizePrice();
 	}, [customizeReqData])
 	
+	const changeAreaTab = (key) => {
+		setActiveTab(key);
+	};
+
 	const chooseAreaItem = (item, country) => {
 		setChoosedArea(item);
 		setChoosedCountry(country);
@@ -304,9 +304,10 @@ const Customize = (props) => {
 			return;
 		}
 		localStorage.setItem('customizeData', JSON.stringify(customizeReqData));
+		const pageData = {...customizeReqData,['tab']: activeTab, ['country']: choosedCountry, ['price']: totalPrice};
 		props.history.push({
 			pathname: '/confirm-order',
-			state: {customizeData: customizeReqData}
+			state: {customizeData: pageData}
 		});
 	};
 
@@ -326,7 +327,7 @@ const Customize = (props) => {
 						<div className="block-item">
 							<div className="block-label">地域</div>
 							<div className="block-content">
-								<Tabs defaultActiveKey="1" onChange={changeAreaTab}>
+								<Tabs defaultActiveKey={activeTab} onChange={changeAreaTab}>
 									{areaTabPaneContent}
 								</Tabs>
 							</div>
