@@ -9,44 +9,6 @@ import { hostParameter, customizePrice } from '@/request/api'
 const { TabPane } = Tabs;
 const { Option } = Select;
 
-const machineList = [
-	{
-		id: 1,
-		name: '基础配置（2核2GB）',
-		suit: '有一定访问量的网站或APP',
-		system: '50GB，高性能云硬盘',
-		disk: false,
-	},
-	{
-		id: 2,
-		name: '基础配置（2核2GB）',
-		suit: '有一定访问量的网站或APP',
-		system: '50GB，高性能云硬盘',
-		disk: false,
-	},
-	{
-		id: 3,
-		name: '基础配置（2核2GB）',
-		suit: '有一定访问量的网站或APP',
-		system: '50GB，高性能云硬盘',
-		disk: false,
-	},
-	{
-		id: 4,
-		name: '基础配置（2核2GB）',
-		suit: '有一定访问量的网站或APP',
-		system: '50GB，高性能云硬盘',
-		disk: false,
-	},
-	{
-		id: 5,
-		name: '基础配置（2核2GB）',
-		suit: '有一定访问量的网站或APP',
-		system: '50GB，高性能云硬盘',
-		disk: false,
-	}
-];
-
 const Customize = (props) => {
 	
 	interface IParam {
@@ -104,27 +66,32 @@ const Customize = (props) => {
 		os: {},
 	};
 
+
+	const propsCustomizeData = props.location.state?.customizeData;
 	const [parameterList, setParameterList] = useState<IParam>(defaultParam);
-	const [totalPrice, setTotalPrice] = useState<number | string>('_ _');
-	const [choosedArea, setChoosedArea] = useState<string>('');
+
+	const [totalPrice, setTotalPrice] = useState<number | string>(propsCustomizeData?.price || '_ _');
+	const [choosedArea, setChoosedArea] = useState<string>(propsCustomizeData?.city ||'');
 	const [choosedCountry, setChoosedCountry] = useState<string>('');
-	const [choosedModel, setChoosedModel] = useState<string>('');
-	const [systemOperator, setSystemOperator] = useState<string>('');
+	const [choosedModel, setChoosedModel] = useState<string>(propsCustomizeData?.model || '');
+	const [systemOperator, setSystemOperator] = useState<string>(propsCustomizeData?.os || '');
 	const [systemBits, setSystemBits] = useState<string>('');
 	const [systemPlatform, setSysTemPlatform] = useState<string>('');
-	const [platformValue, setPlatformValue] = useState<string>('both');
-	const [systemDiskSize, setSystemDiskSize] = useState<number>(50);	
-	const [buyTimeValue, setBuyTimeValue] = useState<number>(6);
-	const [activeMachineId, setActiveMachineId] = useState<number>(1);
+	const [platformValue, setPlatformValue] = useState<string>(propsCustomizeData?.platform || 'both');
+	const [systemDiskSize, setSystemDiskSize] = useState<number>(propsCustomizeData?.system_disk_capacity || 50);	
+	const [buyTimeValue, setBuyTimeValue] = useState<number>(propsCustomizeData?.purchase_month || 6);
 	const [dataDiskList, setDataDiskList] = useState<Array<DataDiskItem>>([defaultDataDiskItem]);
 	const [internetSpeed, setInternetSpeed] = useState<number>(200);
 	const [isUseFreeNet, setIsUseFreeNet] = useState<boolean>(false);
 	const [systemDiskType, setSystemDiskType] = useState<string>('high');
 	const [rebuyOrNot, setRebuyOrNot] = useState<boolean>(false);
 	const [buyNumber, setBuyNumber] = useState<number>(1);
-	const [agreeContract, setAgreeContract] = useState<boolean>(false);
+	const [agreeContract, setAgreeContract] = useState<boolean>(!!propsCustomizeData);
 	const [isNeedLoginModalVisible, setIsNeedLoginModalVisible] = useState<boolean>(false);
 	const [activeTab, setActiveTab] = useState<string>('');
+	const [bitsList, setBitsList] = useState<string[]>([]);
+	const [distributionList, setDistributionList] = useState<string[]>([]);
+	const [distributionName, setDistributionName] = useState<string>();
  
 	const customizeData: ICustomize = {
 		city: choosedArea,
@@ -139,19 +106,6 @@ const Customize = (props) => {
 		purchase_month: buyTimeValue,
 	}
 	const [customizeReqData, setCustomizeReqData] = useState<ICustomize>(customizeData);
-	const propsCustomizeData = props.location.state?.customizeData;
-	if(propsCustomizeData) {
-		console.log(propsCustomizeData)
-		// todo  setXXStateValue
-	}
-	useEffect(() => {
-		const getParamList = async () => {
-			const res = await	hostParameter();
-			const param: IParam = res.data;
-			setParameterList(param);
-		}
-		getParamList();
-	}, []);
 
 	useEffect(() => {
 		const getCustomizePrice = async () => {
@@ -162,7 +116,41 @@ const Customize = (props) => {
 		}
 		if(!choosedArea || !choosedModel || !systemOperator || !systemBits || !systemPlatform || !platformValue) return;
 		getCustomizePrice();
-	}, [customizeReqData])
+	}, [customizeReqData]);
+
+	useEffect(() => {
+		const getParamList = async () => {
+			const res = await	hostParameter();
+			const param: IParam = res.data;
+			setParameterList(param);
+			setDefaultValues(param);
+		}
+		getParamList();
+	}, []);
+
+	const setDefaultValues = (param) => {
+		const osList = Object.keys(param.os);
+		const bitList = propsCustomizeData?.os ? Object.keys(param.os[propsCustomizeData?.os]) : Object.keys(param.os[osList[0]]);
+		const disList = propsCustomizeData?.os_distribution ? param.os[propsCustomizeData?.os][propsCustomizeData?.os_bits || 'x64'] : Object.keys(param.os[osList[0]][bitList[0]]);
+		setBitsList(bitList);
+		setDistributionList(disList);
+		setActiveTab(propsCustomizeData?.tab || Object.keys(param.areas)[0]);
+		if(propsCustomizeData) {
+			setSystemOperator(propsCustomizeData.os);
+			setSystemBits(propsCustomizeData.os_bits);
+			setSysTemPlatform(propsCustomizeData.os_distribution);
+			setDistributionName(propsCustomizeData.os + propsCustomizeData.os_distribution + propsCustomizeData.os_bits.replace('x', '') + '位');
+			setChoosedModel(propsCustomizeData.model);
+			const {city, model, os, os_bits, os_distribution, platform, bandwidth, system_disk_capacity, data_disk_capacity, purchase_month} = propsCustomizeData
+			setCustomizeReqData({city, model, os, os_bits, os_distribution, platform, bandwidth, system_disk_capacity, data_disk_capacity, purchase_month});
+			const diskList: Array<DataDiskItem> = new Array(propsCustomizeData.data_disk_capacity.length).fill(defaultDataDiskItem);
+			const copy: Array<DataDiskItem> = diskList.map((item, index) => {
+				const newItem = {...item, ['dataDiskSize']: propsCustomizeData.data_disk_capacity[index]};
+				return newItem;
+			});
+			setDataDiskList(copy);
+		}
+	}
 	
 	const changeAreaTab = (key) => {
 		setActiveTab(key);
@@ -175,11 +163,18 @@ const Customize = (props) => {
 	};
 	const changeSystemOperator = (value) => {
 		setSystemOperator(value);
+		// 选择os之后重置bits和distribution列表和值
+		setBitsList(Object.keys(parameterList.os[value]));
+		setSystemBits('');
+		setSysTemPlatform('');
 		setCustomizeReqData({...customizeReqData, ['os']: value});
 	};
 
 	const changeSystemBits = (value) => {
 		setSystemBits(value);
+		// 选中bits之后重置distribution列表和值
+		setSysTemPlatform('');
+		setDistributionList(parameterList.os[systemOperator][value]);
 		setCustomizeReqData({...customizeReqData, ['os_bits']: value});
 	};
 
@@ -189,7 +184,6 @@ const Customize = (props) => {
 	};
 
 	const chooseMachineItem = (item, index) => {
-		setActiveMachineId(item.id);
 		setChoosedModel(parameterList.model[index]);
 		setCustomizeReqData({...customizeReqData, ['model']: parameterList.model[index]});
 	};
@@ -254,7 +248,6 @@ const Customize = (props) => {
 
 	const deleteDataDiskItem = (index: number): void => {
 		dataDiskList.splice(index, 1);
-		console.log(dataDiskList.length)
 		setDataDiskList([...dataDiskList]);
 	};
 	const addANewDataDiskItem = ()  => {
@@ -303,8 +296,8 @@ const Customize = (props) => {
 			message.warning('请选择您需要的配置');
 			return;
 		}
-		localStorage.setItem('customizeData', JSON.stringify(customizeReqData));
-		const pageData = {...customizeReqData,['tab']: activeTab, ['country']: choosedCountry, ['price']: totalPrice};
+		// localStorage.setItem('customizeData', JSON.stringify(customizeReqData));
+		const pageData = {...customizeReqData,['tab']: activeTab, ['country']: choosedCountry, ['price']: totalPrice, ['buyNum']: buyNumber};
 		props.history.push({
 			pathname: '/confirm-order',
 			state: {customizeData: pageData}
@@ -327,7 +320,7 @@ const Customize = (props) => {
 						<div className="block-item">
 							<div className="block-label">地域</div>
 							<div className="block-content">
-								<Tabs defaultActiveKey={activeTab} onChange={changeAreaTab}>
+								<Tabs activeKey={activeTab} onChange={changeAreaTab}>
 									{areaTabPaneContent}
 								</Tabs>
 							</div>
@@ -338,15 +331,14 @@ const Customize = (props) => {
 							<div className="block-label">机型</div>
 							<div className="block-content">
 								<div className="machine-container">
-									{machineList.map((item, index) => (
-										<div className={`machine-item ${activeMachineId == item.id ? 'active' : ''}`} key={item.id} onClick={() => chooseMachineItem(item, index)}>
+									{parameterList.model.map((item, index) => (
+										<div className={`machine-item ${choosedModel == item ? 'active' : ''}`} key={item} onClick={() => chooseMachineItem(item, index)}>
 											<div className="machine-name">
-												{/* {item.name} */}
 												{parameterList.model[index]}
 											</div>
-											<div className="machine-suit">{item.suit}</div>
-											<div className="machine-system">系统盘：{item.system}</div>
-											<div className="machine-disk">数据盘：{item.disk ? '有' : '无'}</div>
+											<div className="machine-suit">有一定访问量的网站或APP</div>
+											<div className="machine-system">系统盘：50GB，高性能云硬盘</div>
+											<div className="machine-disk">数据盘：有</div>
 										</div>
 									))}
 								</div>
@@ -372,16 +364,16 @@ const Customize = (props) => {
 									</Col>
 									<Col span={3}>
 										<Select value={systemBits} style={{width: '90%'}} onChange={changeSystemBits}>
-											{systemOperator && parameterList.os[systemOperator] && Object.keys(parameterList.os[systemOperator] || {}).map(k => {
+											{bitsList.map(k => {
 												return (
 													<Option value={k} key={k}>{k.replace('x', '')}位</Option>
 												)
 											})}
 										</Select>
 									</Col>
-									<Col span={5}>
-										<Select value={systemPlatform} style={{width: '90%'}} onChange={changeSystemPlatform}>
-											{systemOperator && systemBits && (parameterList.os[systemOperator][systemBits]).map(k => (
+									<Col span={6}>
+										<Select defaultValue={distributionName} value={systemPlatform} style={{width: '90%'}} onChange={changeSystemPlatform}>
+											{distributionList.map(k => (
 													<Option value={k} key={k}>{systemOperator} {k} {systemBits.replace('x', '')}位</Option>
 												))}
 										</Select>
@@ -479,13 +471,6 @@ const Customize = (props) => {
 												/>GB
 											</Tooltip>
 										</Col>
-										{/* <Col span={4} className="num-inputer">
-											数量<InputNumber
-												min={1}
-												value={disk.dataDiskNum}
-												onChange={(e) => changeDataDiskItemValue('dataDiskNum', e, index)}
-											/>
-										</Col> */}
 										<Col className="notice">
 											用快照创建硬盘
 										</Col>
@@ -550,7 +535,7 @@ const Customize = (props) => {
 								{totalPrice} <span className="fee">元</span>
 							</div>
 							<div className="contract">
-								<Checkbox onChange={changeAgreeContract}>同意<span className="blue">《云服务协议》</span>、<span className="blue">《退款规则》</span>和<span className="blue">《云服务虚拟货币相关活动声明》</span></Checkbox>
+								<Checkbox checked={agreeContract} onChange={changeAgreeContract}>同意<span className="blue">《云服务协议》</span>、<span className="blue">《退款规则》</span>和<span className="blue">《云服务虚拟货币相关活动声明》</span></Checkbox>
 							</div>
 							<div className="buy-now" onClick={buyNow}>立即购买</div>
 						</div>
