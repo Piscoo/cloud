@@ -133,5 +133,26 @@
 				}
 			}
 		}
+		.right-info {
+			padding-left: 16px;
+			.check-again {
+				padding: 16px;
+				background: #f9f9fa;
+				.product-order {
+					padding: 20px 0;
+					border-bottom: 1px solide #eaeaea;
+					.order-product-item {
+						display: flex;
+						justify-content: space-between;
+						align-items: center;
+						color: #333;
+						font-weight: bold;
+					}
+					.coupon-price {
+						color: #E9661E;
+					}
+				}
+			}
+		}
 	}
 }

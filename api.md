@@ -59,6 +59,27 @@ GET /user/signout
 }
 ```
 
+## 修改密码
+```
+POST /user/modify_pwd
+
+参数:
+let old_password = req.body.old_pAsswOrd;
+let password = req.body.pAsswOrd;
+let confirm_password = req.body.confirm_pAsswOrd;
+
+#修改成功返回
+{
+    "code": 0
+}
+
+#修改失败返回
+{
+    "code": -6,
+    "msg": "密码错误"
+}
+```
+
 ## 获得首页推荐主机
 ```
 GET /host/recommend
@@ -72,36 +93,76 @@ GET /host/recommend
                 "Intel Xeon Cascade Lake",
                 "支持AVX-512指令集"
             ],
-            "model": "cpu1ram2",
+            "city": "london",
+            "cpu": 1,
             "os": "ubuntu",
-            "platform": "intel",
+            "os_bits": "x64",
+            "os_distribution": "20.04 lts",
+            "ram": 2,
             "bandwidth": 200,
             "system_disk_capacity": 50,
-            "data_disk_capacity": 0,
-            "data_disk_nb": 0,
-            "purchase_month": 12,
-            "price": 3262,
-            "area": "europe",
-            "country": "England",
-            "city": "London"
+            "data_disk_capacity": [
+                0
+            ],
+            "country": "england",
+            "purchase_month": 12
         },
         {
             "features": [
                 "Intel Xeon Cascade Lake",
                 "支持AVX-512指令集"
             ],
-            "model": "cpu2ram4",
+            "city": "guangzhou",
+            "cpu": 2,
             "os": "ubuntu",
-            "platform": "intel",
+            "os_bits": "x64",
+            "os_distribution": "20.04 lts",
+            "ram": 4,
             "bandwidth": 200,
             "system_disk_capacity": 50,
-            "data_disk_capacity": 0,
-            "data_disk_nb": 0,
-            "purchase_month": 12,
-            "price": 2709,
-            "area": "china_mainland",
-            "country": "China",
-            "city": "Guangzhou"
+            "data_disk_capacity": [
+                0
+            ],
+            "country": "china",
+            "purchase_month": 12
+        },
+        {
+            "features": [
+                "Intel Xeon Cascade Lake",
+                "支持AVX-512指令集"
+            ],
+            "city": "hongkong",
+            "cpu": 4,
+            "os": "ubuntu",
+            "os_bits": "x64",
+            "os_distribution": "20.04 lts",
+            "ram": 8,
+            "bandwidth": 200,
+            "system_disk_capacity": 50,
+            "data_disk_capacity": [
+                0
+            ],
+            "country": "china",
+            "purchase_month": 12
+        },
+        {
+            "features": [
+                "Intel Xeon Cascade Lake",
+                "支持AVX-512指令集"
+            ],
+            "city": "virginia",
+            "cpu": 8,
+            "os": "ubuntu",
+            "os_bits": "x64",
+            "os_distribution": "20.04 lts",
+            "ram": 16,
+            "bandwidth": 200,
+            "system_disk_capacity": 50,
+            "data_disk_capacity": [
+                0
+            ],
+            "country": "usa",
+            "purchase_month": 12
         }
     ]
 }
@@ -151,12 +212,11 @@ city: "New York",
 model: "cpu4ram8",
 os: "Centos",
 os_bits: "x64",
-os_Distribution: "",
+os_distribution: "Stream 9",
 platform: "Intel",
 bandwidth: 200,
 system_disk_capacity: 100,
-data_disk_capacity: 100,
-data_disk_nb: 2,
+data_disk_capacity: [100],
 purchase_month: 5
 
 #成功返回
@@ -181,12 +241,11 @@ city: "New York",
 model: "cpu4ram8",
 os: "Centos",
 os_bits: "x64",
-os_Distribution: "",
+os_distribution: "Stream 9",
 platform: "Intel",
 bandwidth: 200,
 system_disk_capacity: 100,
-data_disk_capacity: 100,
-data_disk_nb: 2,
+data_disk_capacity: [100],
 purchase_month: 5,
 coupon_id: "NlLcmLqy5cqA"
 

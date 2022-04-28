@@ -140,3 +140,41 @@ export const customizePrice = (data: orderReq) => {
 		interceptors: commonInterceptors
 	})
 }
+
+// 获取优惠券列表
+export const couponList = (data) => {
+	interface Req {
+		page_count: number
+		page_index: number
+	}
+	interface Res {
+		code: number
+		unused: Array<any>
+		used: Array<any>
+		expired: Array<any>
+	}
+	return cloudRequest<Req, Res>({
+		url: '/coupon/list',
+		method: 'GET',
+		data,
+		interceptors: commonInterceptors
+	})
+}
+
+// 查询可用优惠券
+export const availableCoupon = (data) => {
+	interface Req {
+		product: number
+		paid_scenario: number
+	}
+	interface Res {
+		code: number
+		data: Array<any>
+	}
+	return cloudRequest<Req, Res>({
+		url: '/coupon/available',
+		method: 'GET',
+		data,
+		interceptors: commonInterceptors
+	})
+}

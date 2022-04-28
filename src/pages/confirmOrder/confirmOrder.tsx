@@ -1,13 +1,29 @@
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Empty } from 'antd'
 import Header from '@/components/header/header'
 import './confirmOrder.scss'
+import { couponList, availableCoupon } from '@/request/api'
 
 
 const ConfirmOrder = (props) => {
 	// const orderData = localStorage.getItem('customizeData');
 	const customizeData = props.location.state?.customizeData;
-	console.log(customizeData);
+	// const
+
+	useEffect(() => {
+		const getCouponList = async () => {
+			const res = await couponList({page_count: 10, page_index: 0});
+			console.log(res);
+			// const list = await availableCoupon({
+			// 	product: 0,
+			// 	paid_scenario: 0
+			// })
+			// console.log('list', list.data)
+		}
+		getCouponList();
+	}, [])
+
 	const goBack = () => {
 		props.history.push({pathname: '/customize', state: {customizeData}})
 	}
@@ -55,7 +71,7 @@ const ConfirmOrder = (props) => {
 											}
 											<div className="item">
 												<div className="item-name">机型</div>
-												<div className="item-value">{customizeData.model}</div>
+												<div className="item-value">{customizeData.model.split(/cpu|ram/).filter(item => item)[0]+'核CPU '+ customizeData.model.split(/cpu|ram/).filter(item => item)[1]+'G内存'}</div>
 											</div>
 											<div className="item">
 												<div className="item-name">镜像</div>
@@ -87,8 +103,24 @@ const ConfirmOrder = (props) => {
 							</div>
 						</div>
 						<div className="right-info">
-							<div className="block">
+							<div className="block check-again">
 								<div className="block-title">核对订单</div>
+								<div className="product-order">
+									<div className="order-product-item">
+										<div className="order-item-name">新购云服务器</div>
+										<div className="order-item-price">{customizeData.price}元</div>
+									</div>
+								</div>
+								<div className="product-order">
+									<div className="order-product-item">
+										<div className="order-item-name">商品总价：</div>
+										<div className="order-item-price">{customizeData.price}元</div>
+									</div>
+									<div className="order-product-item">
+										<div className="order-item-name">优惠抵扣：</div>
+										<div className="coupon-price">-20元</div>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
