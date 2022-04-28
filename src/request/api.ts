@@ -41,7 +41,7 @@ export const login = (data) => {
 		msg?: string
 	}
 	return cloudRequest<Req, Res>({
-		url: '/user/signin',
+		url: 'api/user/signin',
 		method: 'POST',
 		data,
 		interceptors: commonInterceptors
@@ -50,7 +50,7 @@ export const login = (data) => {
 
 export const signout = () => {
 	return cloudRequest({
-		url: '/user/signout',
+		url: 'api/user/signout',
 		method: 'GET',
 		interceptors: commonInterceptors
 	})
@@ -73,7 +73,7 @@ export const registerAccount = (data) => {
 		code: number
 	}
 	return cloudRequest<Req, Res>({
-		url: '/user/signup',
+		url: 'api/user/signup',
 		method: 'POST',
 		data,
 		interceptors: commonInterceptors
@@ -83,7 +83,7 @@ export const registerAccount = (data) => {
 // 获取首页推荐主机
 export const recommendHosts = () => {
 	return cloudRequest({
-		url: '/host/recommend',
+		url: 'api/host/recommend',
 		method: 'GET',
 		interceptors: commonInterceptors
 	})
@@ -92,7 +92,7 @@ export const recommendHosts = () => {
 // 自定义配置页参数
 export const hostParameter = () => {
 	return cloudRequest({
-		url: '/host/parameter',
+		url: 'api/host/parameter',
 		method: 'GET',
 		interceptors: commonInterceptors
 	})
@@ -119,7 +119,7 @@ export const generateOrder = (data: orderReq) => {
 		order_id: string
 	}
 	return cloudRequest<orderReq, Res>({
-		url: '/host/order',
+		url: 'api/host/order',
 		method: 'POST',
 		data,
 		interceptors: commonInterceptors
@@ -134,7 +134,7 @@ export const customizePrice = (data: orderReq) => {
 		price: number
 	}
 	return cloudRequest<orderReq, Res>({
-		url: '/host/customize',
+		url: 'api/host/customize',
 		method: 'POST',
 		data,
 		interceptors: commonInterceptors
@@ -154,7 +154,7 @@ export const couponList = (data) => {
 		expired: Array<any>
 	}
 	return cloudRequest<Req, Res>({
-		url: '/coupon/list',
+		url: 'api/coupon/list',
 		method: 'GET',
 		data,
 		interceptors: commonInterceptors
@@ -172,7 +172,7 @@ export const availableCoupon = (data) => {
 		data: Array<any>
 	}
 	return cloudRequest<Req, Res>({
-		url: '/coupon/available',
+		url: 'api/coupon/available',
 		method: 'GET',
 		data,
 		interceptors: commonInterceptors

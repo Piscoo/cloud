@@ -17,19 +17,19 @@ export default defineConfig({
 			]
 		})
 	],
-	css: {
-		// preprocessorOptions: {
-		// 	less: {
-		// 		javascriptEnable: true, // 支持内联javascript
-		// 	}
-		// },
-	},
 	resolve: {
 		alias: {
 			'@': path.resolve(__dirname, './src'),
 		}
 	},
 	server: {
-		host: '127.0.0.1'
+		host: '127.0.0.1',
+		proxy: {
+			'/api': {
+				target: 'http://49.233.34.234:8899/',
+				changeOrigin: true,
+				rewrite: path => path.replace(/^\/api/, '')
+			},
+		}
 	}
 })

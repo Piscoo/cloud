@@ -31,6 +31,10 @@ class Request {
 
 		this.instance.interceptors.response.use(
 			(res: AxiosResponse) => {
+				console.log(res)
+				if(res.data.code == -7) {
+					// location.href = '/login';
+				}
 				// console.log('全局响应拦截器', res);
 				return res;
 			},
@@ -54,8 +58,9 @@ class Request {
 	}
 }
 const request = new Request({
-	baseURL: baseUrl,
-	timeout: 1000 * 10,
+	// baseURL: baseUrl,
+	timeout: 10000,
+	withCredentials: true,
 	interceptors: {
 		//实例请求拦截器
 		requestInterceptors: config => {
