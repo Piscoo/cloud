@@ -9,7 +9,7 @@ import { couponList, availableCoupon } from '@/request/api'
 const ConfirmOrder = (props) => {
 	// const orderData = localStorage.getItem('customizeData');
 	const customizeData = props.location.state?.customizeData;
-	// const
+	const [couponDiscount, setCouponDiscount] = useState<number>(20);
 
 	useEffect(() => {
 		const getCouponList = async () => {
@@ -54,8 +54,8 @@ const ConfirmOrder = (props) => {
 									<div className="tabel-header">
 										<div className="cell-one product">产品规格</div>
 										<div className="cell">购买时长</div>
-										<div className="cell">数量</div>
-										<div className="cell">付款方式</div>
+										<div className="cell cell-small">数量</div>
+										<div className="cell cell-small">付款方式</div>
 										<div className="cell">单价</div>
 									</div>
 									<div className="tabel-content">
@@ -92,14 +92,19 @@ const ConfirmOrder = (props) => {
 											</div>
 										</div>
 										<div className="cell value-cell">{customizeData.purchase_month}个月</div>
-										<div className="cell value-cell">{customizeData.buyNum}</div>
-										<div className="cell value-cell">预付款</div>
+										<div className="cell value-cell cell-small">{customizeData.buyNum}</div>
+										<div className="cell value-cell cell-small">预付款</div>
 										<div className="cell value-cell">¥{(customizeData.price / customizeData.purchase_month).toFixed(2)}元/月</div>
 									</div>
 								</div>
 							</div>
-							<div className="block">
+							<div className="block discount-block">
 								<div className="block-title">优惠</div>
+								<div>
+									<div>使用代金券 <span>+ 兑换</span></div>
+								</div>
+								<div className="coupon-num-tip">你有3张代金券，其中2张可用。</div>
+								<div></div>
 							</div>
 						</div>
 						<div className="right-info">
@@ -114,12 +119,24 @@ const ConfirmOrder = (props) => {
 								<div className="product-order">
 									<div className="order-product-item">
 										<div className="order-item-name">商品总价：</div>
-										<div className="order-item-price">{customizeData.price}元</div>
+										<div className="order-item-price">
+											<span className="coupon-value">已省{couponDiscount}元</span>
+											{customizeData.price}元
+										</div>
 									</div>
-									<div className="order-product-item">
+									<div className="order-product-item coupon-discount">
 										<div className="order-item-name">优惠抵扣：</div>
 										<div className="coupon-price">-20元</div>
 									</div>
+								</div>
+								<div className="need-pay order-product-item">
+									<div className="order-item-nam">实际价格：</div>
+									<div className="final-price"><span className="num">{customizeData.price}</span>元</div>
+								</div>
+								<div className="confirm-btn">确认订单</div>
+								<div className="ticket-tip">
+									所有消费 (包括购买、开通、续费等）均可开票，订单支付成功后，可前往
+									<span className="blue">费用中心 {'>'} 发票管理开票</span>
 								</div>
 							</div>
 						</div>
