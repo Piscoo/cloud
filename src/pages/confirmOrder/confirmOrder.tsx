@@ -3,23 +3,43 @@ import { Link } from 'react-router-dom'
 import { Empty } from 'antd'
 import Header from '@/components/header/header'
 import './confirmOrder.scss'
-import { couponList, availableCoupon } from '@/request/api'
+import { availableCoupon } from '@/request/api'
+
+interface ICoupon {
+	id: string
+	product: number | string
+	paid_scenario: number
+	value: number
+	effective_ts: number
+	expired_ts: number
+	create_at: string
+	__v: number
+}
+const defaultCouponItem: ICoupon = {
+	id: '',
+	product: 0,
+	paid_scenario: 0,
+	value: 20,
+	effective_ts: 1650603073,
+	expired_ts: 1658379073,
+	create_at: "2022-04-22T04:51:13.866Z",
+	__v: 0
+}
 
 
 const ConfirmOrder = (props) => {
 	// const orderData = localStorage.getItem('customizeData');
 	const customizeData = props.location.state?.customizeData;
+	const [couponList, setCouponList] = useState<Array<ICoupon>>([defaultCouponItem]);
 	const [couponDiscount, setCouponDiscount] = useState<number>(20);
 
 	useEffect(() => {
 		const getCouponList = async () => {
-			const res = await couponList({page_count: 10, page_index: 0});
-			console.log(res);
-			// const list = await availableCoupon({
-			// 	product: 0,
-			// 	paid_scenario: 0
-			// })
-			// console.log('list', list.data)
+			const res = await availableCoupon({
+				product: 0,
+				paid_scenario: 0
+			})
+			setCouponList(res.data?.data);
 		}
 		getCouponList();
 	}, [])
@@ -100,11 +120,25 @@ const ConfirmOrder = (props) => {
 							</div>
 							<div className="block discount-block">
 								<div className="block-title">优惠</div>
-								<div>
+								<div className="coupon-info-item">
 									<div>使用代金券 <span>+ 兑换</span></div>
+									<div className="choosed-coupon">
+										<div>代金券抵扣<span className="value">{couponDiscount}</span></div>
+									</div>
 								</div>
 								<div className="coupon-num-tip">你有3张代金券，其中2张可用。</div>
-								<div></div>
+								<div className="avaliable-coupon-box">
+									{couponList.length == 0 && <div className="no-coupon">
+										<Empty
+											description={
+												<span>暂无可用代金券</span>
+											}
+										></Empty>
+									</div>}
+									{couponList.length > 0 && <div className="coupon-list">
+										{couponList.map(item => (item.id, item.value))}
+									</div>}
+								</div>
 							</div>
 						</div>
 						<div className="right-info">
