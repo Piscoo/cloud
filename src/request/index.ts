@@ -31,11 +31,10 @@ class Request {
 
 		this.instance.interceptors.response.use(
 			(res: AxiosResponse) => {
-				console.log(res)
-				if(res.data.code == -7) {
-					// location.href = '/login';
-				}
 				// console.log('全局响应拦截器', res);
+				if(res.data.code == -7) {
+					location.href = '/login';
+				}
 				return res;
 			},
 			(err: any) => err,

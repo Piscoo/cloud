@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { Empty } from 'antd'
+import { Empty, message } from 'antd'
 import Header from '@/components/header/header'
+import Redeem from '@/components/redeemCoupon/redeemCoupon'
 import './confirmOrder.scss'
-import { availableCoupon } from '@/request/api'
+import { availableCoupon, generateOrder } from '@/request/api'
 
 interface ICoupon {
 	id: string
@@ -14,7 +15,7 @@ interface ICoupon {
 	expired_ts: number
 	create_at: string
 	__v: number
-}
+};
 const defaultCouponItem: ICoupon = {
 	id: '',
 	product: 0,
@@ -24,29 +25,53 @@ const defaultCouponItem: ICoupon = {
 	expired_ts: 1658379073,
 	create_at: "2022-04-22T04:51:13.866Z",
 	__v: 0
-}
+};
 
 
 const ConfirmOrder = (props) => {
 	// const orderData = localStorage.getItem('customizeData');
 	const customizeData = props.location.state?.customizeData;
 	const [couponList, setCouponList] = useState<Array<ICoupon>>([defaultCouponItem]);
-	const [couponDiscount, setCouponDiscount] = useState<number>(20);
+	const [choosedCoupon, setChoosedCoupon] = useState<ICoupon | null>();
+	const [showRedeemModal, setShowRedeemModal] = useState<boolean>(false);
+
+	const getCouponList = async () => {
+		const res = await availableCoupon({
+			product: 0,
+			paid_scenario: 0
+		})
+		setCouponList(res.data?.data);
+	};
 
 	useEffect(() => {
-		const getCouponList = async () => {
-			const res = await availableCoupon({
-				product: 0,
-				paid_scenario: 0
-			})
-			setCouponList(res.data?.data);
-		}
 		getCouponList();
 	}, [])
 
 	const goBack = () => {
 		props.history.push({pathname: '/customize', state: {customizeData}})
+	};
+	
+	const clickCouponItem = (item) => {
+		item.id == choosedCoupon?.id ? setChoosedCoupon(null) : setChoosedCoupon(item);
+	};
+
+	const cancelRedeemCoupon = () => setShowRedeemModal(false);
+	const redeemSuccess = () => {
+		setShowRedeemModal(false);
+		getCouponList();
+	};
+
+	const orderNow = async () => {
+		const data = choosedCoupon ? {...customizeData, ['coupon_id']: choosedCoupon.id} : customizeData;
+		const res = await generateOrder(data);
+		if(res.data.code == 0) {
+			const id = res.data.order_id;
+			message.success("下单成功");
+			props.history.push({path: '/', state: {id}})
+		}
 	}
+
+
 	return (
 		<div className="confirm-order-page">
 			<Header></Header>
@@ -121,10 +146,10 @@ const ConfirmOrder = (props) => {
 							<div className="block discount-block">
 								<div className="block-title">优惠</div>
 								<div className="coupon-info-item">
-									<div>使用代金券 <span>+ 兑换</span></div>
-									<div className="choosed-coupon">
-										<div>代金券抵扣<span className="value">{couponDiscount}</span></div>
-									</div>
+									<div>使用代金券 <span className="blue" onClick={() => setShowRedeemModal(true)}>+兑换</span></div>
+									{choosedCoupon && <div className="choosed-coupon">
+										<div>代金券抵扣<span className="value">{-choosedCoupon?.value}</span></div>
+									</div>}
 								</div>
 								<div className="coupon-num-tip">你有3张代金券，其中2张可用。</div>
 								<div className="avaliable-coupon-box">
@@ -136,7 +161,19 @@ const ConfirmOrder = (props) => {
 										></Empty>
 									</div>}
 									{couponList.length > 0 && <div className="coupon-list">
-										{couponList.map(item => (item.id, item.value))}
+										{couponList.map(item => (
+											<div className={`coupon-item ${item.id == choosedCoupon?.id ? 'active' : ''}`} key={item.id} onClick={() => clickCouponItem(item)}>
+												<div className="coupon-left">
+													<div className="value">{item.value} <span className="unit">元</span></div>
+													<div className="tip">无门槛券</div>
+												</div>
+												<div className="coupon-right">
+													<div className="suit">新购/续费/升级 适用</div>
+													<div className="suit">云服务器、云硬盘、云数据库 使用</div>
+													<div className="expire">{new Date(item.expired_ts).toLocaleDateString()}过期</div>
+												</div>
+											</div>
+										))}
 									</div>}
 								</div>
 							</div>
@@ -154,20 +191,20 @@ const ConfirmOrder = (props) => {
 									<div className="order-product-item">
 										<div className="order-item-name">商品总价：</div>
 										<div className="order-item-price">
-											<span className="coupon-value">已省{couponDiscount}元</span>
+											{choosedCoupon && <span className="coupon-value">已省{choosedCoupon?.value}元</span>}
 											{customizeData.price}元
 										</div>
 									</div>
 									<div className="order-product-item coupon-discount">
 										<div className="order-item-name">优惠抵扣：</div>
-										<div className="coupon-price">-20元</div>
+										<div className="coupon-price">{choosedCoupon?.value || 0}元</div>
 									</div>
 								</div>
 								<div className="need-pay order-product-item">
 									<div className="order-item-nam">实际价格：</div>
-									<div className="final-price"><span className="num">{customizeData.price}</span>元</div>
+									<div className="final-price"><span className="num">{customizeData.price - (choosedCoupon?.value || 0)}</span>元</div>
 								</div>
-								<div className="confirm-btn">确认订单</div>
+								<div className="confirm-btn" onClick={orderNow}>确认订单</div>
 								<div className="ticket-tip">
 									所有消费 (包括购买、开通、续费等）均可开票，订单支付成功后，可前往
 									<span className="blue">费用中心 {'>'} 发票管理开票</span>
@@ -176,6 +213,7 @@ const ConfirmOrder = (props) => {
 						</div>
 					</div>
 				</div>
+				{showRedeemModal && <Redeem cancel={cancelRedeemCoupon} success={redeemSuccess} />}
 			</>}
 		</div>
 	)
