@@ -38,15 +38,16 @@ const ConfirmOrder = (props) => {
 			const res = await availableCoupon({
 				product: 0,
 				paid_scenario: 0
-			})
+			});
 			setCouponList(res.data?.data);
 		}
 		getCouponList();
 	}, [])
 
 	const goBack = () => {
-		props.history.push({pathname: '/customize', state: {customizeData}})
-	}
+		props.history.push({pathname: '/customize', state: {customizeData}});
+	};
+	
 	return (
 		<div className="confirm-order-page">
 			<Header></Header>
