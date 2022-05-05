@@ -1,12 +1,12 @@
-import Breadcrumb from '@/components/breadcrumb/breadcrumb'
+import Layout from '@/components/layout/layout'
 
 const productDetail = (props) => {
-	// console.log(props)
 	return (
 		<div className="layout-productDetail">
-			ProductDetail
-			{props.match.params.id}
-			<Breadcrumb lastBreadcrumbName='产品详情'></Breadcrumb>
+			<Layout pageName='product' lastBreadcrumbName='产品详情'>
+				ProductDetail
+				{props.match.params.id}
+			</Layout>
 		</div>
 	)
 }

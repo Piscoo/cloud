@@ -178,3 +178,40 @@ export const availableCoupon = (data) => {
 		interceptors: commonInterceptors
 	})
 }
+
+// 兑换代金券
+export const redeemCoupon = (data) => {
+	interface Req {
+		redemption_code: string
+	}
+	interface Res {
+		code: number
+		msg: string
+	}
+	return cloudRequest<Req, Res>({
+		url: 'api/coupon/redeem',
+		method: 'POST',
+		data,
+		interceptors: commonInterceptors
+	})
+}
+
+// 获取订单列表
+
+export const orderList = (data) => {
+	interface Req {
+		page_index: number
+		page_count: number
+		status: number
+	}
+	interface Res {
+		code: number,
+		data: any
+	}
+	return cloudRequest<Req, Res>({
+		url: 'api/order/list',
+		method: 'GET',
+		data,
+		interceptors: commonInterceptors
+	})
+}

@@ -9,6 +9,8 @@ const Login = lazy(() => import('@/pages/login'));
 const Register = lazy(() => import('@/pages/login/register'));
 const Customize = lazy(() => import('@/pages/customize/customize'));
 const ConfirmOrder = lazy(() => import('@/pages/confirmOrder/confirmOrder'));
+const Bill = lazy(() => import('@/pages/bill/bill'));
+const BillDetail = lazy(() => import('@/pages/bill/billDetail'));
 
 const routers = [
 	{
@@ -57,6 +59,16 @@ const routers = [
 	{
 		path: '/confirm-order',
 		component: ConfirmOrder
+	},
+	{
+		path: '/user/bill',
+		component: Bill,
+		exact: true
+	},
+	{
+		path: '/user/bill/:id',
+		component: BillDetail,
+		exact: true
 	}
 ]
 

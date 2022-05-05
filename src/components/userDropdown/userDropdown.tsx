@@ -5,7 +5,8 @@ import './userDropdown.scss'
 import { signout } from '@/request/api'
 
 
-const UserDropdown = () => {
+const UserDropdown = (props) => {
+	const fromUser = props?.userPage || false;
 	const logout = () => {
 		signout().then(res => {
 			const code = res.data.code;
@@ -18,9 +19,9 @@ const UserDropdown = () => {
 	}
 	const menu = (
 		<Menu>
-			<Menu.Item key='0'>
+			{!fromUser && <Menu.Item key='0'>
 				<Link to='/user'>个人中心</Link>
-			</Menu.Item>
+			</Menu.Item>}
 			<Menu.Item key='1' onClick={logout}>退出登录</Menu.Item>
 		</Menu>
 	);

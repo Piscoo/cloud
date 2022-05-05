@@ -1,0 +1,75 @@
+.layout-asider {
+	width: 240px;
+	height: 100vh;
+	background: #1F222C;
+	.top-logo {
+		display: block;
+		width: 100%;
+		height: 64px;
+		box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.09);
+		background: #2F3443 url("@/images/logo.svg") center no-repeat;
+		background-size: 48px;
+	}
+	.block {
+		width: 100%;
+		margin-top: 10px;
+		.block-title {
+			padding-left: 33px;
+			height: 50px;
+			font-size: 14px;
+			line-height: 50px;
+			font-weight: 400;
+			color: #FFFFFF;
+		}
+		.block-item {
+			display: block;
+			padding-left: 60px;
+			height: 46px;
+			cursor: pointer;
+			font-size: 16px;
+			line-height: 46px;
+			color: #AEB8C4;
+			// a {
+			// 	display: block;
+			// 	color: #AEB8C4;
+			// 	&:hover {
+			// 		color: #fff;
+			// 	}
+			// }
+			&.active, &:hover {
+				color: #fff;
+				// a {
+				// 	color: #fff;
+				// }
+				background-color: #0360FF;
+			}
+		}
+		$items: ('user', 'product', 'password', 'bill', 'get-new', 'coupon');
+		@each $item in $items {
+			.#{$item} {
+				background-image: url('@/images/user/#{$item}.svg');
+				background-size: 16px;
+				background-position: 33px center;
+				background-repeat: no-repeat;
+				&.active, &:hover {
+					background-image: url('@/images/user/#{$item}-hover.svg');
+					background-size: 16px;
+					background-position: 33px center;
+					background-repeat: no-repeat;
+				}
+				&.bill {
+					background-size: 13px;
+					&:hover {
+						background-size: 13px;
+					}
+				}
+				&.get-new {
+					background-size: 18px;
+					&:hover {
+						background-size: 18px;
+					}
+				}
+			}
+		}
+	}
+}

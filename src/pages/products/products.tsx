@@ -1,7 +1,9 @@
+import Layout from '@/components/layout/layout'
+
 const myProduct = () => {
 	return (
-		<div className="layout-myProduct">
-			myProduct
+		<div className="products-page">
+			<Layout pageName='product'>products page</Layout>
 		</div>
 	)
 }

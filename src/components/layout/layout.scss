@@ -1,0 +1,6 @@
+.layout-container {
+	display: flex;
+	.page-content-container {
+		width: calc(100% - 240px);
+	}
+}

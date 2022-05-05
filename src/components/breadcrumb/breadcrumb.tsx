@@ -2,12 +2,12 @@ import { HashRouter, Route, Link, useLocation } from 'react-router-dom'
 import { Breadcrumb } from 'antd'
 
 const breadcrumbNameMap = {
-	'/user': 'User',
-	'/user/products': 'Products',
-	'/user/products/': 'Product Detail',
+	'/user': '用户中心',
+	'/user/products': '我的产品',
 	'/customize': '自定义配置',
 	'/login': 'Login',
-	'/register': 'Register'
+	'/register': 'Register',
+	'/user/bill': '我的账单'
 };
 
 const BreadcrumbList = (props) => {
@@ -23,14 +23,6 @@ const BreadcrumbList = (props) => {
 			extraBreadcrumbItems.push(item);
 		}
 	}
-	// const extraBreadcrumbItems = pathSnippets.map((_, index) => {
-	// 	const url = `/${pathSnippets.slice(0, index + 1).join('/')}`;
-	// 	return (
-	// 		<Breadcrumb.Item key={url}>
-	// 			<Link to={url}>{breadcrumbNameMap[url]}</Link>
-	// 		</Breadcrumb.Item>
-	// 	);
-	// });
 	let breadcrumbItems = [
 		<Breadcrumb.Item key='home'>
 			<Link to='/'>首页</Link>

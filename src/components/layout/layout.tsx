@@ -1,13 +1,17 @@
-import Header from "@/components/header/header"
-// import "./layout.scss"
+import UserHeader from '@/components/userHeader/userHeader'
+import Asider from '@/components/asider/asider'
+import './layout.scss'
 
-const Layout = ({ children }) => {
+
+const Layout = (props) => {
+	const { lastBreadcrumbName, children, pageName } = props;
 	return (
-		<div style={{ width: `100%`, height: `100%` }}>
-			<Header />
-			<>
+		<div className="layout-container">
+			<Asider pageName={pageName}></Asider>
+			<div className="page-content-container">
+				<UserHeader lastBreadcrumbName = {lastBreadcrumbName}></UserHeader>
 				<main>{children}</main>
-			</>
+			</div>
 		</div>
 	)
 }

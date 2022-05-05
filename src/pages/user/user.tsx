@@ -1,11 +1,13 @@
 
-import Breadcrumb from '@/components/breadcrumb/breadcrumb'
+import './user.scss'
+import Layout from '@/components/layout/layout'
+
+
 const User = () => {
 	return (
-		<div>
-			This is user page.
-			<Breadcrumb></Breadcrumb>
-		</div>
+		<Layout pageName='user'>
+			content
+		</Layout>
 	)
 }
 
