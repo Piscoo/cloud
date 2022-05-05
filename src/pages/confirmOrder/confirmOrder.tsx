@@ -48,7 +48,7 @@ const ConfirmOrder = (props) => {
 	}, [])
 
 	const goBack = () => {
-		props.history.push({pathname: '/customize', state: {customizeData}})
+		props.history.push({pathname: '/customize', state: {customizeData}});
 	};
 	
 	const clickCouponItem = (item) => {
@@ -67,7 +67,7 @@ const ConfirmOrder = (props) => {
 		if(res.data.code == 0) {
 			const id = res.data.order_id;
 			message.success("下单成功");
-			props.history.push({path: `/user/bill/${id}`, state: {id}})
+			props.history.push({pathname: `/user/bill/${id}`, state: {id}});
 		}
 	}
 

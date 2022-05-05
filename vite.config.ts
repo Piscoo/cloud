@@ -29,11 +29,6 @@ export default defineConfig({
 				target: 'http://49.233.34.234:8899/',
 				changeOrigin: true,
 				rewrite: path => path.replace(/^\/api/, '')
-			},
-			'/user/api': {
-				target: 'http://49.233.34.234:8899/',
-				changeOrigin: true,
-				rewrite: path => path.replace(/^\/user\/api/, '')
 			}
 		}
 	}

@@ -58,6 +58,7 @@ class Request {
 }
 const request = new Request({
 	// baseURL: baseUrl,
+	baseURL: '/',
 	timeout: 10000,
 	withCredentials: true,
 	interceptors: {
