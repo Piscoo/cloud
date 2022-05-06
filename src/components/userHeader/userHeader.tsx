@@ -3,7 +3,7 @@ import UserDropdown from '@/components/userDropdown/userDropdown'
 import './userHeader.scss'
 
 const UserHeader = (props) => {
-	const { lastBreadcrumbName } = props;
+	const { lastBreadcrumbName, userPage } = props;
 
 	return (
 		<div className="user-header">
@@ -11,7 +11,7 @@ const UserHeader = (props) => {
 			<div className="user-header-right">
 				<div className="translate"></div>
 				<div className="notify"></div>
-				<UserDropdown userPage={true}></UserDropdown>
+				<UserDropdown userPage={userPage}></UserDropdown>
 			</div>
 		</div>
 	)

@@ -170,7 +170,7 @@ const ConfirmOrder = (props) => {
 												<div className="coupon-right">
 													<div className="suit">新购/续费/升级 适用</div>
 													<div className="suit">云服务器、云硬盘、云数据库 使用</div>
-													<div className="expire">{new Date(item.expired_ts).toLocaleDateString()}过期</div>
+													<div className="expire">{new Date(item.expired_ts * 1000).toLocaleDateString()}过期</div>
 												</div>
 											</div>
 										))}

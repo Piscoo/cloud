@@ -5,7 +5,7 @@ import Layout from '@/components/layout/layout'
 
 const User = () => {
 	return (
-		<Layout pageName='user'>
+		<Layout pageName='user' userPage={true}>
 			content
 		</Layout>
 	)

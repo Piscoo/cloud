@@ -197,7 +197,6 @@ export const redeemCoupon = (data) => {
 }
 
 // 获取订单列表
-
 export const orderList = (data) => {
 	interface Req {
 		page_index: number
@@ -205,11 +204,37 @@ export const orderList = (data) => {
 		status: number
 	}
 	interface Res {
-		code: number,
+		code: number
+		total: number
 		data: any
 	}
 	return cloudRequest<Req, Res>({
 		url: 'api/order/list',
+		method: 'GET',
+		data,
+		interceptors: commonInterceptors
+	})
+}
+
+// 获取订单详情
+export const orderDetail = (data) => {
+	interface Req {
+		order_id: number
+	}
+	interface Res {
+		code: number
+		type: number
+		data: any
+		id: number
+		origin_price: number
+		final_price: number
+		paid_at_ts: number
+		status: number
+		create_ts: number
+		expired_ts: number
+	}
+	return cloudRequest<Req, Res>({
+		url: 'api/order/detail',
 		method: 'GET',
 		data,
 		interceptors: commonInterceptors

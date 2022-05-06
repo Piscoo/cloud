@@ -4,13 +4,17 @@ import './layout.scss'
 
 
 const Layout = (props) => {
-	const { lastBreadcrumbName, children, pageName } = props;
+	const { lastBreadcrumbName, children, pageName, userPage } = props;
 	return (
 		<div className="layout-container">
 			<Asider pageName={pageName}></Asider>
 			<div className="page-content-container">
-				<UserHeader lastBreadcrumbName = {lastBreadcrumbName}></UserHeader>
-				<main>{children}</main>
+				<UserHeader lastBreadcrumbName = {lastBreadcrumbName} userPage={userPage}></UserHeader>
+				<main className="main-container">
+					<div className="content-container">
+						{children}
+					</div>
+				</main>
 			</div>
 		</div>
 	)

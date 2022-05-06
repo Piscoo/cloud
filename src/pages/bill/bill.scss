@@ -1,16 +1,9 @@
-.content-container {
-	width: 100%;
-	height: calc(100vh - 64px);
-	padding: 16px;
-	background: #F9F9FB;
-	overflow: hidden;
 	.content {
-		overflow-y: scroll;
 		width: 100%;
-		padding: 14px;
-		background: #fff;
-		box-shadow: 0px 6px 10px 0px rgba(0, 0, 0, 0.09);
-		border-radius: 8px;
+		height: 100%;
+		padding-bottom: 90px;
+		overflow: hidden;
+		position: relative;
 		.content-title {
 			font-size: 16px;
 			font-weight: 500;
@@ -29,5 +22,22 @@
 				transform: translateY(-50%);
 			}
 		}
+		.bill-table {
+			max-height: calc(100% - 56px);
+			overflow-y: scroll;
+			margin-top: 20px;
+			.ant-table-thead {
+				tr {
+					th {
+						background-color: #E3F0FF;
+					}
+				}
+			}
+		}
+		.pagination {
+			position: absolute;
+			bottom: 30px;
+			left: 50%;
+			transform: translateX(-50%);
+		}
 	}
-}
