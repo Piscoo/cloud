@@ -85,10 +85,12 @@ const Bill = () => {
 	return (
 		<div className="bill-page">
 			<Layout pageName='bill'>
-				<div className="content">
-					<div className="content-title">我的账单</div>
-					<Table className="bill-table" columns={columns} dataSource={billList} bordered pagination={false}></Table>
-					<Pagination className='pagination' total={total} showSizeChanger showQuickJumper showTotal={total => `共 ${total} 条`} onChange={onPaginationChange}></Pagination>
+				<div className="content-container">
+					<div className="content">
+						<div className="content-title">我的账单</div>
+						<Table className="bill-table" columns={columns} dataSource={billList} bordered pagination={false}></Table>
+						<Pagination className='pagination' total={total} showSizeChanger showQuickJumper showTotal={total => `共 ${total} 条`} onChange={onPaginationChange}></Pagination>
+					</div>
 				</div>
 			</Layout>
 		</div>

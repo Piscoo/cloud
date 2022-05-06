@@ -11,9 +11,7 @@ const Layout = (props) => {
 			<div className="page-content-container">
 				<UserHeader lastBreadcrumbName = {lastBreadcrumbName} userPage={userPage}></UserHeader>
 				<main className="main-container">
-					<div className="content-container">
-						{children}
-					</div>
+					{children}
 				</main>
 			</div>
 		</div>
