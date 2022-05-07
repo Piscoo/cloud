@@ -33,6 +33,12 @@ const BillDetail = (props) => {
 		setPayType(value);
 	}
 
+	const DigitalPay = () => {
+		return <>
+			<div className="digital-pay-box">digital</div>
+		</>
+	}
+
 	return (
 		<div className="billDetail-page">
 			<Layout pageName='bill' lastBreadcrumbName={`账单编号#${orderId}`}>
@@ -109,14 +115,18 @@ const BillDetail = (props) => {
 					<div className="pay-type content-block">
 						<div className="content-title">付款方式</div>
 						<div className="choose">选择付款方式</div>
-						<div className="select-pay">
+						<div className={`select-pay ${payType}`}>
 							<Select defaultValue={payType} onChange={changePayType}>
 								<Option value="ali">支付宝</Option>
 								<Option value="wechat">微信</Option>
 								<Option value="digital">数字货币</Option>
 							</Select>
 						</div>
-						{}
+						{payType != 'digital' && <div className="payment">
+							<div className="qr-code"></div>	
+							<div className={`paid-check ${payType}`}>我已付款</div>
+						</div>}
+						{payType == 'digital' && <DigitalPay />}
 					</div>
 				</div>
 			</Layout>
