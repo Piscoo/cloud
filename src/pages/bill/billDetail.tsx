@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Select } from 'antd'
+import { Select, Input } from 'antd'
 import Layout from '@/components/layout/layout'
 import { orderDetail } from '@/request/api'
 import './billDetail.scss'
@@ -17,6 +17,7 @@ const BillDetail = (props) => {
 	const [orderId, setOrderId] = useState<number>(props.match.params.id);
 	const [orderInfo, setOrderInfo] = useState<any>();
 	const [payType, setPayType] = useState<string>('ali');
+	const [coinType, setCoinType] = useState<string>('xmr');
 
 	useEffect(() => {
 		const getOrderDetail = async () => {
@@ -31,11 +32,62 @@ const BillDetail = (props) => {
 
 	const changePayType = (value) => {
 		setPayType(value);
+	};
+
+	const changeCoinType = (val) => {
+		console.log(val)
 	}
 
 	const DigitalPay = () => {
 		return <>
-			<div className="digital-pay-box">digital</div>
+			<div className="digital-pay-box">
+				<div className="digital-box">
+					<div className="digital-title">
+						<div className="name">数字货币</div>
+						<div className="close"></div>
+					</div>
+					<div className="digital-content">
+						<div className="digital-infos">
+							<div className="digital-type">
+								<div className="digital-item">
+									<div className="item-name">选择货币</div>
+									<div className="item-value-box">
+										<div className="coin-num">
+											<div className="item-tip">You Send</div>
+											<div className="item-value">20</div>
+										</div>
+										<div className="coin-type">
+											<Select defaultValue='xmr' onChange={changeCoinType}>
+												<Option value="xmr">XMR</Option>
+												<Option value="btc">BTC</Option>
+												<Option value="eth">ETH</Option>
+											</Select>
+										</div>
+									</div>
+								</div>
+								<div className="digital-item">
+									<div className="item-name">兑换地址</div>
+									<div className="item-value-box">
+										<div className="item-value">3EMBV3pwedvth7iUQKf6has2xG2PgWaXNB</div>
+									</div>
+								</div>
+								<div className="digital-item">
+									<div className="item-name">收件人钱包</div>
+									<div className="item-value-box">
+										<div className="item-tip">请输入{coinType}付款地址</div>
+										<div className="item-value">bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh</div>
+									</div>
+								</div>
+							</div>
+							<div className="digital-code-img"></div>
+						</div>
+						<div className="btns">
+							<div className="btn cancel">取消</div>
+							<div className="btn confirm">确认</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</>
 	}
 

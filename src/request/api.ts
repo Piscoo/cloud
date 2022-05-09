@@ -240,3 +240,19 @@ export const orderDetail = (data) => {
 		interceptors: commonInterceptors
 	})
 }
+
+//支付订单
+export const payOrder = (data) => {
+	interface Req {
+		order_id: number
+	}
+	interface Res {
+		code: number
+	}
+	return cloudRequest<Req, Res>({
+		url: 'api/order/pay',
+		method: 'POST',
+		data,
+		interceptors: commonInterceptors
+	})
+}
