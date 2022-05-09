@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Select, Input } from 'antd'
 import Layout from '@/components/layout/layout'
-import { orderDetail } from '@/request/api'
+import { orderDetail, payOrder } from '@/request/api'
 import './billDetail.scss'
 
 
@@ -10,6 +10,12 @@ const statusList = {
 	1: '未付款',
 	2: '已取消',
 	3: '收款中'
+};
+const statusColorClassNameList = {
+	0: 'paid-order',
+	1: 'unpaid-order',
+	2: 'expired-order',
+	3: 'querying-order'
 };
 const { Option } = Select;
 
@@ -37,6 +43,17 @@ const BillDetail = (props) => {
 	const changeCoinType = (val) => {
 		console.log(val)
 	}
+	const closeDigitalBox = () => {
+		setPayType('wechat');
+	}
+	
+	const checkPayStatus = async () => {
+		const data = {
+			order_id: orderId
+		};
+		const res = await payOrder(data);
+		console.log(res)
+	}
 
 	const DigitalPay = () => {
 		return <>
@@ -44,7 +61,7 @@ const BillDetail = (props) => {
 				<div className="digital-box">
 					<div className="digital-title">
 						<div className="name">数字货币</div>
-						<div className="close"></div>
+						<div className="close" onClick={closeDigitalBox}></div>
 					</div>
 					<div className="digital-content">
 						<div className="digital-infos">
@@ -63,19 +80,24 @@ const BillDetail = (props) => {
 												<Option value="eth">ETH</Option>
 											</Select>
 										</div>
+										<div className="item-notice">1 XMR~0.0046114 BTC</div>
 									</div>
 								</div>
 								<div className="digital-item">
 									<div className="item-name">兑换地址</div>
 									<div className="item-value-box">
 										<div className="item-value">3EMBV3pwedvth7iUQKf6has2xG2PgWaXNB</div>
+										<div className="item-notice">估计到达时间~10分钟</div>
 									</div>
 								</div>
 								<div className="digital-item">
 									<div className="item-name">收件人钱包</div>
 									<div className="item-value-box">
-										<div className="item-tip">请输入{coinType}付款地址</div>
-										<div className="item-value">bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh</div>
+										<div className="wallet">
+											<div className="item-tip">请输入{coinType}付款地址</div>
+											<div className="item-value">bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh</div>
+										</div>
+										<div className="item-notice">支持FlOprotocol名称</div>
 									</div>
 								</div>
 							</div>
@@ -89,13 +111,13 @@ const BillDetail = (props) => {
 				</div>
 			</div>
 		</>
-	}
+	};
 
 	return (
 		<div className="billDetail-page">
 			<Layout pageName='bill' lastBreadcrumbName={`账单编号#${orderId}`}>
 				<div className="content-container">
-					<div className="content content-block">
+					<div className={`bill-content content-block ${orderInfo?.status == 1 ? 'half-content' : 'full-content'}`}>
 						<div className="content-title">{`账单编号#${orderId}`}</div>
 						<div className="bill-info">
 							<div className="bill-product">{orderInfo?.type == 0 ? '云服务器' : ''}</div>
@@ -108,7 +130,7 @@ const BillDetail = (props) => {
 								</div>
 							</div>
 						</div>
-						<div className="order-type">
+						<div className={`order-type ${statusColorClassNameList[orderInfo?.status]}`}>
 							<div className="order-id">#{orderId}</div>
 							<div className="order-status">{statusList[orderInfo?.status]}</div>
 						</div>
@@ -150,21 +172,21 @@ const BillDetail = (props) => {
 										<div className="item-value">{orderInfo?.data.bandwidth}Mbps</div>
 									</div>
 								</div>
-								<div className="cell value-cell">¥{orderInfo?.data.price}RMB</div>
+								<div className="cell value-cell">¥{orderInfo?.data.price} RMB</div>
 							</div>
 						</div>
 						<div className="price-info">
-							<div className="origin-price">小计：<span>¥{orderInfo?.origin_price}RMB</span></div>
+							<div className="origin-price">小计：<span>¥{orderInfo?.origin_price} RMB</span></div>
 							{orderInfo?.origin_price - orderInfo?.final_price > 0 && 
-								<div className="coupon">优惠券：<span>-¥{orderInfo?.origin_price - orderInfo?.final_price}RMB</span></div>
+								<div className="coupon">优惠券：<span>-¥{orderInfo?.origin_price - orderInfo?.final_price} RMB</span></div>
 							}
 						</div>
-						<div className="final-order">
+						<div className={`final-order ${statusColorClassNameList[orderInfo?.status]}`}>
 							<div className="word">总计</div>
-							<div className="price">¥{orderInfo?.final_price}RMB</div>
+							<div className="price">¥{orderInfo?.final_price} RMB</div>
 						</div>
 					</div>
-					<div className="pay-type content-block">
+					{orderInfo?.status == 1 && <div className="pay-type content-block">
 						<div className="content-title">付款方式</div>
 						<div className="choose">选择付款方式</div>
 						<div className={`select-pay ${payType}`}>
@@ -176,10 +198,10 @@ const BillDetail = (props) => {
 						</div>
 						{payType != 'digital' && <div className="payment">
 							<div className="qr-code"></div>	
-							<div className={`paid-check ${payType}`}>我已付款</div>
+							<div className={`paid-check ${payType}`} onClick={checkPayStatus}>我已付款</div>
 						</div>}
 						{payType == 'digital' && <DigitalPay />}
-					</div>
+					</div>}
 				</div>
 			</Layout>
 		</div>

@@ -35,8 +35,8 @@ const Bill = () => {
 	const colorList = {
 		0: 'success',
 		1: 'error',
-		2: 'warning',
-		3: 'processing'
+		2: '#999999',
+		3: 'warning'
 	}
 	const columns = [
 		{
@@ -63,7 +63,7 @@ const Bill = () => {
 			title: '合计',
 			dataIndex: 'price',
 			key: 'id',
-			render: text => ('¥' + text + 'RMB')
+			render: text => ('¥' + text + ' RMB')
 		},
 		{
 			title: '状态',

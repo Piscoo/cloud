@@ -14,7 +14,7 @@
 		box-shadow: 0px 6px 10px 0px rgba(0, 0, 0, 0.09);
 		overflow-y: scroll;
 	}
-	.content {
+	.bill-content {
 		width: 73.6%;
 		position: relative;
 	}
@@ -258,7 +258,7 @@
 					justify-content: space-between;
 					align-items: center;
 					.digital-type {
-						width: 72.3%;
+						width: 75%;
 						.digital-item {
 							display: flex;
 							align-items: center;
@@ -275,20 +275,58 @@
 								width: 83.3%;
 								height: 60px;
 								border-radius: 4px;
+								padding: 0 14px;
 								border: 1px solid #CCD1D9;
 								position: relative;
+								display: flex;
+								justify-content: space-between;
+								align-items: center;
+								.item-notice {
+									font-size: 12px;
+									position: absolute;
+									left: 0;
+									bottom: -24px;
+								}
 							}
 							.coin-num {
 								display: flex;
 								flex-direction: column;
 								justify-content: center;
 								align-items: flex-start;
-								.item-tip {
-									color: #999;
-									font-size: 12px;
-								}
+							}
+							.coin-num, .wallet {
 								.item-value {
-									font-size: 16px;
+									margin-top: 4px;
+								}
+							}
+							.item-tip {
+								color: #999;
+								font-size: 12px;
+							}
+							.item-value {
+								font-size: 16px;
+							}
+							.coin-num {
+								width: 70%;
+								height: 100%;
+								border-right: 1px solid #CCD1D9;
+							}
+							.coin-type {
+								width: 30%;
+								height: 100%;
+								padding-left: 20px;
+								.ant-select {
+									width: 100%;
+									height: 100%;
+								}
+								.ant-select-selector {
+									width: 100%;
+									height: 100%;
+									border: none;
+									box-shadow: none;
+									.ant-select-selection-item {
+										line-height: 60px;
+									}
 								}
 							}
 						}
@@ -296,6 +334,7 @@
 					.digital-code-img {
 						width: 150px;
 						height: 150px;
+						border: 1px solid pink;
 						img {
 							width: 100%;
 							object-fit: contain;
@@ -310,12 +349,13 @@
 					align-items: center;
 					.btn {
 						width: 124px;
-						height: 64px;
+						height: 46px;
 						border-radius: 6px;
 						margin: 8px;
 						font-size: 18px;
 						text-align: center;
-						line-height: 64px;
+						line-height: 46px;
+						cursor: pointer;
 						&.cancel {
 							color: #0360FF;
 							background: rgba(3, 96, 255, .16);
@@ -325,6 +365,38 @@
 							background: #0360FF;
 						}
 					}
+				}
+			}
+		}
+	}
+	.full-content {
+		width: 100%;
+		.order-type, .final-order {
+			&.expired-order {
+				background: #777777;
+				.order-status {
+					background-color: #999999;
+				}
+				.price {
+					background-color: #999999;
+				}
+			}
+			&.paid-order {
+				background: #5CB85B;
+				.order-status {
+					background-color: #79C47A;
+				}
+				.price {
+					background-color: #79C47A;
+				}
+			}
+			&.querying-order {
+				background: #F0B83C;
+				.order-status {
+					background-color: #F4CD76;
+				}
+				.price {
+					background-color: #F4CD76;
 				}
 			}
 		}
