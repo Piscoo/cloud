@@ -256,3 +256,14 @@ export const payOrder = (data) => {
 		interceptors: commonInterceptors
 	})
 }
+
+// 获取付款二维码
+export const paymentCode = (data) => {
+	const { type, digitalType } = data;
+	const url = digitalType ? `api/payments/${type}?token=${digitalType}` : `api/payments/${type}`;
+	return cloudRequest({
+		url,
+		method: 'GET',
+		interceptors: commonInterceptors
+	})
+}

@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
-import { Select, Input } from 'antd'
+import { Select, Input, Spin } from 'antd'
+import { LoadingOutlined } from '@ant-design/icons'
 import Layout from '@/components/layout/layout'
-import { orderDetail, payOrder } from '@/request/api'
+import { orderDetail, payOrder, paymentCode } from '@/request/api'
 import './billDetail.scss'
 
 
@@ -18,33 +19,64 @@ const statusColorClassNameList = {
 	3: 'querying-order'
 };
 const { Option } = Select;
+const { TextArea } = Input;
+const loadingIcon = <LoadingOutlined style={{fontSize: 40}} spin />;
+interface iDigital {
+	address: string
+	amount: number
+	path: string
+}
 
 const BillDetail = (props) => {
 	const [orderId, setOrderId] = useState<number>(props.match.params.id);
 	const [orderInfo, setOrderInfo] = useState<any>();
-	const [payType, setPayType] = useState<string>('ali');
+	const [payType, setPayType] = useState<string>('alipay');
 	const [coinType, setCoinType] = useState<string>('xmr');
+	const [payQrcode, setPayQrcode] = useState<string | undefined>(undefined);
+	const [digitalInfo, setDigitalInfo] = useState<iDigital>();
+	const [loadingCode, setLoadingCode] = useState<boolean>(true);
 
+	const getOrderDetail = async () => {
+		const data = {
+			order_id: orderId
+		};
+		const res = await orderDetail(data);
+		setOrderInfo(res.data);
+	}
 	useEffect(() => {
-		const getOrderDetail = async () => {
-			const data = {
-				order_id: orderId
-			};
-			const res = await orderDetail(data);
-			setOrderInfo(res.data);
-		}
 		getOrderDetail();
 	}, [])
+
+	useEffect(() => {
+		const getPaymentCode = async () => {
+			setLoadingCode(true);
+			const data = {
+				type: payType == 'digital' ? 'cryptos' : payType,
+				digitalType: payType == 'digital' ? coinType : null
+			}
+			const res = await paymentCode(data);
+			setLoadingCode(false);
+			if(res.data.code == 0) {
+				if(payType == 'digital') {
+					setDigitalInfo(res.data.data);
+					setPayQrcode('http://49.233.34.234:8899/' + res.data.data.path);
+				} else {
+					setPayQrcode('http://49.233.34.234:8899/' + res.data.data);
+				}
+			}
+		}
+		getPaymentCode();
+	}, [payType, coinType])
 
 	const changePayType = (value) => {
 		setPayType(value);
 	};
 
 	const changeCoinType = (val) => {
-		console.log(val)
+		setCoinType(val);
 	}
 	const closeDigitalBox = () => {
-		setPayType('wechat');
+		setPayType('alipay');
 	}
 	
 	const checkPayStatus = async () => {
@@ -52,7 +84,7 @@ const BillDetail = (props) => {
 			order_id: orderId
 		};
 		const res = await payOrder(data);
-		console.log(res)
+		if(res.data.code == 0) getOrderDetail();
 	}
 
 	const DigitalPay = () => {
@@ -71,10 +103,10 @@ const BillDetail = (props) => {
 									<div className="item-value-box">
 										<div className="coin-num">
 											<div className="item-tip">You Send</div>
-											<div className="item-value">20</div>
+											<div className="item-value">{digitalInfo?.amount}</div>
 										</div>
 										<div className="coin-type">
-											<Select defaultValue='xmr' onChange={changeCoinType}>
+											<Select value={coinType} onChange={changeCoinType}>
 												<Option value="xmr">XMR</Option>
 												<Option value="btc">BTC</Option>
 												<Option value="eth">ETH</Option>
@@ -86,7 +118,10 @@ const BillDetail = (props) => {
 								<div className="digital-item">
 									<div className="item-name">兑换地址</div>
 									<div className="item-value-box">
-										<div className="item-value">3EMBV3pwedvth7iUQKf6has2xG2PgWaXNB</div>
+										<div className="item-value">
+											{/* <TextArea value={digitalInfo?.address} autoSize bordered={false} disabled></TextArea> */}
+											{digitalInfo?.address}
+										</div>
 										<div className="item-notice">估计到达时间~10分钟</div>
 									</div>
 								</div>
@@ -94,18 +129,24 @@ const BillDetail = (props) => {
 									<div className="item-name">收件人钱包</div>
 									<div className="item-value-box">
 										<div className="wallet">
-											<div className="item-tip">请输入{coinType}付款地址</div>
-											<div className="item-value">bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh</div>
+											{/* <div className="item-tip">请输入{coinType.toUpperCase()}付款地址</div> */}
+											<div className="item-value">
+												<TextArea size="large" autoSize bordered={false} placeholder={`请输入${coinType.toUpperCase()}付款地址`}></TextArea>
+											</div>
 										</div>
 										<div className="item-notice">支持FlOprotocol名称</div>
 									</div>
 								</div>
 							</div>
-							<div className="digital-code-img"></div>
+							<div className="digital-code-img">
+								<Spin spinning={loadingCode} indicator={loadingIcon}>
+									<img src={payQrcode} alt="" />
+								</Spin>
+							</div>
 						</div>
 						<div className="btns">
-							<div className="btn cancel">取消</div>
-							<div className="btn confirm">确认</div>
+							<div className="btn cancel" onClick={closeDigitalBox}>取消</div>
+							<div className="btn confirm" onClick={checkPayStatus}>确认</div>
 						</div>
 					</div>
 				</div>
@@ -190,14 +231,18 @@ const BillDetail = (props) => {
 						<div className="content-title">付款方式</div>
 						<div className="choose">选择付款方式</div>
 						<div className={`select-pay ${payType}`}>
-							<Select defaultValue={payType} onChange={changePayType}>
-								<Option value="ali">支付宝</Option>
+							<Select value={payType} onChange={changePayType}>
+								<Option value="alipay">支付宝</Option>
 								<Option value="wechat">微信</Option>
 								<Option value="digital">数字货币</Option>
 							</Select>
 						</div>
 						{payType != 'digital' && <div className="payment">
-							<div className="qr-code"></div>	
+							<div className="qr-code">
+								<Spin spinning={loadingCode} indicator={loadingIcon}>
+									<img src={payQrcode} alt="" />
+								</Spin>
+							</div>	
 							<div className={`paid-check ${payType}`} onClick={checkPayStatus}>我已付款</div>
 						</div>}
 						{payType == 'digital' && <DigitalPay />}

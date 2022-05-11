@@ -195,8 +195,12 @@
 		.qr-code {
 			margin-top: 20px;
 			width: 100%;
-			padding-bottom: 100%;
-			border: 1px solid pink;
+			border: 1px solid #CCD1D9;
+			img {
+				width: 100%;
+				vertical-align: middle;
+				object-fit: contain;
+			}
 		}
 		.paid-check {
 			width: 100%;
@@ -208,7 +212,7 @@
 			text-align: center;
 			color: #fff;
 			cursor: pointer;
-			&.ali {
+			&.alipay {
 				background: #3874F6;
 			}
 			&.wechat {
@@ -273,7 +277,7 @@
 							}
 							.item-value-box {
 								width: 83.3%;
-								height: 60px;
+								min-height: 60px;
 								border-radius: 4px;
 								padding: 0 14px;
 								border: 1px solid #CCD1D9;
@@ -295,6 +299,7 @@
 								align-items: flex-start;
 							}
 							.coin-num, .wallet {
+								width: 100%;
 								.item-value {
 									margin-top: 4px;
 								}
@@ -304,7 +309,13 @@
 								font-size: 12px;
 							}
 							.item-value {
+								width: 100%;
 								font-size: 16px;
+								word-break: break-word;
+								padding: 6px 0;
+								.ant-input {
+									padding: 0;
+								}
 							}
 							.coin-num {
 								width: 70%;
@@ -334,7 +345,7 @@
 					.digital-code-img {
 						width: 150px;
 						height: 150px;
-						border: 1px solid pink;
+						border: 1px solid #CCD1D9;
 						img {
 							width: 100%;
 							object-fit: contain;
