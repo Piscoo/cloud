@@ -1,3 +1,51 @@
-.user-page {
-	// width: 100vw;
+.user-page-content-container {
+	.user-info-block {
+		width: 100%;
+		padding: 20px;
+		border-radius: 8px;
+		font-size: 18px;
+		box-shadow: 0px 6px 10px 0px rgba(0, 0, 0, 0.09);
+		background: #FFFFFF;
+		display: flex;
+		// align-items: center;
+		justify-content: space-between;
+		.user-info {
+			width: 13.5%;
+			text-align: center;
+			.user-avatar {
+				width: 92px;
+				height: 92px;
+				margin: 0 auto;
+				border: 1px solid #ededed;
+				border-radius: 50%;
+				background: url('@/images/header/avatar-default.svg') left center no-repeat;
+				background-size: contain;
+			}
+			.username {
+				margin-top: 15px;
+				font-weight: 500;
+			}
+		}
+		.user-account {
+			width: 81.5%;
+			.user-money {
+				width: 100%;
+				display: flex;
+				align-items: center;
+				justify-content: flex-start;
+				border-bottom: 1px dashed #CCD1D9;
+				.money-left, .money-coupon {
+					width: 38.5%;
+					text-align: left;
+					.money-num {
+						font-size: 20px;
+						margin: 10px auto 16px;
+						.num {
+							font-size: 28px;
+						}
+					}
+				}
+			}
+		}
+	}
 }

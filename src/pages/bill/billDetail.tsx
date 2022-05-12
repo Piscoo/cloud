@@ -86,6 +86,10 @@ const BillDetail = (props) => {
 		const res = await payOrder(data);
 		if(res.data.code == 0) getOrderDetail();
 	}
+	const confirmDigitalPay = () => {
+		setPayType('alipay');
+		checkPayStatus();
+	}
 
 	const DigitalPay = () => {
 		return <>
@@ -146,7 +150,7 @@ const BillDetail = (props) => {
 						</div>
 						<div className="btns">
 							<div className="btn cancel" onClick={closeDigitalBox}>取消</div>
-							<div className="btn confirm" onClick={checkPayStatus}>确认</div>
+							<div className="btn confirm" onClick={confirmDigitalPay}>确认</div>
 						</div>
 					</div>
 				</div>
