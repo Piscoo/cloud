@@ -46,6 +46,49 @@
 					}
 				}
 			}
+			.user-objects {
+				margin-top: 20px;
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				.obj-item {
+					display: block;
+					width: 30%;
+					padding: 30px;
+					background: #F9F9FA;
+					border-radius: 5px;
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+					.obj-item-name {
+						padding-left: 26px;
+						$names: ('product', 'bill', 'ticket');
+						@each $name in $names {
+							&.#{$name} {
+								background: url("@/images/user/#{$name}.svg") left center no-repeat;
+								background-size: 20px;
+							}
+						}
+						&.product {
+							background-size: 21px;
+						}
+						&.bill {
+							background-size: 17px;
+						}
+					}
+					.obj-item-name {
+						font-size: 30px;
+					}
+					.submit-ticket {
+						background: #FFFFFF;
+						border-radius: 3px;
+						line-height: 32px;
+						padding: 0 20px;
+						font-size: 16px;
+						color: #0360FF;
+					}
+				}
+			}
 		}
 	}
 }

@@ -27,7 +27,21 @@ const User = () => {
 								</div>
 							</div>
 						</div>
-						<div className="user-objects"></div>
+						<div className="user-objects">
+							<div className="obj-item">
+								<div className="obj-item-name product">产品服务</div>
+								<div className="obj-item-num">0</div>
+							</div>
+							<div className="obj-item">
+								<div className="obj-item-name bill">账单管理</div>
+								<div className="obj-item-num">0</div>
+							</div>
+							<div className="obj-item">
+								<div className="obj-item-name ticket">我的工单</div>
+								<div className="obj-item-num">0</div>
+								<div className="submit-ticket">提交工单</div>
+							</div>
+						</div>
 					</div>
 				</div>
 				<div>
