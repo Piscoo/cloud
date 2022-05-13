@@ -7,7 +7,7 @@
 		box-shadow: 0px 6px 10px 0px rgba(0, 0, 0, 0.09);
 		background: #FFFFFF;
 		display: flex;
-		// align-items: center;
+		align-items: center;
 		justify-content: space-between;
 		.user-info {
 			width: 13.5%;
@@ -53,30 +53,36 @@
 				justify-content: space-between;
 				.obj-item {
 					display: block;
-					width: 30%;
-					padding: 30px;
+					color: #333;
+					width: 28%;
+					padding: 20px;
 					background: #F9F9FA;
 					border-radius: 5px;
 					display: flex;
 					justify-content: space-between;
 					align-items: center;
+					&.obj-item-big {
+						width: 34%;
+					}
 					.obj-item-name {
 						padding-left: 26px;
+						user-select: none;
 						$names: ('product', 'bill', 'ticket');
 						@each $name in $names {
 							&.#{$name} {
 								background: url("@/images/user/#{$name}.svg") left center no-repeat;
-								background-size: 20px;
+								background-size: 18px;
 							}
 						}
 						&.product {
-							background-size: 21px;
+							background-size: 20px;
+							padding-left: 28px;
 						}
 						&.bill {
 							background-size: 17px;
 						}
 					}
-					.obj-item-name {
+					.obj-item-num {
 						font-size: 30px;
 					}
 					.submit-ticket {
@@ -86,6 +92,66 @@
 						padding: 0 20px;
 						font-size: 16px;
 						color: #0360FF;
+						cursor: pointer;
+					}
+				}
+			}
+		}
+	}
+	.messages-container {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: space-between;
+		.user-msg-list-box {
+			width: calc(50% - 10px);
+			margin-top: 20px;
+			padding: 16px 20px;
+			background: #FFFFFF;
+			box-shadow: 0px 8px 13px 0px rgba(0,0,0,0.09);
+			border-radius: 10px;
+			.list-box-title {
+				font-size: 20px;
+				font-weight: 500;
+				color: #333333;
+				line-height: 25px;
+				padding-left: 12px;
+				font-weight: 500;
+				position: relative;
+				&::before {
+					content: '';
+					width: 4px;
+					height: 20px;
+					border-radius: 4px;
+					background: #0360FF;
+					position: absolute;
+					left: 0;
+					top: 50%;
+					transform: translateY(-50%);
+				}
+			}
+			.list-empty {
+				width: 100%;
+				padding: 70px;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				.empty-word {
+					margin-top: 12px;
+					font-size: 16px;
+					font-weight: 400;
+					color: #CCD1D9;
+				}
+				$icons: ('product', 'bill', 'ticket', 'notice');
+				@each $icon in $icons {
+					&.#{$icon} {
+						.img {
+							width: 100px;
+							height: 100px;
+							background: url("@/images/user/#{$icon}-empty.svg");
+							background-size: contain;
+						}
 					}
 				}
 			}
