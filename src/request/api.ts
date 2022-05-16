@@ -41,7 +41,7 @@ export const login = (data) => {
 		msg?: string
 	}
 	return cloudRequest<Req, Res>({
-		url: 'api/user/signin',
+		url: '/user/signin',
 		method: 'POST',
 		data,
 		interceptors: commonInterceptors
@@ -50,7 +50,7 @@ export const login = (data) => {
 
 export const signout = () => {
 	return cloudRequest({
-		url: 'api/user/signout',
+		url: '/user/signout',
 		method: 'GET',
 		interceptors: commonInterceptors
 	})
@@ -73,7 +73,7 @@ export const registerAccount = (data) => {
 		code: number
 	}
 	return cloudRequest<Req, Res>({
-		url: 'api/user/signup',
+		url: '/user/signup',
 		method: 'POST',
 		data,
 		interceptors: commonInterceptors
@@ -83,7 +83,7 @@ export const registerAccount = (data) => {
 // 获取首页推荐主机
 export const recommendHosts = () => {
 	return cloudRequest({
-		url: 'api/host/recommend',
+		url: '/host/recommend',
 		method: 'GET',
 		interceptors: commonInterceptors
 	})
@@ -92,7 +92,7 @@ export const recommendHosts = () => {
 // 自定义配置页参数
 export const hostParameter = () => {
 	return cloudRequest({
-		url: 'api/host/parameter',
+		url: '/host/parameter',
 		method: 'GET',
 		interceptors: commonInterceptors
 	})
@@ -119,7 +119,7 @@ export const generateOrder = (data: orderReq) => {
 		order_id: string
 	}
 	return cloudRequest<orderReq, Res>({
-		url: 'api/host/order',
+		url: '/host/order',
 		method: 'POST',
 		data,
 		interceptors: commonInterceptors
@@ -134,7 +134,7 @@ export const customizePrice = (data: orderReq) => {
 		price: number
 	}
 	return cloudRequest<orderReq, Res>({
-		url: 'api/host/customize',
+		url: '/host/customize',
 		method: 'POST',
 		data,
 		interceptors: commonInterceptors
@@ -154,7 +154,7 @@ export const couponList = (data) => {
 		expired: Array<any>
 	}
 	return cloudRequest<Req, Res>({
-		url: 'api/coupon/list',
+		url: '/coupon/list',
 		method: 'GET',
 		data,
 		interceptors: commonInterceptors
@@ -172,7 +172,7 @@ export const availableCoupon = (data) => {
 		data: Array<any>
 	}
 	return cloudRequest<Req, Res>({
-		url: 'api/coupon/available',
+		url: '/coupon/available',
 		method: 'GET',
 		data,
 		interceptors: commonInterceptors
@@ -189,7 +189,7 @@ export const redeemCoupon = (data) => {
 		msg: string
 	}
 	return cloudRequest<Req, Res>({
-		url: 'api/coupon/redeem',
+		url: '/coupon/redeem',
 		method: 'POST',
 		data,
 		interceptors: commonInterceptors
@@ -209,7 +209,7 @@ export const orderList = (data) => {
 		data: any
 	}
 	return cloudRequest<Req, Res>({
-		url: 'api/order/list',
+		url: '/order/list',
 		method: 'GET',
 		data,
 		interceptors: commonInterceptors
@@ -234,7 +234,7 @@ export const orderDetail = (data) => {
 		expired_ts: number
 	}
 	return cloudRequest<Req, Res>({
-		url: 'api/order/detail',
+		url: '/order/detail',
 		method: 'GET',
 		data,
 		interceptors: commonInterceptors
@@ -250,7 +250,7 @@ export const payOrder = (data) => {
 		code: number
 	}
 	return cloudRequest<Req, Res>({
-		url: 'api/order/pay',
+		url: '/order/pay',
 		method: 'POST',
 		data,
 		interceptors: commonInterceptors
@@ -260,7 +260,7 @@ export const payOrder = (data) => {
 // 获取付款二维码
 export const paymentCode = (data) => {
 	const { type, digitalType } = data;
-	const url = digitalType ? `api/payments/${type}?token=${digitalType}` : `api/payments/${type}`;
+	const url = digitalType ? `/payments/${type}?token=${digitalType}` : `/payments/${type}`;
 	return cloudRequest({
 		url,
 		method: 'GET',
