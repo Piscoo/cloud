@@ -19,13 +19,13 @@ const Asider = (props) => {
 				<Link to="/user/products" className={`block-item product ${activeItemName == 'product' ? 'active' : ''}`}>
 					我的产品
 				</Link>
-				<Link to='/change-password' className={`block-item password ${activeItemName == 'password' ? 'active' : ''}`}>修改密码</Link>
+				<Link to='/user/change-password' className={`block-item password ${activeItemName == 'password' ? 'active' : ''}`}>修改密码</Link>
 			</div>
 			<div className="block">
 				<div className="block-title">财务管理</div>
 				<Link to='/user/bill' className={`block-item bill ${activeItemName == 'bill' ? 'active' : ''}`}>我的账单</Link>
-				<Link to='/get-new' className={`block-item get-new ${activeItemName == 'new' ? 'active' : ''}`}>用户推广</Link>
-				<Link to='/coupon' className={`block-item coupon ${activeItemName == 'coupon' ? 'active' : ''}`}>优惠券</Link>
+				<Link to='/user/get-new' className={`block-item get-new ${activeItemName == 'new' ? 'active' : ''}`}>用户推广</Link>
+				<Link to='/user/coupon' className={`block-item coupon ${activeItemName == 'coupon' ? 'active' : ''}`}>优惠券</Link>
 			</div>
 		</div>
 	)

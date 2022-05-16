@@ -80,6 +80,41 @@ let confirm_password = req.body.confirm_pAsswOrd;
 }
 ```
 
+## 重置密码
+```
+POST /user/reset_pwd
+
+参数
+emAil: "test@gmail.com"
+
+#修改成功返回
+{
+    "code": 0 //发送验证码到用户邮箱
+}
+```
+
+## 重置密码-输入邮箱验证码
+```
+POST /user/reset_pwd_verify
+
+参数
+emAil: "test@gmail.com",
+email_code: "12345678",
+pAsswOrd: "2idn2kn29djDjdk2ns",
+confirm_pAsswOrd: "2idn2kn29djDjdk2ns",
+
+#修改成功返回
+{
+    "code": 0
+}
+
+#失败返回
+{
+    code: -13, 
+    msg: '邮箱验证码已过期' 
+}
+```
+
 ## 获得首页推荐主机
 ```
 GET /host/recommend
@@ -334,6 +369,128 @@ paid_scenario: 0
 {
     "code":-3,
     "msg":"缺少参数 或 参数值无效"
+}
+```
+
+## 查询订单
+```
+GET /order/list?page_count=10&page_index=0&status=3
+
+参数:
+page_count = 10, //每页显示数量
+page_index = 0, //页码，从0开始
+status = 3, //订单状态：0 已支付; 1 未支付; 2 已过期; 3 收款中 4 全部
+
+#成功返回
+{
+    "code": 0,
+    "data": [
+        {
+            "id": "20220429161079",
+            "create_ts": 1651212580,
+            "expired_ts": 1651817380,
+            "price": 2488,
+            "type": 0,  //订单类型0:vps，1:其他
+            "status": 2
+        }
+    ],
+    "total": 1
+}
+
+#失败返回
+{
+    "code":-3,
+    "msg":"缺少参数 或 参数值无效"
+}
+```
+
+## 支付订单
+```
+POST /order/pay
+
+参数:
+order_id = 20220429161079 //订单id
+
+#成功返回
+{
+    code: 0
+}
+
+#失败返回
+{
+    "code":-3,
+    "msg":"缺少参数 或 参数值无效"
+}
+```
+
+## 订单详情
+```
+GET /order/detail
+
+参数:
+order_id = 20220429161079 //订单id
+
+#成功返回
+{
+    "code": 0,
+    "type": 0,
+    "data": {
+        "model": "cpu4ram8",
+        "os": "centos",
+        "os_bits": "x64",
+        "os_distribution": "Stream 9",
+        "platform": "intel",
+        "bandwidth": 200,
+        "system_disk_capacity": 100,
+        "data_disk_capacity": [
+            100
+        ],
+        "purchase_month": 5,
+        "price": 2538,
+        "area": "north_america",
+        "country": "usa",
+        "city": "new_york"
+    },
+    "id": 20220429161079,
+    "origin_price": 2538,
+    "final_price": 2488,
+    "paid_at_ts": -1,       //只有在status == 0（已付款）时，才有效
+    "status": 2,
+    "create_ts": 1651212580,
+    "expired_ts": 1651817380
+}
+
+#失败返回
+{
+    "code":-3,
+    "msg":"缺少参数 或 参数值无效"
+}
+```
+
+## 获取微信、支付宝二维码
+```
+GET /payments/wechat
+GET /payments/alipay
+
+#返回
+{
+    "code": 0,
+    "data": "/images/alipay.png"
+}
+```
+
+## 获取数字货币二维码
+```
+GET /payments/cryptos?token=usdt (usdt、btc、eth、xmr)
+
+#返回
+{
+    "code": 0,
+    "data": {
+        "address": "888tNkZrPN6JsEgekjMnABU4TBzc2Dt29EPAvkRxbANsAnjyPbb3iQ1YBRk1UXcdRsiKc9dhwMVgN5S9cQUiyoogDavup3H",
+        "path": "/images/cryptos/xmr.png",
+        "amount": 20
+    }
 }
 ```
 

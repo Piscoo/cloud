@@ -11,6 +11,7 @@ const Customize = lazy(() => import('@/pages/customize/customize'));
 const ConfirmOrder = lazy(() => import('@/pages/confirmOrder/confirmOrder'));
 const Bill = lazy(() => import('@/pages/bill/bill'));
 const BillDetail = lazy(() => import('@/pages/bill/billDetail'));
+const ChangePassword = lazy(() => import('@/pages/changePassword/changePassword'));
 
 const routers = [
 	{
@@ -69,6 +70,10 @@ const routers = [
 		path: '/user/bill/:id',
 		component: BillDetail,
 		exact: true
+	},
+	{
+		path: '/user/change-password',
+		component: ChangePassword
 	}
 ]
 
