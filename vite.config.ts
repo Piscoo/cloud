@@ -12,11 +12,19 @@ export default defineConfig({
 			libList: [
 				{
 					libName: 'antd',
-					style: (name) => `antd/lib/${name}/style/`
+					libDirectory: 'es',
+					style: (name) => `antd/es/${name}/style`
 				}
 			]
 		})
 	],
+	css: {
+		preprocessorOptions: {
+			less: {
+				javascriptEnabled: true,
+			}
+		}
+	},
 	resolve: {
 		alias: {
 			'@': path.resolve(__dirname, './src'),
