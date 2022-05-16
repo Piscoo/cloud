@@ -62,7 +62,7 @@ const request = new Request({
 	baseURL: baseUrl,
 	// baseURL: '/',
 	timeout: 10000,
-	withCredentials: true,
+	withCredentials: import.meta.env.DEV ? true : false,
 	interceptors: {
 		//实例请求拦截器
 		requestInterceptors: config => {
