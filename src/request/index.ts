@@ -59,8 +59,8 @@ class Request {
 console.log(import.meta.env.DEV)
 console.log(import.meta.env.PROD)
 const request = new Request({
-	baseURL: baseUrl,
-	// baseURL: '/',
+	// baseURL: baseUrl,
+	baseURL: '/api',
 	timeout: 10000,
 	withCredentials: import.meta.env.DEV ? true : false,
 	interceptors: {
