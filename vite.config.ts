@@ -31,7 +31,8 @@ export default defineConfig({
 		}
 	},
 	server: {
-		host: '127.0.0.1',
+		// host: '127.0.0.1',
+		host: 'https://cloud-coral.vercel.app',
 		proxy: {
 			'/api': {
 				target: 'http://49.233.34.234:8899/',
