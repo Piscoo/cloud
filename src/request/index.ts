@@ -59,10 +59,10 @@ class Request {
 console.log(import.meta.env.DEV)
 console.log(import.meta.env.PROD)
 const request = new Request({
-	// baseURL: baseUrl,
-	baseURL: '/api',
+	baseURL: baseUrl,
 	timeout: 10000,
-	withCredentials: import.meta.env.DEV ? true : false,
+	// withCredentials: import.meta.env.DEV ? true : false,
+	withCredentials: true,
 	interceptors: {
 		//实例请求拦截器
 		requestInterceptors: config => {
