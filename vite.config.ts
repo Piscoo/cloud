@@ -12,7 +12,7 @@ export default defineConfig({
 			libList: [
 				{
 					libName: 'antd',
-					style: (name) => `antd/lib/${name}/style/index.css`
+					style: (name) => `antd/lib/${name}/style/`
 				}
 			]
 		})
