@@ -90,7 +90,7 @@ function Register(props) {
 			noName: '请输入姓名',
 			noEmail: '请输入邮箱',
 			noPassword: '请输入密码',
-			passwordWrong: '密码至少六位',
+			passwordWrong: '密码至少八位',
 			passwordNotSame: '两次输入的密码不一致',
 			emailWrong: '请输入正确的邮箱地址'
 		};

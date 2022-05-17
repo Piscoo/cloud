@@ -4,7 +4,7 @@ import qs from 'qs'
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 import { RequestConfig, RequestInterceptors } from './types'
 
-const baseUrl = import.meta.env.PROD ? 'http://49.233.34.234:8899' : '/api';
+const baseUrl = import.meta.env.PROD ? 'http://49.233.34.234:8899' : '/';
 class Request {
 	instance: AxiosInstance
 	interceptorsObj?: RequestInterceptors
@@ -56,12 +56,11 @@ class Request {
 		})
 	}
 }
-console.log(import.meta.env.DEV)
-console.log(import.meta.env.PROD)
+// console.log(import.meta.env.DEV)
+// console.log(import.meta.env.PROD)
 const request = new Request({
 	baseURL: baseUrl,
 	timeout: 10000,
-	// withCredentials: import.meta.env.DEV ? true : false,
 	withCredentials: true,
 	interceptors: {
 		//实例请求拦截器

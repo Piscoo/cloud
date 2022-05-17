@@ -1,3 +1,4 @@
+// import
 import { Input } from 'antd'
 import { resetPassword } from '@/request/api'
 
@@ -11,11 +12,12 @@ export default function ResetForm(props: formProps) {
 	const inputEmailAddress = (e: { target: { value: string; }; }) => {
 		email = e.target.value;
 	}
-	const submitResetEmail = () => {
+	const submitResetEmail = async () => {
 		const data = {
-			email
+			emAil: email
 		}
-		resetPassword(data);
+		const res = await resetPassword(data);
+		if(res.data.code == 0) {}
 	}
 
 
