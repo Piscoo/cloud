@@ -467,6 +467,76 @@ order_id = 20220429161079 //订单id
 }
 ```
 
+## 获得产品列表
+```
+GET /product/list?page_count=10&page_index=0&status=2
+
+参数:
+page_count = 10, //每页显示数量
+page_index = 0, //页码，从0开始
+status = 2, //产品状态：0 运行中; 1 已终止; 2 全部
+
+#成功返回
+{
+    "code": 0,
+    "data": [
+        {
+            "id": "VPS-20220517",
+            "name": "usa-new_york-cpu4ram8",
+            "expired_ts": 1666001740,
+            "price": 2488,
+            "status": 0 //0: 运行中 1: 已终止
+        }
+    ],
+    "total": 1
+}
+```
+
+## 产品详情
+```
+GET /product/detail
+
+参数:
+order_id = VPS-20220517 //产品id
+
+#成功返回
+{
+    "code": 0,
+    "id": "VPS-20220517",
+    "name": "usa-new_york-cpu4ram8",
+    "configure": {
+        "model": "cpu4ram8",
+        "os": "centos",
+        "os_bits": "x64",
+        "os_distribution": "Stream 9",
+        "platform": "intel",
+        "bandwidth": 200,
+        "system_disk_capacity": 100,
+        "data_disk_capacity": [
+            100
+        ],
+        "purchase_month": 5,
+        "price": 2538,
+        "area": "north_america",
+        "country": "usa",
+        "city": "new_york"
+    },
+    "runtime": {
+        "ip": "1.1.1.1",
+        "hostname": "ubuntu20",
+        "username": "root",
+        "password": "password111"
+    },
+    "expired_ts": 1666001740
+}
+
+#失败返回
+{
+    "code":-3,
+    "msg":"缺少参数 或 参数值无效"
+}
+```
+
 ## 获取微信、支付宝二维码
 ```
 GET /payments/wechat
@@ -493,6 +563,7 @@ GET /payments/cryptos?token=usdt (usdt、btc、eth、xmr)
     }
 }
 ```
+
 
 ## 错误码
 ```

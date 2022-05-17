@@ -123,7 +123,6 @@ function Register(props) {
 	}
 	const goRegister = () => {
 		const okToGo: boolean = checkForm();
-		console.log(okToGo);
 		if(!okToGo) return;
 		const data = {
 			first_name: firstName,
