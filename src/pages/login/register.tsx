@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import { Input, Switch, Checkbox, Modal, InputNumber, message } from 'antd'
 import copy from 'copy-to-clipboard'
 import LeftBlock from './leftBlock'
@@ -140,8 +140,8 @@ function Register(props) {
 					message.success('注册成功，请登录');
 					const timer = setTimeout(() => {
 						props.history.push('/login');
+						clearTimeout(timer);
 					}, 1000);
-					clearTimeout(timer);
 					break;
 				case -9: 
 					message.error("该邮箱已注册");
@@ -274,4 +274,4 @@ function Register(props) {
   )
 }
 
-export default Register
+export default withRouter(Register)

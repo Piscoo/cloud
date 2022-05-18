@@ -1,23 +1,53 @@
-// import
-import { Input } from 'antd'
-import { resetPassword } from '@/request/api'
+import { useState } from 'react'
+import { withRouter } from 'react-router-dom'
+import { Input, message } from 'antd'
+import { resetPassword, resetPasswordByEmail } from '@/request/api'
+import NewPassword from '@/components/newPassword/newPassword';
 
 interface formProps {
 	changeFormType: (value: string) => void
 }
 
-export default function ResetForm(props: formProps) {
+const ResetForm = (props) => {
 	const { changeFormType } = props;
-	let email: string;
+	const [email, setEmail] = useState<string>('');
+	const [step, setStep] = useState<string>('email');
 	const inputEmailAddress = (e: { target: { value: string; }; }) => {
-		email = e.target.value;
+		setEmail(e.target.value);
 	}
 	const submitResetEmail = async () => {
+		if(!email) {
+			message.warning('请输入邮箱');
+			return;
+		}
 		const data = {
 			emAil: email
 		}
 		const res = await resetPassword(data);
-		if(res.data.code == 0) {}
+		if(res.data.code == 0) {
+			setStep('reset');
+		}
+	}
+	const cancelReset = () => {
+		setStep('email');
+	}
+	const inputFormFinish = async (data) => {
+		const obj = {
+			emAil: email,
+			email_code: data.verifyCode,
+			pAsswOrd: data.newPassword,
+			confirm_pAsswOrd: data.confirmPassword
+		}
+		const res = await resetPasswordByEmail(obj);
+		if(res.data.code == 0) {
+			message.success('密码重置成功，请使用新密码登录');
+			const timer = setTimeout(() => {
+				props.history.push('/login');
+				clearTimeout(timer);
+			}, 1000);
+		} else {
+			message.error(res.data?.msg);
+		}
 	}
 
 
@@ -28,11 +58,16 @@ export default function ResetForm(props: formProps) {
 			</div>
 			<div className="reset-form">
 				<div className="form-title">重置密码</div>
-				<div className="sub-form-title">密码忘记？请在下面填写您的邮件地址！</div>
-				<div className="email-name">邮箱地址</div>
-				<Input className="email-input form-input" placeholder='请输入邮箱地址' onChange={inputEmailAddress}></Input>
-				<div className="submit" onClick={submitResetEmail}>提交</div>
+				{step == 'email' && <>
+					<div className="sub-form-title">密码忘记？请在下面填写您的邮件地址！</div>
+					<div className="email-name">邮箱地址</div>
+					<Input className="email-input form-input" placeholder='请输入邮箱地址' onChange={inputEmailAddress}></Input>
+					<div className="submit" onClick={submitResetEmail}>提交</div>
+				</>}
+				{step == 'reset' && <NewPassword fromPage="login" inputFormFinish={inputFormFinish} cancel={cancelReset}></NewPassword>}
 			</div>
 		</div>
 	)
 }
+
+export default withRouter(ResetForm)

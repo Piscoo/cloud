@@ -1,12 +1,29 @@
 
+import { withRouter } from 'react-router-dom'
+import { message } from 'antd'
 import Layout from '@/components/layout/layout'
 import NewPassword from '@/components/newPassword/newPassword'
 import './changePassword.scss'
+import {changePassword} from '@/request/api'
 
-const ChangePassword = () => {
+const ChangePassword = (props) => {
 
-	const inputFormFinish = (data) => {
-		console.log(data)
+	const inputFormFinish = async (data) => {
+		const obj = {
+			old_pAsswOrd: data.oldPassword,
+			pAsswOrd: data.newPassword,
+			confirm_pAsswOrd: data.confirmPassword
+		}
+		const res = await changePassword(obj);
+		if(res.data.code == 0) {
+			message.success('密码修改成功，请重新登录');
+			const timer = setTimeout(() => {
+				props.history.push('/login');
+				clearTimeout(timer);
+			}, 1000);
+		} else {
+			message.error(res.data.msg);
+		}
 	}
 
 	return (
@@ -21,4 +38,4 @@ const ChangePassword = () => {
 	)
 }
 
-export default ChangePassword
+export default withRouter(ChangePassword)

@@ -4,7 +4,7 @@ import qs from 'qs'
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 import { RequestConfig, RequestInterceptors } from './types'
 
-const baseUrl = import.meta.env.PROD ? 'http://49.233.34.234:8899' : '/';
+const baseUrl = import.meta.env.PROD ? 'http://49.233.34.234:8899' : '/api';
 class Request {
 	instance: AxiosInstance
 	interceptorsObj?: RequestInterceptors

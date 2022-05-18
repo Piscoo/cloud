@@ -41,7 +41,7 @@ export const login = (data) => {
 		msg?: string
 	}
 	return cloudRequest<Req, Res>({
-		url: 'api/user/signin',
+		url: '/user/signin',
 		method: 'POST',
 		data,
 		interceptors: commonInterceptors
@@ -50,7 +50,7 @@ export const login = (data) => {
 
 export const signout = () => {
 	return cloudRequest({
-		url: 'api/user/signout',
+		url: '/user/signout',
 		method: 'GET',
 		interceptors: commonInterceptors
 	})
@@ -64,7 +64,7 @@ export const resetPassword = (data) => {
 		code: number
 	}
 	return cloudRequest<Req, Res>({
-		url: 'api/user/reset_pwd',
+		url: '/user/reset_pwd',
 		method: 'POST',
 		data,
 		interceptors: commonInterceptors
@@ -84,7 +84,7 @@ export const registerAccount = (data) => {
 		code: number
 	}
 	return cloudRequest<Req, Res>({
-		url: 'api/user/signup',
+		url: '/user/signup',
 		method: 'POST',
 		data,
 		interceptors: commonInterceptors
@@ -94,7 +94,7 @@ export const registerAccount = (data) => {
 // 获取首页推荐主机
 export const recommendHosts = () => {
 	return cloudRequest({
-		url: 'api/host/recommend',
+		url: '/host/recommend',
 		method: 'GET',
 		interceptors: commonInterceptors
 	})
@@ -103,7 +103,7 @@ export const recommendHosts = () => {
 // 自定义配置页参数
 export const hostParameter = () => {
 	return cloudRequest({
-		url: 'api/host/parameter',
+		url: '/host/parameter',
 		method: 'GET',
 		interceptors: commonInterceptors
 	})
@@ -130,7 +130,7 @@ export const generateOrder = (data: orderReq) => {
 		order_id: string
 	}
 	return cloudRequest<orderReq, Res>({
-		url: 'api/host/order',
+		url: '/host/order',
 		method: 'POST',
 		data,
 		interceptors: commonInterceptors
@@ -145,7 +145,7 @@ export const customizePrice = (data: orderReq) => {
 		price: number
 	}
 	return cloudRequest<orderReq, Res>({
-		url: 'api/host/customize',
+		url: '/host/customize',
 		method: 'POST',
 		data,
 		interceptors: commonInterceptors
@@ -165,7 +165,7 @@ export const couponList = (data) => {
 		expired: Array<any>
 	}
 	return cloudRequest<Req, Res>({
-		url: 'api/coupon/list',
+		url: '/coupon/list',
 		method: 'GET',
 		data,
 		interceptors: commonInterceptors
@@ -183,7 +183,7 @@ export const availableCoupon = (data) => {
 		data: Array<any>
 	}
 	return cloudRequest<Req, Res>({
-		url: 'api/coupon/available',
+		url: '/coupon/available',
 		method: 'GET',
 		data,
 		interceptors: commonInterceptors
@@ -200,7 +200,7 @@ export const redeemCoupon = (data) => {
 		msg: string
 	}
 	return cloudRequest<Req, Res>({
-		url: 'api/coupon/redeem',
+		url: '/coupon/redeem',
 		method: 'POST',
 		data,
 		interceptors: commonInterceptors
@@ -220,7 +220,7 @@ export const orderList = (data) => {
 		data: any
 	}
 	return cloudRequest<Req, Res>({
-		url: 'api/order/list',
+		url: '/order/list',
 		method: 'GET',
 		data,
 		interceptors: commonInterceptors
@@ -245,7 +245,7 @@ export const orderDetail = (data) => {
 		expired_ts: number
 	}
 	return cloudRequest<Req, Res>({
-		url: 'api/order/detail',
+		url: '/order/detail',
 		method: 'GET',
 		data,
 		interceptors: commonInterceptors
@@ -261,7 +261,7 @@ export const payOrder = (data) => {
 		code: number
 	}
 	return cloudRequest<Req, Res>({
-		url: 'api/order/pay',
+		url: '/order/pay',
 		method: 'POST',
 		data,
 		interceptors: commonInterceptors
@@ -275,6 +275,64 @@ export const paymentCode = (data) => {
 	return cloudRequest({
 		url,
 		method: 'GET',
+		interceptors: commonInterceptors
+	})
+}
+
+// 邮箱验证码重置密码
+export const resetPasswordByEmail = (data) => {
+	interface Req {
+		emAil: string
+		email_code: number
+		pAsswOrd: number
+		confirm_pAsswOrd: number
+	}
+	interface Res {
+		code: number
+		msg?: string
+	}
+	return cloudRequest<Req, Res>({
+		url: '/user/reset_pwd_verify',
+		method: 'POST',
+		data,
+		interceptors: commonInterceptors
+	})
+}
+
+export const changePassword = (data) => {
+	interface Req {
+		old_pAsswOrd: number
+		pAsswOrd: number
+		confirm_pAsswOrd: number
+	}
+	interface Res {
+		code: number
+		msg?: string
+	}
+	return cloudRequest<Req, Res>({
+		url: '/user/modify_pwd',
+		method: 'POST',
+		data,
+		interceptors: commonInterceptors
+	})
+}
+
+// 获取产品列表
+export const productsList = (data) => {
+	interface Req {
+		page_index: number
+		page_count: number
+		status: number
+	}
+	interface Res {
+		code: number
+		total: number
+		data: any
+	}
+	return cloudRequest<Req, Res>({
+		url: '/product/list',
+		method: 'GET',
+		data,
 		interceptors: commonInterceptors
 	})
 }

@@ -1,9 +1,41 @@
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import Layout from '@/components/layout/layout'
 import './user.scss'
+import {orderList, productsList} from '@/request/api'
 
 
 const User = () => {
+
+	const [billList, setBillList] = useState<Array<any>>([]);
+	const [productList, setProductList] = useState<Array<any>>([]);
+
+	useEffect(() => {
+		const data = {
+			page_index: 0,
+			page_count: 10,
+			status: 1
+		}
+		const getOrderList = async () => {
+			const res = await orderList(data);
+			if(res.data.code == 0) setBillList(res.data.data);
+		}
+		getOrderList();
+	}, [])
+	useEffect(() => {
+		const data = {
+			page_index: 0,
+			page_count: 10,
+			status: 0
+		}
+		const getProductsList = async () => {
+			const res = await productsList(data);
+			if(res.data.code == 0) setProductList(res.data.data);
+		}
+		getProductsList();
+	}, [])
+
+
 	return (
 		<Layout pageName='user' userPage={true}>
 			<div className="user-page-content-container">
@@ -46,18 +78,24 @@ const User = () => {
 				</div>
 				<div className="messages-container">
 					<div className="user-msg-list-box">
-						<div className="list-box-title">您已激活的产品/服务（0）</div>
-						<div className="list-empty product">
+						<div className="list-box-title">您已激活的产品/服务（{productList?.length || 0}）</div>
+						{productList?.length == 0 && <div className="list-empty product">
 							<div className="img"></div>
 							<div className="empty-word">暂无产品/服务，赶紧选购吧！</div>
-						</div>
+						{productList?.length > 0 && <div className="list-empty product">
+							<div className="empty-word">暂无产品/服务，赶紧选购吧！</div>
+						</div>}
+						</div>}
 					</div>
 					<div className="user-msg-list-box">
-						<div className="list-box-title">未付款的账单（0）</div>
-						<div className="list-empty bill">
+						<div className="list-box-title">未付款的账单（{billList?.length || 0}）</div>
+						{billList?.length == 0 && <div className="list-empty bill">
 							<div className="img"></div>
 							<div className="empty-word">暂无未付款的账单！</div>
-						</div>
+						</div>}
+						{billList?.length > 0 && <div className="list-empty bill">
+							<div className="empty-word">暂无未付款的账单！</div>
+						</div>}
 					</div>
 					<div className="user-msg-list-box">
 						<div className="list-box-title">最近的工单（0）</div>

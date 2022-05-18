@@ -3,10 +3,10 @@ import { Input, message } from 'antd'
 import './newPassword.scss'
 
 const NewPassword = (props) => {
-	const { fromPage, inputFormFinish } = props;
+	const { fromPage, inputFormFinish, cancel } = props;
 	// fromPage: user / login
 	const [oldPassword, setOldPassword] = useState<number | undefined>(undefined);
-	const [vertifyCode, setVertifyCode] = useState<number | undefined>(undefined);
+	const [verifyCode, setVerifyCode] = useState<number | undefined>(undefined);
 	const [newPassword, setNewPassword] = useState<number | undefined>(undefined);
 	const [confirmPassword, setConfirmPassword] = useState<number | undefined>(undefined);
 	const [strengthBgColor, setStrengthBgColor] = useState<string>();
@@ -16,8 +16,8 @@ const NewPassword = (props) => {
 	const inputOldPassword = (e) => {
 		setOldPassword(e.target.value);
 	}
-	const inputVertifyCode = (e) => {
-		setVertifyCode(e.target.value);
+	const inputVerifyCode = (e) => {
+		setVerifyCode(e.target.value);
 	}
 	const inputNewPassword = (e) => {
 		const psd = e.target.value;
@@ -60,13 +60,13 @@ const NewPassword = (props) => {
 	
 	const checkForm = () => {
 		const msgList = {
-			noVertify: '请输入验证码',
+			noVerify: '请输入验证码',
 			noPassword: '请输入密码',
-			passwordWrong: '密码至少六位',
+			passwordWrong: '密码至少八位',
 			passwordNotSame: '两次输入的密码不一致',
 		};
-		if(fromPage == 'login' && !vertifyCode) {
-			message.warning(msgList.noVertify);
+		if(fromPage == 'login' && !verifyCode) {
+			message.warning(msgList.noVerify);
 			return false;
 		}
 		if(!newPassword || !confirmPassword) {
@@ -89,7 +89,7 @@ const NewPassword = (props) => {
 		if(!okToGo) return;
 		const formData = {
 			oldPassword,
-			vertifyCode,
+			verifyCode,
 			newPassword,
 			confirmPassword,
 		}
@@ -97,14 +97,14 @@ const NewPassword = (props) => {
 	}
 
 	return (
-		<div className="new-passowrd-container">
+		<div className={`new-passowrd-container ${fromPage}-new-password`}>
 			{fromPage == 'user' && <div className="psd-item">
 				<div className="item-label-name">当前密码</div>
-				<Input value={oldPassword} size="large" placeholder='请输入当前密码' onChange={inputOldPassword}></Input>
+				<Input.Password value={oldPassword} size="large" placeholder='请输入当前密码' onChange={inputOldPassword}></Input.Password>
 			</div>}
 			{fromPage == 'login' && <div className="psd-item">
 				<div className="item-label-name">验证码</div>
-				<Input value={vertifyCode} size="large" placeholder='请输入验证码' onChange={inputVertifyCode}></Input>
+				<Input value={verifyCode} size="large" placeholder='请输入验证码' onChange={inputVerifyCode}></Input>
 			</div>}
 			<div className="psd-item">
 				<div className="item-label-name">新密码</div>
@@ -127,7 +127,10 @@ const NewPassword = (props) => {
 				<div className="item-label-name">确认新密码</div>
 				<Input.Password value={confirmPassword} size="large" placeholder='请再次输入新密码' onChange={inputConfirmPassword}></Input.Password>
 			</div>
-			<div className="btn-confirm finish-password" onClick={inputFinish}>{fromPage == 'user' ? '保存并修改' : '确定'}</div>
+			<div className="reset-btns">
+				{fromPage == 'login' && <div className="cancel-btn" onClick={cancel}>取消</div>}
+				<div className="btn-confirm finish-password" onClick={inputFinish}>{fromPage == 'user' ? '保存并修改' : '提交'}</div>
+			</div>
 		</div>
 	)
 }
