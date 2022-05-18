@@ -106,6 +106,7 @@
 		justify-content: space-between;
 		.user-msg-list-box {
 			width: calc(50% - 10px);
+			max-height: 500px;
 			margin-top: 20px;
 			padding: 16px 20px;
 			background: #FFFFFF;
@@ -153,6 +154,46 @@
 							background: url("@/images/user/#{$icon}-empty.svg");
 							background-size: contain;
 						}
+					}
+				}
+			}
+		}
+		.msg-list-box {
+			margin-top: 20px;
+			height: calc(100% - 40px);
+			overflow-y: scroll;
+			.msg-list-item {
+				width: 100%;
+				padding: 16px 20px;
+				border-radius: 5px;
+				font-size: 18px;
+				background: #f9f9fa;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				&:nth-child(even) {
+					background: #fff;
+				}
+				&:hover {
+					box-shadow: 0px 0px 19px 0px rgba(0,0,0,0.1);
+				}
+			}
+			.bill-list-item {
+				.bill-info {
+					.bill-number {
+						color: #0360FF;
+					}
+					.bill-time {
+						margin-top: 10px;
+						font-size: 16px;
+						color: #666;
+					}
+				}
+				.bill-price {
+					font-size: 16px;
+					color: #ff8035;
+					.num {
+						font-size: 24px;
 					}
 				}
 			}

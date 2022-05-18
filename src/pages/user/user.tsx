@@ -93,8 +93,16 @@ const User = () => {
 							<div className="img"></div>
 							<div className="empty-word">暂无未付款的账单！</div>
 						</div>}
-						{billList?.length > 0 && <div className="list-empty bill">
-							<div className="empty-word">暂无未付款的账单！</div>
+						{billList?.length > 0 && <div className="msg-list-box">
+							{billList.map((item) => (
+								<div className="msg-list-item bill-list-item" key={item.id}>
+									<div className="bill-info">
+										<div className="bill-number">#{item.id}</div>
+										<div className="bill-time">到期时间：{item.id}</div>
+									</div>
+									<div className="bill-price">¥ <span className="num">{item.price}</span></div>
+								</div>
+							))}
 						</div>}
 					</div>
 					<div className="user-msg-list-box">
