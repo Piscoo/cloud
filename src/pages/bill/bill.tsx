@@ -37,7 +37,7 @@ const Bill = () => {
 		1: 'error',
 		2: '#999999',
 		3: 'warning'
-	}
+	};
 	const columns = [
 		{
 			title: '账单',
@@ -50,25 +50,25 @@ const Bill = () => {
 		{
 			title: '账单日期',
 			dataIndex: 'create_ts',
-			key: 'id',
+			key: 'create_ts',
 			render: text => new Date(text * 1000).toLocaleDateString()
 		},
 		{
 			title: '过期日期',
 			dataIndex: 'expired_ts',
-			key: 'id',
+			key: 'expired_ts',
 			render: text => new Date(text * 1000).toLocaleDateString()
 		},
 		{
 			title: '合计',
 			dataIndex: 'price',
-			key: 'id',
+			key: 'price',
 			render: text => ('¥' + text + ' RMB')
 		},
 		{
 			title: '状态',
 			dataIndex: 'status',
-			key: 'id',
+			key: 'status-id',
 			render: (status, item) => (
 				<>
 					<Tag color={colorList[status]} key={item.id}>{statusList[status]}</Tag>

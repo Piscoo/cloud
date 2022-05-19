@@ -82,9 +82,14 @@ const User = () => {
 						{productList?.length == 0 && <div className="list-empty product">
 							<div className="img"></div>
 							<div className="empty-word">暂无产品/服务，赶紧选购吧！</div>
-						{productList?.length > 0 && <div className="list-empty product">
-							<div className="empty-word">暂无产品/服务，赶紧选购吧！</div>
 						</div>}
+						{productList?.length > 0 && <div className="msg-list-box">
+							{productList.map(item => (
+								<Link to={`/user/products/${item.id}`} className="msg-list-item product-list-item" key={item.id}>
+									<div className="product-id">{item.id}</div>
+									<div className="product-expired">到期时间：{new Date(item.expired_ts * 1000).toLocaleDateString()}</div>
+								</Link>
+							))}
 						</div>}
 					</div>
 					<div className="user-msg-list-box">
@@ -95,13 +100,13 @@ const User = () => {
 						</div>}
 						{billList?.length > 0 && <div className="msg-list-box">
 							{billList.map((item) => (
-								<div className="msg-list-item bill-list-item" key={item.id}>
+								<Link to={`/user/bill/${item.id}`} className="msg-list-item bill-list-item" key={item.id}>
 									<div className="bill-info">
 										<div className="bill-number">#{item.id}</div>
-										<div className="bill-time">到期时间：{item.id}</div>
+										<div className="bill-time">到期时间：{new Date(item.expired_ts * 1000).toLocaleDateString()}</div>
 									</div>
 									<div className="bill-price">¥ <span className="num">{item.price}</span></div>
-								</div>
+								</Link>
 							))}
 						</div>}
 					</div>
@@ -109,7 +114,7 @@ const User = () => {
 						<div className="list-box-title">最近的工单（0）</div>
 						<div className="list-empty ticket">
 							<div className="img"></div>
-							<div className="empty-word">暂无最近工单，赶紧选购吧！</div>
+							<div className="empty-word">暂无最近工单</div>
 						</div>
 					</div>
 					<div className="user-msg-list-box">

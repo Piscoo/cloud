@@ -336,3 +336,13 @@ export const productsList = (data) => {
 		interceptors: commonInterceptors
 	})
 }
+
+// 获取产品详情
+export const productDetail = (data) => {
+	return cloudRequest({
+		url: '/product/detail',
+		method: 'GET',
+		data,
+		interceptors: commonInterceptors
+	})
+}
