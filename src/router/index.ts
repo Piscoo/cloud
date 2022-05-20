@@ -12,6 +12,8 @@ const ConfirmOrder = lazy(() => import('@/pages/confirmOrder/confirmOrder'));
 const Bill = lazy(() => import('@/pages/bill/bill'));
 const BillDetail = lazy(() => import('@/pages/bill/billDetail'));
 const ChangePassword = lazy(() => import('@/pages/changePassword/changePassword'));
+const Coupon = lazy(() => import('@/pages/coupon/coupon'));
+const GetNew = lazy(() => import('@/pages/getNew/getNew'));
 
 const routers = [
 	{
@@ -74,6 +76,14 @@ const routers = [
 	{
 		path: '/user/change-password',
 		component: ChangePassword
+	},
+	{
+		path: '/user/coupon',
+		component: Coupon
+	},
+	{
+		path: '/user/get-new',
+		component: GetNew
 	}
 ]
 

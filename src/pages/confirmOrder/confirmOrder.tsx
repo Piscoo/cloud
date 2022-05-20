@@ -151,7 +151,7 @@ const ConfirmOrder = (props) => {
 										<div>代金券抵扣<span className="value">{-choosedCoupon?.value}</span></div>
 									</div>}
 								</div>
-								<div className="coupon-num-tip">你有3张代金券，其中2张可用。</div>
+								<div className="coupon-num-tip">你有{couponList.length}张代金券，其中{couponList.length}张可用。</div>
 								<div className="avaliable-coupon-box">
 									{couponList.length == 0 && <div className="no-coupon">
 										<Empty

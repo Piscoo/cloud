@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="14px" height="17px" viewBox="0 0 14 17" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52 (66869) - http://www.bohemiancoding.com/sketch -->
+    <title>kaiji</title>
+    <desc>Created with Sketch.</desc>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="产品详情" transform="translate(-1314.000000, -520.000000)" fill="#0360FF" fill-rule="nonzero">
+            <g id="kaiji" transform="translate(1314.000000, 520.000000)">
+                <path d="M0.7,16.84375 C0.56,16.84375 0.49,16.84375 0.35,16.77375 C0.14,16.63375 0,16.42375 0,16.14375 L0,0.74375 C0,0.46375 0.14,0.25375 0.35,0.11375 C0.56,-0.02625 0.84,-0.02625 1.05,0.11375 L13.65,7.81375 C13.86,7.95375 14,8.16375 14,8.44375 C14,8.72375 13.86,8.93375 13.65,9.07375 L1.05,16.77375 C0.98,16.84375 0.84,16.84375 0.7,16.84375 Z M1.4,2.00375 L1.4,14.88375 L11.97,8.44375 L1.4,2.00375 Z" id="形状"></path>
+            </g>
+        </g>
+    </g>
+</svg>

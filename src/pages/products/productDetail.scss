@@ -3,8 +3,10 @@
 	height: 100%;
 	padding: 14px;
 	background: #fff;
+	color: #333;
 	box-shadow: 0px 6px 10px 0px rgba(0, 0, 0, 0.09);
 	border-radius: 8px;
+	overflow-y: scroll;
 	.container-title-box {
 		display: flex;
 		align-items: center;
@@ -25,6 +27,201 @@
 				left: 0;
 				top: 50%;
 				transform: translateY(-50%);
+			}
+		}
+		.top-btns {
+			.btn-item {
+				border-radius: 5px;
+			}
+		}
+	}
+	.product-display-info {
+		margin-top: 20px;
+		padding: 30px;
+		background: #f9f9fa;
+		.product-status-box {
+			.name-id {
+				.product-name {
+					font-size: 24px;
+					font-weight: 500;
+					line-height: 33px;
+				}
+				.product-id {
+					margin-top: 10px;
+					font-size: 21px;
+					font-weight: 400;
+					color: #666666;
+					line-height: 29px;
+				}
+			}
+		}
+	}
+	.product-configs {
+		margin-top: 40px;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		.config-item {
+			padding: 10px 20px 10px 30px;
+			background: #fff;
+			box-shadow: 0px 9px 16px 0px rgba(0,0,0,0.03);
+			border-radius: 5px;
+			&.small {
+				width: 21.5%;
+			}
+			&.big {
+				width: 30%;
+			}
+			.config-name {
+				font-size: 18px;
+				color: #666;
+			}
+			.config-value {
+				margin-top: 20px;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				.value-num {
+					font-size: 32px;
+					.unit {
+						font-size: 19px;
+					}
+				}
+				.config-icon {
+					$icons: ('cpu', 'system', 'disk', 'mac');
+					@each $icon in $icons {
+						&.#{$icon} {
+							width: 32px;
+							height: 33px;
+							background: url("@/images/user/#{$icon}.svg") center no-repeat;
+							background-size: contain;
+						}
+					}
+				}
+			}
+		}
+	}
+	.product-detail-info {
+		margin-top: 40px;
+		display: flex;
+		justify-content: space-between;
+		.product-runtime {
+			width: 44%;
+			.runtime-item {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				font-size: 18px;
+				line-height: 58px;
+				padding: 0 30px;
+				margin-bottom: 20px;
+				border-radius: 5px;
+				background: #F9F9FA;
+				.runtime-label {
+					font-weight: 500;
+				}
+				.runtime-value {
+					&.status {
+						color: #1BB934;
+					}
+					.change-view-type {
+						display: inline-block;
+						margin-left: 12px;
+						width: 20px;
+						height: 16px;
+						cursor: pointer;
+						&.password {
+							background: url('@/images/user/hide-password.svg') center no-repeat;
+							background-size: contain;
+						}
+						&.text {
+							background: url('@/images/user/show-password.svg') center no-repeat;
+							background-size: contain;
+						}
+					}
+				}
+			}
+		}
+		.product-operator {
+			width: 50%;
+			.product-traffic-box {
+				padding-top: 12px;
+				.traffic-title {
+					font-size: 18px;
+					display: flex;
+					align-items: center;
+					justify-content: space-between;
+					.name {
+						font-weight: 500;
+					}
+					.traffic-count {
+						.count {
+							color: #999;
+						}
+					}
+				}
+				.traffic-pipe	{
+					width: 100%;
+					height: 32px;
+					margin-top: 16px;
+					border-radius: 5px;
+					background: #EDF0F6;
+					position: relative;
+					overflow: hidden;
+					.pipe-progress {
+						width: 0;
+						height: 100%;
+						background-color: #0360FF;
+						background-image: linear-gradient(45deg,rgba(255,255,255,.5) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.5) 50%,rgba(255,255,255,.5) 75%,transparent 75%,transparent);
+						background-size: 20px 20px;
+						transition: width .6s ease;
+					}
+					.pipe-value {
+						font-size: 18px;
+						margin-left: 10px;
+						position: absolute;
+						top: 50%;
+						transform: translateY(-50%);
+					}
+				}
+			}
+			.operators-box {
+				margin-top: 50px;
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: space-between;
+				.operator-item {
+					width: 32%;
+					margin-top: 26px;
+					border-radius: 5px;
+					border: 1px solid #0360FF;
+					padding: 16px 0;
+					cursor: pointer;
+					transition: all .3s ease;
+					&:hover {
+						background: rgba(3, 96, 255, .12);
+						border: 1px solid rgba(3, 96, 255, .12);
+					}
+					.op-logo {
+						width: 21px;
+						height: 24px;
+						margin: 0 auto;
+						$logos: ('restart', 'start', 'shut-down', 'reload', 'reset', 'vnc');
+						@each $logo in $logos {
+							&.#{$logo} {
+								background: url("@/images/user/#{$logo}.svg") center no-repeat;
+								background-size: contain;
+							}
+						}
+					}
+					.op-name {
+						margin-top: 6px;
+						font-size: 18px;
+						color: #0360FF;
+						text-align: center;
+						font-weight: 500;
+					}
+				}
 			}
 		}
 	}
