@@ -346,3 +346,13 @@ export const productDetail = (data) => {
 		interceptors: commonInterceptors
 	})
 }
+
+// 用户推广内容
+export const promoteDetail = (data) => {
+	return cloudRequest({
+		url: '/promote',
+		method: 'GET',
+		data,
+		interceptors: commonInterceptors
+	})
+}
