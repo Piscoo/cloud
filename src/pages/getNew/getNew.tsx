@@ -15,6 +15,10 @@ const GetNew = (props) => {
 		<Layout pageName='new' lastBreadcrumbName='用户推广'>
 			<div className="getnew-page-container">
 				<div className="getnew-title">用户推广</div>
+				<div className="property-container">
+					<div className="property-item property-left"></div>
+					<div className="property-item property-right"></div>
+				</div>
 			</div>
 		</Layout>
 	)
