@@ -135,9 +135,13 @@ const ConfirmOrder = (props) => {
 												<div className="item-name">带宽</div>
 												<div className="item-value">{customizeData.bandwidth}Mbps</div>
 											</div>
+											<div className="item">
+												<div className="item-name">是否需要独立IP</div>
+												<div className="item-value">{customizeData.need_public_ip ? '是' : '否'}</div>
+											</div>
 										</div>
 										<div className="cell value-cell">{customizeData.purchase_month}个月</div>
-										<div className="cell value-cell cell-small">{customizeData.buyNum}</div>
+										<div className="cell value-cell cell-small">{customizeData.purchase_nb}</div>
 										<div className="cell value-cell cell-small">预付款</div>
 										<div className="cell value-cell">¥{(customizeData.price / customizeData.purchase_month).toFixed(2)}元/月</div>
 									</div>
@@ -197,7 +201,7 @@ const ConfirmOrder = (props) => {
 									</div>
 									<div className="order-product-item coupon-discount">
 										<div className="order-item-name">优惠抵扣：</div>
-										<div className="coupon-price">{choosedCoupon?.value || 0}元</div>
+										<div className="coupon-price">{`-${choosedCoupon?.value} || 0`}元</div>
 									</div>
 								</div>
 								<div className="need-pay order-product-item">

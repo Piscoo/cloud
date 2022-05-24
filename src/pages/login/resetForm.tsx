@@ -26,6 +26,9 @@ const ResetForm = (props) => {
 		const res = await resetPassword(data);
 		if(res.data.code == 0) {
 			setStep('reset');
+			message.success('验证码已发送至邮箱');
+		} else {
+			message.error(res.data.msg)
 		}
 	}
 	const cancelReset = () => {

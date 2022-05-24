@@ -5,3 +5,10 @@
 body {
 	line-height: 1.2;
 }
+body div::-webkit-scrollbar {
+	display: none;
+}
+body div {
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+}

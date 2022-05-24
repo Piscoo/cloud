@@ -62,6 +62,7 @@ export const resetPassword = (data) => {
 	}
 	interface Res {
 		code: number
+		msg?: string
 	}
 	return cloudRequest<Req, Res>({
 		url: '/user/reset_pwd',

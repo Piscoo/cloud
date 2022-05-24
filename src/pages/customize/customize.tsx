@@ -45,6 +45,8 @@ const Customize = (props) => {
 		system_disk_capacity: number
 		data_disk_capacity: number[]
 		purchase_month: number
+		need_public_ip: boolean
+		purchase_nb: number
 	}
 
 	const dataDiskSelectOptions = [
@@ -82,7 +84,7 @@ const Customize = (props) => {
 	const [buyTimeValue, setBuyTimeValue] = useState<number>(propsCustomizeData?.purchase_month || 6);
 	const [dataDiskList, setDataDiskList] = useState<Array<DataDiskItem>>([defaultDataDiskItem]);
 	const [internetSpeed, setInternetSpeed] = useState<number>(200);
-	const [isUseFreeNet, setIsUseFreeNet] = useState<boolean>(false);
+	const [isUseFreeNet, setIsUseFreeNet] = useState<boolean>(true);
 	const [systemDiskType, setSystemDiskType] = useState<string>('high');
 	const [rebuyOrNot, setRebuyOrNot] = useState<boolean>(false);
 	const [buyNumber, setBuyNumber] = useState<number>(1);
@@ -104,6 +106,8 @@ const Customize = (props) => {
 		system_disk_capacity: systemDiskSize,
 		data_disk_capacity: [50],
 		purchase_month: buyTimeValue,
+		need_public_ip: isUseFreeNet,
+		purchase_nb: buyNumber
 	}
 	const [customizeReqData, setCustomizeReqData] = useState<ICustomize>(customizeData);
 
@@ -141,8 +145,10 @@ const Customize = (props) => {
 			setSysTemPlatform(propsCustomizeData.os_distribution);
 			setDistributionName(propsCustomizeData.os + propsCustomizeData.os_distribution + propsCustomizeData.os_bits.replace('x', '') + '位');
 			setChoosedModel(propsCustomizeData.model);
-			const {city, model, os, os_bits, os_distribution, platform, bandwidth, system_disk_capacity, data_disk_capacity, purchase_month} = propsCustomizeData
-			setCustomizeReqData({city, model, os, os_bits, os_distribution, platform, bandwidth, system_disk_capacity, data_disk_capacity, purchase_month});
+			setIsUseFreeNet(propsCustomizeData.need_public_ip);
+			setBuyNumber(propsCustomizeData.purchase_nb)
+			const {city, model, os, os_bits, os_distribution, platform, bandwidth, system_disk_capacity, data_disk_capacity, purchase_month, need_public_ip, purchase_nb} = propsCustomizeData
+			setCustomizeReqData({city, model, os, os_bits, os_distribution, platform, bandwidth, system_disk_capacity, data_disk_capacity, purchase_month, need_public_ip, purchase_nb});
 			const diskList: Array<DataDiskItem> = new Array(propsCustomizeData.data_disk_capacity.length).fill(defaultDataDiskItem);
 			const copy: Array<DataDiskItem> = diskList.map((item, index) => {
 				const newItem = {...item, ['dataDiskSize']: propsCustomizeData.data_disk_capacity[index]};
@@ -195,6 +201,7 @@ const Customize = (props) => {
 
 	const changeUseFreeNetwork = (e) => {
 		setIsUseFreeNet(e.target.value);
+		setCustomizeReqData({...customizeReqData, ['need_public_ip']: e.target.value});
 	};
 
 	const speedSliderMarks = {
@@ -251,6 +258,7 @@ const Customize = (props) => {
 		setDataDiskList([...dataDiskList]);
 	};
 	const addANewDataDiskItem = ()  => {
+		if(dataDiskList.length >= 5) return;
 		setDataDiskList([...dataDiskList, defaultDataDiskItem]);
 	};
 
@@ -270,13 +278,14 @@ const Customize = (props) => {
 		setBuyTimeValue(e.target.value);
 		setCustomizeReqData({...customizeReqData, ['purchase_month']: e.target.value});
 	};
-
+	
 	const changeRebuyOrNot = (e) => {
 		setRebuyOrNot(e.target.checked);
 	};
-
+	
 	const changeBuyNumber = (e: number): void => {
 		setBuyNumber(e);
+		setCustomizeReqData({...customizeReqData, ['purchase_nb']: e});
 	}
 
 	const changeAgreeContract = (e) => {
@@ -297,7 +306,7 @@ const Customize = (props) => {
 			return;
 		}
 		// localStorage.setItem('customizeData', JSON.stringify(customizeReqData));
-		const pageData = {...customizeReqData,['tab']: activeTab, ['country']: choosedCountry, ['price']: totalPrice, ['buyNum']: buyNumber};
+		const pageData = {...customizeReqData,['tab']: activeTab, ['country']: choosedCountry, ['price']: totalPrice};
 		props.history.push({
 			pathname: '/confirm-order',
 			state: {customizeData: pageData}
@@ -395,7 +404,7 @@ const Customize = (props) => {
 							<div className="block-label">公网宽带</div>
 							<div className="block-content">
 								<div className="use-free-network">
-									<Checkbox onChange={changeUseFreeNetwork}>免费分配独立公网IP</Checkbox>
+									<Checkbox onChange={changeUseFreeNetwork}>分配独立公网IP</Checkbox>
 								</div>
 								<div className="internet-speed">
 									<Row>
@@ -436,6 +445,7 @@ const Customize = (props) => {
 											<Tooltip title="可选硬盘容量：50-1024GB">
 												<InputNumber
 													min={50}
+													max={1024}
 													step={10}
 													value={systemDiskSize}
 													onChange={changeSystemDiskSize}
@@ -465,6 +475,7 @@ const Customize = (props) => {
 											<Tooltip title="可选硬盘容量：50-1024GB">
 												<InputNumber
 													min={50}
+													max={1024}
 													step={10}
 													value={disk.dataDiskSize}
 													onChange={(e) => changeDataDiskItemValue('dataDiskSize', e, index)}
@@ -518,6 +529,7 @@ const Customize = (props) => {
 							<div className="block-content">
 								<InputNumber
 									min={1}
+									max={10}
 									value={buyNumber}
 									onChange={(e) => changeBuyNumber(e)}
 								/>
