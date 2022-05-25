@@ -201,7 +201,7 @@ const ConfirmOrder = (props) => {
 									</div>
 									<div className="order-product-item coupon-discount">
 										<div className="order-item-name">优惠抵扣：</div>
-										<div className="coupon-price">{`-${choosedCoupon?.value} || 0`}元</div>
+										<div className="coupon-price">{choosedCoupon && choosedCoupon?.value > 0 ? -choosedCoupon?.value : 0}元</div>
 									</div>
 								</div>
 								<div className="need-pay order-product-item">

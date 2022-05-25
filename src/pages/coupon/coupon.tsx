@@ -24,8 +24,8 @@ const Coupon = (props) => {
 		}
 		const res = await couponList(data);
 		setAllCouponList(res.data);
-		setTableData(allCouponList?.[activeTab]);
-		setTotal(tableData?.length);
+		setTableData(res.data[activeTab]);
+		setTotal(res.data[activeTab]?.length);
 	}
 	useEffect(() => {
 		getCouponList();

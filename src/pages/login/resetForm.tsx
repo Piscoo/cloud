@@ -45,9 +45,9 @@ const ResetForm = (props) => {
 		if(res.data.code == 0) {
 			message.success('密码重置成功，请使用新密码登录');
 			const timer = setTimeout(() => {
-				props.history.push('/login');
+				changeFormType('login');
 				clearTimeout(timer);
-			}, 1000);
+			}, 500);
 		} else {
 			message.error(res.data?.msg);
 		}

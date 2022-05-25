@@ -9,6 +9,8 @@ import { isEmail } from '@/utils/is'
 
 
 function Register(props) {
+	const params = new URL(location.href).searchParams;
+	const promote_code = params.get('promote_code');
 	const [firstName, setFirstName] = useState<string>();
 	const [lastName, setLastName] = useState<string>();
 	const [email, setEmail] = useState<string>('');
@@ -130,8 +132,9 @@ function Register(props) {
 			emAil: email,
 			is_subscribe: isSubscribe,
 			pAsswOrd: password,
-			confirm_pAsswOrd: rePassword
+			confirm_pAsswOrd: rePassword,
 		};
+		if(promote_code) data[promote_code] = promote_code;
 		// agreeTerms,
 		registerAccount(data).then(res => {
 			const code = res?.data?.code;
@@ -147,6 +150,7 @@ function Register(props) {
 					message.error("该邮箱已注册");
 				break;
 				default:
+					message.error(res.data.msg);
 					break;
 			}
 		})

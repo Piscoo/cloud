@@ -404,7 +404,7 @@ const Customize = (props) => {
 							<div className="block-label">公网宽带</div>
 							<div className="block-content">
 								<div className="use-free-network">
-									<Checkbox onChange={changeUseFreeNetwork}>分配独立公网IP</Checkbox>
+									<Checkbox checked={isUseFreeNet} onChange={changeUseFreeNetwork}>分配独立公网IP</Checkbox>
 								</div>
 								<div className="internet-speed">
 									<Row>
@@ -488,10 +488,12 @@ const Customize = (props) => {
 										{dataDiskList.length > 1 && <div className="delete-item" onClick={() => deleteDataDiskItem(index)}></div>}
 									</Row>
 								))}
-								<div className="add-new-one">
-									<span className="blue" onClick={addANewDataDiskItem}>新建云硬盘数据盘</span>
-									<span className="gray">还可增加<span className="orange">{5 - dataDiskList.length}</span>块数据盘</span>
-								</div>
+								{dataDiskList?.length < 5 &&
+									<div className="add-new-one">
+										<span className="blue" onClick={addANewDataDiskItem}>新建云硬盘数据盘</span>
+											<span className="gray">还可增加<span className="orange">{5 - dataDiskList.length}</span>块数据盘</span>
+									</div>
+								}
 							</div>
 						</div>
 					</div>

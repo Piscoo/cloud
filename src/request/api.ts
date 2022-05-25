@@ -83,6 +83,7 @@ export const registerAccount = (data) => {
 	}
 	interface Res {
 		code: number
+		msg?: string
 	}
 	return cloudRequest<Req, Res>({
 		url: '/user/signup',
