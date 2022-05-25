@@ -6,7 +6,7 @@ import {orderList, productsList} from '@/request/api'
 
 
 const User = () => {
-
+	const userInfo = JSON.parse(localStorage.getItem('userInfo') || '');
 	const [billList, setBillList] = useState<Array<any>>([]);
 	const [productList, setProductList] = useState<Array<any>>([]);
 
@@ -42,7 +42,7 @@ const User = () => {
 				<div className="user-info-block">
 					<div className="user-info">
 						<div className="user-avatar"></div>
-						<div className="username">赵先生</div>
+						<div className="username">{userInfo?.firstName + userInfo?.lastName}</div>
 					</div>
 					<div className="user-account">
 						<div className="user-money">
