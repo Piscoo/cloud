@@ -1,9 +1,15 @@
 import { useState, useEffect } from 'react'
-import { Button, Space } from 'antd'
+import { Button, message, Space } from 'antd'
 import Layout from '@/components/layout/layout'
 import './productDetail.scss'
 import { productDetail } from '@/request/api'
 
+const productStatus = {
+	0: '运行中',
+	1: '已终止',
+	2: '重启中',
+	3: '异常'
+}
 const ProductDetail = (props) => {
 	const id = props.match.params.id;
 	
@@ -13,7 +19,12 @@ const ProductDetail = (props) => {
 	useEffect(() => {
 		const getProductDetail = async () => {
 			const res = await productDetail({product_id: id});
-			setProductInfo(res.data);
+			if(res.data.code == 0) {
+				setProductInfo(res.data);
+			} else {
+				message.error('产品不存在，请重新确认！');
+				props.history.push('/user');
+			}
 		}
 		getProductDetail();
 	}, [])
@@ -37,7 +48,7 @@ const ProductDetail = (props) => {
 							<div className="product-name">{productInfo?.name}</div>
 							<div className="product-id">{productInfo?.id}</div>
 						</div>
-						<div className="product-status"></div>
+						<div className="product-status">{productStatus[productInfo?.runtime?.status]}</div>
 					</div>
 					<div className="product-configs">
 						<div className="config-item small">
@@ -70,7 +81,7 @@ const ProductDetail = (props) => {
 						<div className="config-item big">
 							<div className="config-name">MAC</div>
 							<div className="config-value">
-								<div className="value-num">00:CC:DD:EE:FF:GG</div>
+								<div className="value-num">{productInfo?.runtime?.mac_addr}</div>
 								<div className="config-icon mac"></div>
 							</div>
 						</div>
@@ -80,7 +91,7 @@ const ProductDetail = (props) => {
 					<div className="product-runtime">
 						<div className="runtime-item">
 							<div className="runtime-label">状态：</div>
-							<div className="runtime-value status">{productInfo?.runtime?.status == 0 ? '运行中' : '已终止'}</div>
+							<div className="runtime-value status">{productStatus[productInfo?.runtime?.status]}</div>
 						</div>
 						<div className="runtime-item">
 							<div className="runtime-label">主机名：</div>
@@ -106,11 +117,11 @@ const ProductDetail = (props) => {
 						<div className="product-traffic-box">
 							<div className="traffic-title">
 								<div className="name">流量</div>
-								<div className="traffic-count">56.4GB/99.99GB <span className="left">({(99.99 - 56.4).toFixed(2)}GB剩余)</span></div>
+								<div className="traffic-count">{productInfo?.traffic}MB/{productInfo?.traffic_max}MB <span className="left">({(productInfo?.traffic_max - productInfo?.traffic).toFixed(2)}GB剩余)</span></div>
 							</div>
 							<div className="traffic-pipe">
 								<div className="pipe-progress" style={{width:'20%'}}></div>
-								<div className="pipe-value" style={{left:'20%'}}>56.4GB</div>
+								<div className="pipe-value" style={{left:'20%'}}>{productInfo?.traffic}MB</div>
 							</div>
 						</div>
 						<div className="operators-box">

@@ -40,6 +40,10 @@
 		padding: 30px;
 		background: #f9f9fa;
 		.product-status-box {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+
 			.name-id {
 				.product-name {
 					font-size: 24px;
@@ -53,6 +57,15 @@
 					color: #666666;
 					line-height: 29px;
 				}
+			}
+			.product-status {
+				width: max-content;
+				padding: 0 15px;
+				line-height: 36px;
+				font-size: 18px;
+				color: #fff;
+				border-radius: 3px;
+				background: #1BB934;
 			}
 		}
 	}
