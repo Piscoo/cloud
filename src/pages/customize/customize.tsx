@@ -200,8 +200,8 @@ const Customize = (props) => {
 	};
 
 	const changeUseFreeNetwork = (e) => {
-		setIsUseFreeNet(e.target.value);
-		setCustomizeReqData({...customizeReqData, ['need_public_ip']: e.target.value});
+		setIsUseFreeNet(e.target.checked);
+		setCustomizeReqData({...customizeReqData, ['need_public_ip']: e.target.checked});
 	};
 
 	const speedSliderMarks = {
