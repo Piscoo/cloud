@@ -8,6 +8,9 @@
 		width: 62.5%;
 		max-width: 1200px;
 		margin: 0 auto;
+		@media screen and(max-width: 1440px) {
+			width: 75%;
+		}
 	}
 	.breadcrumb {
 		background: #fff;
@@ -243,6 +246,7 @@
 						font-size: 12px;
 						color: #999;
 						position: absolute;
+						white-space: nowrap;
 					}
 				}
 				.size-inputer {
@@ -373,6 +377,7 @@
 					color: #E9661E;
 					font-size: 12px;
 					margin-top: 12px;
+					white-space: nowrap;
 					.blue {
 						color: #0360FF;
 					}
@@ -384,6 +389,7 @@
 					margin-top: 12px;
 					font-size: 12px;
 					color: #999999;
+					white-space: nowrap;
 					.know-more {
 						color: #0360FF;
 						margin-left: 20px;

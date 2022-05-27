@@ -14,7 +14,7 @@ interface benefit {
 
 const buyLink = '/customize';
 
-const Home = () => {
+const Home = (props) => {
 	const [userInfo, setUserInfo] = useState<string>();
 	useEffect(() => {
 		const user_info = localStorage.getItem('userInfo') || undefined;
@@ -69,7 +69,7 @@ const Home = () => {
 					</div>
 					<div className="config-item">
 						<div className="config-name">宽带</div>
-						<div className="config-value">{machine.bandwidth}GB 带宽</div>
+						<div className="config-value">{machine.bandwidth}Mbps</div>
 					</div>
 					<div className="config-item">
 						<div className="config-name">内存</div>
@@ -77,7 +77,7 @@ const Home = () => {
 					</div>
 					<div className="config-item">
 						<div className="config-name">硬盘驱动器</div>
-						<div className="config-value">{machine.system_disk_capacity + machine.data_disk_capacity * machine.data_disk_nb}GB HDD</div>
+						<div className="config-value">{machine.system_disk_capacity}GB HDD</div>
 					</div>
 				</div>
 				<div className="machine-support">
@@ -87,8 +87,8 @@ const Home = () => {
 				</div>
 			</div>
 			<div className="choose">
-				<div className="price"><span className="price-num">¥{machine.purchase_month}</span>/月</div>
-				<Link className="buy-now" to={buyLink}>立即选购</Link>
+				<div className="price"><span className="price-num">¥{machine.price}</span>/月</div>
+				<div className="buy-now" onClick={() => buyThis(machine)}>立即选购</div>
 			</div>
 		</div>
 	);
@@ -101,6 +101,14 @@ const Home = () => {
 			<div className="scan">扫描二维码微信沟通</div>
 		</div>
 	)
+	const scrollToPick = () => {
+		document.querySelector('.pick-one')?.scrollIntoView({
+			behavior: 'smooth'
+		})
+	}
+	const buyThis = (item) => {
+		props.history.push({pathname: buyLink, state: {customizeData: item}})
+	}
 
 	return <div className="Home-page">
 		<div className="banner">
@@ -132,7 +140,7 @@ const Home = () => {
 							低至<span className="num">¥29</span>/月
 						</div>
 						<div className="btns">
-							<div className="btn plan">优选方案</div>
+							<div className="btn plan" onClick={scrollToPick}>优选方案</div>
 							<Link className="btn buy-now" to={buyLink}>立即选购</Link>
 						</div>
 					</div>

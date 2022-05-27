@@ -210,11 +210,19 @@ const BillDetail = (props) => {
 									<div className="item">
 										<div className="item-name">数据存储</div>
 										<div className="item-value">{
-										orderInfo?.data.data_disk_capacity.reduce((a, b) => a + b)}GB SSD云硬盘</div>
+										orderInfo?.data.data_disk_capacity.reduce((a, b) => a + b)}GB SSD云硬盘({orderInfo?.data.data_disk_capacity.length}块)</div>
 									</div>
 									<div className="item">
 										<div className="item-name">带宽</div>
 										<div className="item-value">{orderInfo?.data.bandwidth}Mbps</div>
+									</div>
+									<div className="item">
+										<div className="item-name">是否需要独立IP</div>
+										<div className="item-value">{orderInfo?.data.need_public_ip ? '是' : '否'}</div>
+									</div>
+									<div className="item">
+										<div className="item-name">购买数量</div>
+										<div className="item-value">{orderInfo?.data.purchase_nb}</div>
 									</div>
 								</div>
 								<div className="cell value-cell">¥{orderInfo?.data.price} RMB</div>

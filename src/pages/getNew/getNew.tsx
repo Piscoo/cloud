@@ -22,7 +22,7 @@ const GetNew = (props) => {
 			}
 			const res = await promoteDetail(data);
 			setPromoteInfo(res.data);
-			const link = location.origin + '/' + res?.data?.promote_code;
+			const link = location.origin + res?.data?.promote_code;
 			setShareLink(link);
 			setTableData(res?.data?.products);
 			setTotal(res?.data?.products_total);

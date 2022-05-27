@@ -1,5 +1,7 @@
 .loginLeftSide {
 	width: 45.8%;
+	height: 100%;
+	overflow: scroll;
 	.container {
 		width: 100%;
 		min-height: 100vh;
@@ -25,7 +27,7 @@
 		background-size: contain;
 	}
 	.bot-info {
-		margin-top: 18.5vh;
+		margin-top: 18%;
 		.welcome {
 			font-size: 34px;
 			font-weight: 600;
@@ -39,7 +41,7 @@
 			letter-spacing: 1px;
 		}
 		.img {
-			margin-top: 12.6vh;
+			margin-top: 12%;
 			width: 100%;
 			padding-bottom: 60%;
 			background: url('@/images/home/cloud.png') center no-repeat;
@@ -51,6 +53,16 @@
 			color: rgba(255, 255, 255, 0.7);;
 			letter-spacing: 1px;
 			text-align: center;
+		}
+	}
+	@media screen and (max-width: 1440px) {
+		.container {
+			.content {
+				padding: 30px 80px;
+			}
+		}
+		.bot-info {
+			margin-top: 10%;
 		}
 	}
 }

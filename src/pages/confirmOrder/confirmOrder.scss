@@ -12,6 +12,9 @@
 		width: 62.5%;
 		max-width: 1200px;
 		margin: 0 auto;
+		@media screen and(max-width: 1440px) {
+			width: 75%;
+		}
 	}
 	.top-info {
 		width: 100%;
@@ -129,7 +132,7 @@
 							align-items: center;
 							.item-name {
 								color: #999;
-								width: 80px;
+								min-width: 100px;
 							}
 							.item-value {
 								margin-left: 6px;
@@ -142,11 +145,11 @@
 		.discount-block {
 			padding-top: 38px;
 			.coupon-info-item {
+				height: 26px;
 				margin-top: 14px;
 				display: flex;
 				align-items: center;
 				font-size: 14px;
-				line-height: 20px;
 				.blue {
 					color: #0360FF;
 					margin-left: 10px;
@@ -154,6 +157,7 @@
 				}
 				.choosed-coupon {
 					margin-left: 50px;
+					line-height: 25px;
 					.value {
 						color: #E9661E;
 						font-size: 18px;

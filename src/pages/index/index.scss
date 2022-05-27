@@ -5,6 +5,9 @@
 		max-width: 1200px;
 		margin: 0 auto;
 		text-align: center;
+		@media screen and(max-width: 1440px) {
+			width: 75%;
+		}
 	}
 	.banner {
 		width: 100%;
@@ -82,7 +85,12 @@
 				display: flex;
 				justify-content: space-between;
 				align-items: center;
-				margin-top: 140px;
+				// margin-top: 140px;
+				width: 100%;
+				position: absolute;
+				left: 50%;
+				top: 50%;
+				transform: translate(-50%, -50%);
 				.cloud {
 					width: 51%;
 					.img {
@@ -318,6 +326,7 @@
 					.price {
 						font-size: 14px;
 						color: #3D485D;
+						white-space: nowrap;
 						.price-num {
 							font-size: 38px;
 							color: #F14C4C;

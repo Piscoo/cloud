@@ -129,7 +129,7 @@ const ConfirmOrder = (props) => {
 											<div className="item">
 												<div className="item-name">数据存储</div>
 												<div className="item-value">{
-												customizeData.data_disk_capacity.reduce((a, b) => a + b)}GB SSD云硬盘</div>
+												customizeData.data_disk_capacity.reduce((a, b) => a + b)}GB SSD云硬盘({customizeData.data_disk_capacity.length}块)</div>
 											</div>
 											<div className="item">
 												<div className="item-name">带宽</div>
@@ -152,7 +152,7 @@ const ConfirmOrder = (props) => {
 								<div className="coupon-info-item">
 									<div>使用代金券 <span className="blue" onClick={() => setShowRedeemModal(true)}>+兑换</span></div>
 									{choosedCoupon && <div className="choosed-coupon">
-										<div>代金券抵扣<span className="value">{-choosedCoupon?.value}</span></div>
+										<span>代金券抵扣</span><span className="value">{-choosedCoupon?.value}</span>
 									</div>}
 								</div>
 								<div className="coupon-num-tip">你有{couponList.length}张代金券，其中{couponList.length}张可用。</div>

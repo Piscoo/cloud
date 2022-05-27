@@ -71,29 +71,28 @@ const Customize = (props) => {
 
 	const propsCustomizeData = props.location.state?.customizeData;
 	const [parameterList, setParameterList] = useState<IParam>(defaultParam);
-
 	const [totalPrice, setTotalPrice] = useState<number | string>(propsCustomizeData?.price || '_ _');
 	const [choosedArea, setChoosedArea] = useState<string>(propsCustomizeData?.city ||'');
 	const [choosedCountry, setChoosedCountry] = useState<string>('');
-	const [choosedModel, setChoosedModel] = useState<string>(propsCustomizeData?.model || '');
-	const [systemOperator, setSystemOperator] = useState<string>(propsCustomizeData?.os || '');
-	const [systemBits, setSystemBits] = useState<string>('');
-	const [systemPlatform, setSysTemPlatform] = useState<string>('');
+	const [choosedModel, setChoosedModel] = useState<string>(propsCustomizeData?.model || propsCustomizeData?.cpu ? `cpu${propsCustomizeData?.cpu}ram${propsCustomizeData?.ram}` : '');
+	const [systemOperator, setSystemOperator] = useState<string>(propsCustomizeData?.os || 'ubuntu');
+	const [systemBits, setSystemBits] = useState<string>('x86');
+	const [systemPlatform, setSysTemPlatform] = useState<string>('18.04');
 	const [platformValue, setPlatformValue] = useState<string>(propsCustomizeData?.platform || 'both');
 	const [systemDiskSize, setSystemDiskSize] = useState<number>(propsCustomizeData?.system_disk_capacity || 50);	
 	const [buyTimeValue, setBuyTimeValue] = useState<number>(propsCustomizeData?.purchase_month || 6);
 	const [dataDiskList, setDataDiskList] = useState<Array<DataDiskItem>>([defaultDataDiskItem]);
 	const [internetSpeed, setInternetSpeed] = useState<number>(200);
-	const [isUseFreeNet, setIsUseFreeNet] = useState<boolean>(true);
+	const [isUseFreeNet, setIsUseFreeNet] = useState<boolean>(propsCustomizeData?.need_public_ip || true);
 	const [systemDiskType, setSystemDiskType] = useState<string>('high');
 	const [rebuyOrNot, setRebuyOrNot] = useState<boolean>(false);
-	const [buyNumber, setBuyNumber] = useState<number>(1);
+	const [buyNumber, setBuyNumber] = useState<number>(propsCustomizeData?.purchase_nb || 1);
 	const [agreeContract, setAgreeContract] = useState<boolean>(!!propsCustomizeData);
 	const [isNeedLoginModalVisible, setIsNeedLoginModalVisible] = useState<boolean>(false);
 	const [activeTab, setActiveTab] = useState<string>('');
 	const [bitsList, setBitsList] = useState<string[]>([]);
 	const [distributionList, setDistributionList] = useState<string[]>([]);
-	const [distributionName, setDistributionName] = useState<string>();
+	const [distributionName, setDistributionName] = useState<string>(systemOperator + ' ' + systemPlatform.toUpperCase() + ' ' + systemBits.replace('x', '') + '位');
  
 	const customizeData: ICustomize = {
 		city: choosedArea,
@@ -118,7 +117,6 @@ const Customize = (props) => {
 				setTotalPrice(res.data.price);
 			}
 		}
-		if(!choosedArea || !choosedModel || !systemOperator || !systemBits || !systemPlatform || !platformValue) return;
 		getCustomizePrice();
 	}, [customizeReqData]);
 
@@ -131,7 +129,7 @@ const Customize = (props) => {
 		}
 		getParamList();
 	}, []);
-
+	
 	const setDefaultValues = (param) => {
 		const osList = Object.keys(param.os);
 		const bitList = propsCustomizeData?.os ? Object.keys(param.os[propsCustomizeData?.os]) : Object.keys(param.os[osList[0]]);
@@ -140,15 +138,39 @@ const Customize = (props) => {
 		setDistributionList(disList);
 		setActiveTab(propsCustomizeData?.tab || Object.keys(param.areas)[0]);
 		if(propsCustomizeData) {
+			if(choosedArea) {
+				Object.entries(param.areas).map(item => {
+					const obj: ICountry = (item[1] as ICountry);
+					Object.values(obj).forEach(city => {
+						if(city.includes(choosedArea)) {
+							setActiveTab(item[0])
+						}
+					})
+				})
+			}
 			setSystemOperator(propsCustomizeData.os);
 			setSystemBits(propsCustomizeData.os_bits);
 			setSysTemPlatform(propsCustomizeData.os_distribution);
-			setDistributionName(propsCustomizeData.os + propsCustomizeData.os_distribution + propsCustomizeData.os_bits.replace('x', '') + '位');
-			setChoosedModel(propsCustomizeData.model);
+			setDistributionName(propsCustomizeData.os + ' ' + propsCustomizeData.os_distribution.toUpperCase() + ' ' + propsCustomizeData.os_bits.replace('x', '') + '位');
+			setChoosedModel(propsCustomizeData.model || 'cpu'+propsCustomizeData?.cpu+'ram'+propsCustomizeData?.ram);
 			setIsUseFreeNet(propsCustomizeData.need_public_ip);
-			setBuyNumber(propsCustomizeData.purchase_nb)
-			const {city, model, os, os_bits, os_distribution, platform, bandwidth, system_disk_capacity, data_disk_capacity, purchase_month, need_public_ip, purchase_nb} = propsCustomizeData
-			setCustomizeReqData({city, model, os, os_bits, os_distribution, platform, bandwidth, system_disk_capacity, data_disk_capacity, purchase_month, need_public_ip, purchase_nb});
+			setBuyNumber(propsCustomizeData.purchase_nb);
+			setPlatformValue(propsCustomizeData?.platform || 'both');
+			const cusData = {
+				city: propsCustomizeData?.city,
+				model: choosedModel,
+				os: propsCustomizeData?.os,
+				os_bits: propsCustomizeData?.os_bits,
+				os_distribution: propsCustomizeData?.os_distribution,
+				platform: platformValue,
+				bandwidth: propsCustomizeData?.bandwidth,
+				system_disk_capacity: propsCustomizeData?.system_disk_capacity,
+				data_disk_capacity: propsCustomizeData?.data_disk_capacity,
+				purchase_month: buyTimeValue,
+				need_public_ip: propsCustomizeData?.need_public_ip,
+				purchase_nb: propsCustomizeData?.purchase_nb
+			};
+			setCustomizeReqData(cusData);
 			const diskList: Array<DataDiskItem> = new Array(propsCustomizeData.data_disk_capacity.length).fill(defaultDataDiskItem);
 			const copy: Array<DataDiskItem> = diskList.map((item, index) => {
 				const newItem = {...item, ['dataDiskSize']: propsCustomizeData.data_disk_capacity[index]};
@@ -256,10 +278,27 @@ const Customize = (props) => {
 	const deleteDataDiskItem = (index: number): void => {
 		dataDiskList.splice(index, 1);
 		setDataDiskList([...dataDiskList]);
+		const copy: Array<DataDiskItem> = dataDiskList.map((item) => {
+			return item;
+		})
+		const diskSizes: number[] = [];
+		copy.forEach(item => {
+			diskSizes.push(item.dataDiskSize);
+		});
+		setCustomizeReqData({...customizeReqData, ['data_disk_capacity']: diskSizes});
 	};
 	const addANewDataDiskItem = ()  => {
 		if(dataDiskList.length >= 5) return;
-		setDataDiskList([...dataDiskList, defaultDataDiskItem]);
+		const arr = [...dataDiskList, defaultDataDiskItem];
+		setDataDiskList(arr);
+		const copy: Array<DataDiskItem> = arr.map((item) => {
+			return item;
+		})
+		const diskSizes: number[] = [];
+		copy.forEach(item => {
+			diskSizes.push(item.dataDiskSize);
+		});
+		setCustomizeReqData({...customizeReqData, ['data_disk_capacity']: diskSizes});
 	};
 
 	const buyTimeList = [
@@ -381,7 +420,8 @@ const Customize = (props) => {
 										</Select>
 									</Col>
 									<Col span={6}>
-										<Select defaultValue={distributionName} value={systemPlatform} style={{width: '90%'}} onChange={changeSystemPlatform}>
+									{/* systemPlatform */}
+										<Select value={distributionName} style={{width: '90%'}} onChange={changeSystemPlatform}>
 											{distributionList.map(k => (
 													<Option value={k} key={k}>{systemOperator} {k} {systemBits.replace('x', '')}位</Option>
 												))}

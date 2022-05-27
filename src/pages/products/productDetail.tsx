@@ -52,24 +52,25 @@ const ProductDetail = (props) => {
 					</div>
 					<div className="product-configs">
 						<div className="config-item small">
-							<div className="config-name">CPU</div>
+							<div className="config-name">机型</div>
 							<div className="config-value">
 								<div className="value-num">
-									{productInfo?.configure.model.split(/cpu|ram/).filter(item => item)[0]}
-									<span className="unit"> Core</span>
+									{productInfo?.configure.model}
+									{/* {productInfo?.configure.model.split(/cpu|ram/).filter(item => item)[0]} */}
+									{/* <span className="unit"> Core</span> */}
 								</div>
 								<div className="config-icon cpu"></div>
 							</div>
 						</div>
 						<div className="config-item small">
-							<div className="config-name">内存</div>
+							<div className="config-name">系统盘</div>
 							<div className="config-value">
 								<div className="value-num">{productInfo?.configure.system_disk_capacity}<span className="unit"> GB</span></div>
 								<div className="config-icon system"></div>
 							</div>
 						</div>
 						<div className="config-item small">
-							<div className="config-name">硬盘</div>
+							<div className="config-name">数据盘</div>
 							<div className="config-value">
 								<div className="value-num">
 									{productInfo?.configure.data_disk_capacity.reduce((a: number, b: number): number => a + b)}
@@ -95,7 +96,7 @@ const ProductDetail = (props) => {
 						</div>
 						<div className="runtime-item">
 							<div className="runtime-label">主机名：</div>
-							<div className="runtime-value">{productInfo?.name}</div>
+							<div className="runtime-value">{productInfo?.hostname}</div>
 						</div>
 						<div className="runtime-item">
 							<div className="runtime-label">IP地址：</div>

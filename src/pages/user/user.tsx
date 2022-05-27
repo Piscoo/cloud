@@ -42,7 +42,7 @@ const User = () => {
 				<div className="user-info-block">
 					<div className="user-info">
 						<div className="user-avatar"></div>
-						<div className="username">{userInfo?.firstName + userInfo?.lastName}</div>
+						<div className="username">{userInfo?.firstName + ' ' + userInfo?.lastName}</div>
 					</div>
 					<div className="user-account">
 						<div className="user-money">
