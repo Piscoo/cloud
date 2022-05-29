@@ -73,8 +73,8 @@ const Customize = (props) => {
 	const [parameterList, setParameterList] = useState<IParam>(defaultParam);
 	const [totalPrice, setTotalPrice] = useState<number | string>(propsCustomizeData?.price || '_ _');
 	const [choosedArea, setChoosedArea] = useState<string>(propsCustomizeData?.city ||'');
-	const [choosedCountry, setChoosedCountry] = useState<string>('');
-	const [choosedModel, setChoosedModel] = useState<string>(propsCustomizeData?.model || propsCustomizeData?.cpu ? `cpu${propsCustomizeData?.cpu}ram${propsCustomizeData?.ram}` : '');
+	const [choosedCountry, setChoosedCountry] = useState<string>(propsCustomizeData?.country || '');
+	const [choosedModel, setChoosedModel] = useState<string>(propsCustomizeData.model || propsCustomizeData?.cpu ? 'cpu' + propsCustomizeData?.cpu + 'ram' + propsCustomizeData?.ram : '');
 	const [systemOperator, setSystemOperator] = useState<string>(propsCustomizeData?.os || 'ubuntu');
 	const [systemBits, setSystemBits] = useState<string>('x86');
 	const [systemPlatform, setSysTemPlatform] = useState<string>('18.04');
@@ -85,7 +85,7 @@ const Customize = (props) => {
 	const [internetSpeed, setInternetSpeed] = useState<number>(200);
 	const [isUseFreeNet, setIsUseFreeNet] = useState<boolean>(propsCustomizeData?.need_public_ip || true);
 	const [systemDiskType, setSystemDiskType] = useState<string>('high');
-	const [rebuyOrNot, setRebuyOrNot] = useState<boolean>(false);
+	const [rebuyOrNot, setRebuyOrNot] = useState<boolean>(propsCustomizeData?.auto_renewal ||false);
 	const [buyNumber, setBuyNumber] = useState<number>(propsCustomizeData?.purchase_nb || 1);
 	const [agreeContract, setAgreeContract] = useState<boolean>(!!propsCustomizeData);
 	const [isNeedLoginModalVisible, setIsNeedLoginModalVisible] = useState<boolean>(false);
@@ -136,7 +136,6 @@ const Customize = (props) => {
 		const disList = propsCustomizeData?.os_distribution ? param.os[propsCustomizeData?.os][propsCustomizeData?.os_bits || 'x64'] : Object.keys(param.os[osList[0]][bitList[0]]);
 		setBitsList(bitList);
 		setDistributionList(disList);
-		setActiveTab(propsCustomizeData?.tab || Object.keys(param.areas)[0]);
 		if(propsCustomizeData) {
 			if(choosedArea) {
 				Object.entries(param.areas).map(item => {
@@ -152,7 +151,7 @@ const Customize = (props) => {
 			setSystemBits(propsCustomizeData.os_bits);
 			setSysTemPlatform(propsCustomizeData.os_distribution);
 			setDistributionName(propsCustomizeData.os + ' ' + propsCustomizeData.os_distribution.toUpperCase() + ' ' + propsCustomizeData.os_bits.replace('x', '') + '位');
-			setChoosedModel(propsCustomizeData.model || 'cpu'+propsCustomizeData?.cpu+'ram'+propsCustomizeData?.ram);
+			setChoosedModel(propsCustomizeData.model || 'cpu' + propsCustomizeData?.cpu + 'ram' + propsCustomizeData?.ram);
 			setIsUseFreeNet(propsCustomizeData.need_public_ip);
 			setBuyNumber(propsCustomizeData.purchase_nb);
 			setPlatformValue(propsCustomizeData?.platform || 'both');
@@ -168,7 +167,8 @@ const Customize = (props) => {
 				data_disk_capacity: propsCustomizeData?.data_disk_capacity,
 				purchase_month: buyTimeValue,
 				need_public_ip: propsCustomizeData?.need_public_ip,
-				purchase_nb: propsCustomizeData?.purchase_nb
+				purchase_nb: propsCustomizeData?.purchase_nb,
+				rebuyOrNot: propsCustomizeData?.rebuyOrNot
 			};
 			setCustomizeReqData(cusData);
 			const diskList: Array<DataDiskItem> = new Array(propsCustomizeData.data_disk_capacity.length).fill(defaultDataDiskItem);
@@ -345,7 +345,7 @@ const Customize = (props) => {
 			return;
 		}
 		// localStorage.setItem('customizeData', JSON.stringify(customizeReqData));
-		const pageData = {...customizeReqData,['tab']: activeTab, ['country']: choosedCountry, ['price']: totalPrice};
+		const pageData = {...customizeReqData,['tab']: activeTab, ['country']: choosedCountry, ['price']: totalPrice, ['auto_renewal']: rebuyOrNot};
 		props.history.push({
 			pathname: '/confirm-order',
 			state: {customizeData: pageData}
@@ -562,7 +562,7 @@ const Customize = (props) => {
 						<div className="block-item">
 							<div className="block-label"></div>
 							<div className="block-content rebuy-content">
-								<Checkbox className="auto-rebuy" onChange={changeRebuyOrNot}>账户余额足够时，设备到期后按月自动续费</Checkbox>
+								<Checkbox checked={rebuyOrNot} className="auto-rebuy" onChange={changeRebuyOrNot}>账户余额足够时，设备到期后按月自动续费</Checkbox>
 								<div className="tip">如需备案请购买国内服务器3个月及以上<span className="know-more">了解详情</span></div>
 							</div>
 						</div>
@@ -586,7 +586,7 @@ const Customize = (props) => {
 						<div className="block-label">费用</div>
 						<div className="block-content">
 							<div className="money">
-								{totalPrice} <span className="fee">元</span>
+								{totalPrice || '_ _'} <span className="fee">元</span>
 							</div>
 							<div className="contract">
 								<Checkbox checked={agreeContract} onChange={changeAgreeContract}>同意<span className="blue">《云服务协议》</span>、<span className="blue">《退款规则》</span>和<span className="blue">《云服务虚拟货币相关活动声明》</span></Checkbox>

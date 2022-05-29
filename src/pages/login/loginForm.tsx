@@ -36,8 +36,8 @@ export default function LoginForm(props: formProps) {
 		const data = {
 			emAil: email,
 			pAsswOrd: password,
+			auto_login: autoLogin
 		}
-		// autoLogin
 		login(data).then(res => {
 			const code = res.data.code;
 			switch(code) {
@@ -74,7 +74,7 @@ export default function LoginForm(props: formProps) {
 				</div>
 				<div className="options">
 					<div className="auto-login">
-						<Checkbox onChange={changeAutoLogin}>自动登录</Checkbox>
+						<Checkbox checked={autoLogin} onChange={changeAutoLogin}>自动登录</Checkbox>
 					</div>
 					<div className="forgot" onClick={() => {changeFormType('reset')}}>忘记密码？</div>
 				</div>

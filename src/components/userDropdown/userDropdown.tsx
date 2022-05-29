@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import { Dropdown, Menu, message } from 'antd'
 import { DownOutlined } from '@ant-design/icons'
 import './userDropdown.scss'
@@ -13,7 +13,7 @@ const UserDropdown = (props) => {
 			if(code == 0) {
 				message.success('登出成功');
 				localStorage.removeItem('userInfo');
-				location.reload();
+				props.history.push('/');
 			}
 		})
 	}
@@ -36,4 +36,4 @@ const UserDropdown = (props) => {
 	)
 }
 
-export default UserDropdown
+export default withRouter(UserDropdown)

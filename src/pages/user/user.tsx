@@ -6,7 +6,8 @@ import {orderList, productsList} from '@/request/api'
 
 
 const User = () => {
-	const userInfo = JSON.parse(localStorage.getItem('userInfo') || '');
+	const localInfo = localStorage.getItem('userInfo');
+	const userInfo = localInfo ? JSON.parse(localInfo) : {};
 	const [billList, setBillList] = useState<Array<any>>([]);
 	const [productList, setProductList] = useState<Array<any>>([]);
 

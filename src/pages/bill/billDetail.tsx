@@ -224,6 +224,10 @@ const BillDetail = (props) => {
 										<div className="item-name">购买数量</div>
 										<div className="item-value">{orderInfo?.data.purchase_nb}</div>
 									</div>
+									<div className="item">
+										<div className="item-name">购买时长</div>
+										<div className="item-value">{orderInfo?.data.purchase_month}个月</div>
+									</div>
 								</div>
 								<div className="cell value-cell">¥{orderInfo?.data.price} RMB</div>
 							</div>

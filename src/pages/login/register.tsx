@@ -134,7 +134,7 @@ function Register(props) {
 			pAsswOrd: password,
 			confirm_pAsswOrd: rePassword,
 		};
-		if(promote_code) data[promote_code] = promote_code;
+		if(promote_code) data['promote_code'] = promote_code;
 		// agreeTerms,
 		registerAccount(data).then(res => {
 			const code = res?.data?.code;

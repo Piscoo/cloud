@@ -77,7 +77,7 @@ const Home = (props) => {
 					</div>
 					<div className="config-item">
 						<div className="config-name">硬盘驱动器</div>
-						<div className="config-value">{machine.system_disk_capacity}GB HDD</div>
+						<div className="config-value">{machine.system_disk_capacity + machine.data_disk_capacity.reduce((a,b)=> a+b)}GB HDD</div>
 					</div>
 				</div>
 				<div className="machine-support">
@@ -202,13 +202,13 @@ const Home = (props) => {
 			</div>
 		</div>
 		<div className="footer">
-			<div className="foot-top">
+			{/* <div className="foot-top">
 				<div className="wrapper">
 					<Link to="/">首页</Link>
 					<Link to="/user">用户中心</Link>
 					<Link to="/">云主机自定义配置</Link>
 				</div>
-			</div>
+			</div> */}
 			<div className="foot-bot">
 				<div className="wrapper">
 					<div className="rights">

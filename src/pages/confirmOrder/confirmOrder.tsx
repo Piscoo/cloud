@@ -29,7 +29,6 @@ const defaultCouponItem: ICoupon = {
 
 
 const ConfirmOrder = (props) => {
-	// const orderData = localStorage.getItem('customizeData');
 	const customizeData = props.location.state?.customizeData;
 	const [couponList, setCouponList] = useState<Array<ICoupon>>([defaultCouponItem]);
 	const [choosedCoupon, setChoosedCoupon] = useState<ICoupon | null>();
@@ -107,7 +106,7 @@ const ConfirmOrder = (props) => {
 										<div className="cell-one machine-info">
 											<div className="item">
 												<div className="item-name">区域</div>
-												<div className="item-value">{customizeData.city}</div>
+												<div className="item-value">{customizeData.city}({customizeData.country})</div>
 											</div>
 											{customizeData.country && <div className="item">
 													<div className="item-name">国家</div>
@@ -138,6 +137,10 @@ const ConfirmOrder = (props) => {
 											<div className="item">
 												<div className="item-name">是否需要独立IP</div>
 												<div className="item-value">{customizeData.need_public_ip ? '是' : '否'}</div>
+											</div>
+											<div className="item">
+												<div className="item-name">自动续费</div>
+												<div className="item-value">{customizeData.auto_renewal ? '是' : '否'}</div>
 											</div>
 										</div>
 										<div className="cell value-cell">{customizeData.purchase_month}个月</div>
