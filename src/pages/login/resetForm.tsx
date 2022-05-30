@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
 import { Input, message } from 'antd'
 import { resetPassword, resetPasswordByEmail } from '@/request/api'

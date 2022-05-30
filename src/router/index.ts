@@ -25,7 +25,7 @@ const routers = [
 	{
 		path: '/index',
 		component: Index,
-		name: 'Index'
+		name: 'Index',
 	},
 	{
 		path: '/user',

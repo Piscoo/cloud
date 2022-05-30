@@ -1,4 +1,4 @@
-
+import { useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
 import { message } from 'antd'
 import Layout from '@/components/layout/layout'
@@ -7,7 +7,9 @@ import './changePassword.scss'
 import {changePassword} from '@/request/api'
 
 const ChangePassword = (props) => {
-
+	useEffect(() => {
+		document.title = '用户中心 - mCloud';
+	}, []);
 	const inputFormFinish = async (data) => {
 		const obj = {
 			old_pAsswOrd: data.oldPassword,

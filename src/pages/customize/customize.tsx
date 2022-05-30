@@ -11,7 +11,9 @@ const { TabPane } = Tabs;
 const { Option } = Select;
 
 const Customize = (props) => {
-	
+	useEffect(() => {
+		document.title = '云服务器选购 - mCloud';
+	}, []);
 	interface IParam {
 		areas: IAreas
 		model: string[]
@@ -71,7 +73,7 @@ const Customize = (props) => {
 
 
 	const propsCustomizeData = props.location.state?.customizeData;
-	if(propsCustomizeData.cpu && propsCustomizeData.ram && !propsCustomizeData.model) propsCustomizeData.model = 'cpu' + propsCustomizeData?.cpu + 'ram' + propsCustomizeData?.ram;
+	if(propsCustomizeData?.cpu && propsCustomizeData?.ram && !propsCustomizeData.model) propsCustomizeData.model = 'cpu' + propsCustomizeData?.cpu + 'ram' + propsCustomizeData?.ram;
 	const [parameterList, setParameterList] = useState<IParam>(defaultParam);
 	const [totalPrice, setTotalPrice] = useState<number | string>(propsCustomizeData?.price || '_ _');
 	const [choosedArea, setChoosedArea] = useState<string>(propsCustomizeData?.city ||'');

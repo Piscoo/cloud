@@ -8,6 +8,9 @@ import { productsList } from '@/request/api'
 const { Option } = Select;
 
 const myProduct = () => {
+	useEffect(() => {
+		document.title = '用户中心 - mCloud';
+	}, []);
 	const [productList, setProductList] = useState<Array<any>>([]);
 	const [pageIndex, setPageIndex] = useState<number>(0);
 	const [pageSize, setPageSize] = useState<number>(10);

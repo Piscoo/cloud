@@ -42,7 +42,9 @@ const ConfirmOrder = (props) => {
 		})
 		setCouponList(res.data?.data);
 	};
-
+	useEffect(() => {
+		document.title = '订单支付 - mCloud';
+	}, []);
 	useEffect(() => {
 		getCouponList();
 	}, [])

@@ -13,6 +13,9 @@ const Bill = () => {
 	
 
 	useEffect(() => {
+		document.title = '用户中心 - mCloud';
+	}, []);
+	useEffect(() => {
 		const data = {
 			page_index: pageIndex,
 			page_count: pageSize,

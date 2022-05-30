@@ -16,7 +16,9 @@ const Coupon = (props) => {
 	const [allCouponList, setAllCouponList] = useState<any>();
 	const [tableData, setTableData] = useState([]);
 	const [showRedeemModal, setShowRedeemModal] = useState<boolean>(false);
-	
+	useEffect(() => {
+		document.title = '用户中心 - mCloud';
+	}, []);
 	const getCouponList = async () => {
 		const data = {
 			page_index: pageIndex,

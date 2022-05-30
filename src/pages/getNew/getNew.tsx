@@ -15,6 +15,9 @@ const GetNew = (props) => {
 	const [tableData, setTableData] = useState<Array<any>>([]);
 	
 	useEffect(() => {
+		useEffect(() => {
+			document.title = '用户中心 - mCloud';
+		}, []);
 		const getPromoteDetail = async () => {
 			const data = {
 				page_index: pageIndex,

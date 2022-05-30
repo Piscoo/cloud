@@ -15,6 +15,9 @@ interface benefit {
 const buyLink = '/customize';
 
 const Home = (props) => {
+	useEffect(() => {
+		document.title = 'mCloud - 全球云主机.海外VPS.美国VPS.俄罗斯VPS.中国VPS';
+	}, [ ]);
 	const [userInfo, setUserInfo] = useState<string>();
 	useEffect(() => {
 		const user_info = localStorage.getItem('userInfo') || undefined;

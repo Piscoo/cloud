@@ -21,6 +21,9 @@ const dashboard: IDashboard = {
 }
 
 const User = () => {
+	useEffect(() => {
+		document.title = '用户中心 - mCloud';
+	}, [ ]);
 	const localInfo = localStorage.getItem('userInfo');
 	const userInfo = localInfo ? JSON.parse(localInfo) : {};
 	const [billList, setBillList] = useState<Array<any>>([]);

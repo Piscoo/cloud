@@ -44,6 +44,10 @@ const BillDetail = (props) => {
 		const res = await orderDetail(data);
 		setOrderInfo(res.data);
 	}
+
+	useEffect(() => {
+		document.title = '订单支付 - mCloud';
+	}, []);
 	useEffect(() => {
 		getOrderDetail();
 	}, [])

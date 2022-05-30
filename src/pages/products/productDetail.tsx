@@ -14,6 +14,9 @@ const productStatus = {
 const ProductDetail = (props) => {
 	const id = props.match.params.id;
 	
+	useEffect(() => {
+		document.title = `${id} - mCloud`;
+	}, [ ]);
 	const [productInfo, setProductInfo] = useState<any>();
 	const [viewPassword, setViewPassword] = useState<boolean>(false);
 	const [trafficProgress, setTrafficProgress] = useState<number>(0);

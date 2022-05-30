@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import { Input, Switch, Checkbox, Modal, InputNumber, message } from 'antd'
 import copy from 'copy-to-clipboard'
@@ -9,6 +9,9 @@ import { isEmail } from '@/utils/is'
 
 
 function Register(props) {
+	useEffect(() => {
+		document.title = '用户中心 - mCloud';
+	}, [ ]);
 	const params = new URL(location.href).searchParams;
 	const promote_code = params.get('promote_code');
 	const [firstName, setFirstName] = useState<string>();
