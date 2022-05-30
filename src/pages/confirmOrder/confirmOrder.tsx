@@ -4,6 +4,7 @@ import { Empty, message } from 'antd'
 import Header from '@/components/header/header'
 import Redeem from '@/components/redeemCoupon/redeemCoupon'
 import './confirmOrder.scss'
+import Translate from '@/utils/translation'
 import { availableCoupon, generateOrder } from '@/request/api'
 
 interface ICoupon {
@@ -106,20 +107,17 @@ const ConfirmOrder = (props) => {
 										<div className="cell-one machine-info">
 											<div className="item">
 												<div className="item-name">区域</div>
-												<div className="item-value">{customizeData.city}({customizeData.country})</div>
+												<div className="item-value">{Translate.city[customizeData.city]} ({Translate.country[customizeData.country]})</div>
 											</div>
-											{customizeData.country && <div className="item">
-													<div className="item-name">国家</div>
-													<div className="item-value">{customizeData.country}</div>
-												</div>
-											}
 											<div className="item">
 												<div className="item-name">机型</div>
-												<div className="item-value">{customizeData.model.split(/cpu|ram/).filter(item => item)[0]+'核CPU '+ customizeData.model.split(/cpu|ram/).filter(item => item)[1]+'G内存'}</div>
+												<div className="item-value">
+													{Translate.model[customizeData.model]['title']} ({Translate.model[customizeData.model]['name']})
+												</div>
 											</div>
 											<div className="item">
 												<div className="item-name">镜像</div>
-												<div className="item-value">{customizeData.os + ' ' +  customizeData.os_distribution + ' ' + customizeData.os_bits.replace('x', '') + '位' }</div>
+												<div className="item-value">{Translate.os[customizeData.os] + ' ' +  customizeData.os_distribution + ' ' + customizeData.os_bits.replace('x', '') + '位' }</div>
 											</div>
 											<div className="item">
 												<div className="item-name">系统存储</div>

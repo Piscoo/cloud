@@ -3,6 +3,7 @@ import { Button, message, Space } from 'antd'
 import Layout from '@/components/layout/layout'
 import './productDetail.scss'
 import { productDetail } from '@/request/api'
+import Translate from '@/utils/translation'
 
 const productStatus = {
 	0: '运行中',
@@ -15,12 +16,15 @@ const ProductDetail = (props) => {
 	
 	const [productInfo, setProductInfo] = useState<any>();
 	const [viewPassword, setViewPassword] = useState<boolean>(false);
+	const [trafficProgress, setTrafficProgress] = useState<number>(0);
 
 	useEffect(() => {
 		const getProductDetail = async () => {
 			const res = await productDetail({product_id: id});
 			if(res.data.code == 0) {
 				setProductInfo(res.data);
+				const trafficProgress = (productInfo?.runtime?.traffic/productInfo?.runtime?.traffic_max) * 100;
+				setTrafficProgress(trafficProgress);
 			} else {
 				message.error('产品不存在，请重新确认！');
 				props.history.push('/user');
@@ -28,6 +32,17 @@ const ProductDetail = (props) => {
 		}
 		getProductDetail();
 	}, [])
+	const byteConvert = (byte) => {
+		byte = byte * 1024 * 1024 * 1024;
+		if(isNaN(byte)) return byte;
+		const units: string[] = ['bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+		let exp = Math.floor(Math.log(byte)/Math.log(2));
+		if(exp < 1) exp = 0;
+		const i = Math.floor(exp / 10);
+		byte = byte / Math.pow(2, 10 * i);
+		if(byte.toString().length > byte.toFixed(2).toString().length) byte = byte.toFixed(2);
+		return byte + units[i];
+	}
 	return (
 		<Layout pageName='product' lastBreadcrumbName='产品详情'>
 			<div className="product-detail-container">
@@ -55,9 +70,7 @@ const ProductDetail = (props) => {
 							<div className="config-name">机型</div>
 							<div className="config-value">
 								<div className="value-num">
-									{productInfo?.configure.model}
-									{/* {productInfo?.configure.model.split(/cpu|ram/).filter(item => item)[0]} */}
-									{/* <span className="unit"> Core</span> */}
+									{Translate.model[productInfo?.configure.model]?.['name']}
 								</div>
 								<div className="config-icon cpu"></div>
 							</div>
@@ -96,7 +109,7 @@ const ProductDetail = (props) => {
 						</div>
 						<div className="runtime-item">
 							<div className="runtime-label">主机名：</div>
-							<div className="runtime-value">{productInfo?.hostname}</div>
+							<div className="runtime-value">{productInfo?.runtime?.hostname}</div>
 						</div>
 						<div className="runtime-item">
 							<div className="runtime-label">IP地址：</div>
@@ -104,7 +117,7 @@ const ProductDetail = (props) => {
 						</div>
 						<div className="runtime-item">
 							<div className="runtime-label">操作系统：</div>
-							<div className="runtime-value">{productInfo?.configure.os + ' ' + productInfo?.configure.os_distribution + ' ' + productInfo?.configure.os_bits.replace('x', '') + '位'}</div>
+							<div className="runtime-value">{Translate.os[productInfo?.configure.os] + ' ' + productInfo?.configure.os_distribution + ' ' + productInfo?.configure.os_bits.replace('x', '') + '位'}</div>
 						</div>
 						<div className="runtime-item">
 							<div className="runtime-label">ROOT密码：</div>
@@ -118,11 +131,11 @@ const ProductDetail = (props) => {
 						<div className="product-traffic-box">
 							<div className="traffic-title">
 								<div className="name">流量</div>
-								<div className="traffic-count">{productInfo?.traffic}MB/{productInfo?.traffic_max}MB <span className="left">({(productInfo?.traffic_max - productInfo?.traffic).toFixed(2)}GB剩余)</span></div>
+								<div className="traffic-count">{byteConvert(productInfo?.runtime?.traffic)}/{byteConvert(productInfo?.runtime?.traffic_max)} <span className="left">({byteConvert(productInfo?.runtime?.traffic_max - productInfo?.runtime?.traffic)}剩余)</span></div>
 							</div>
 							<div className="traffic-pipe">
-								<div className="pipe-progress" style={{width:'20%'}}></div>
-								<div className="pipe-value" style={{left:'20%'}}>{productInfo?.traffic}MB</div>
+								<div className="pipe-progress" style={{width: trafficProgress + '%'}}></div>
+								<div className="pipe-value" style={{left:trafficProgress + '%'}}>{byteConvert(productInfo?.runtime?.traffic)}</div>
 							</div>
 						</div>
 						<div className="operators-box">

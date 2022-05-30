@@ -358,3 +358,12 @@ export const promoteDetail = (data) => {
 		interceptors: commonInterceptors
 	})
 }
+
+// 用户中心仪表盘
+export const userDashboard = () => {
+	return cloudRequest({
+		url: '/user/dashboard',
+		method: 'GET',
+		interceptors: commonInterceptors
+	})
+}

@@ -4,6 +4,7 @@ import { LoadingOutlined } from '@ant-design/icons'
 import Layout from '@/components/layout/layout'
 import { orderDetail, payOrder, paymentCode } from '@/request/api'
 import './billDetail.scss'
+import Translate from '@/utils/translation'
 
 
 const statusList = {
@@ -182,26 +183,25 @@ const BillDetail = (props) => {
 						<div className="order-detail">
 							<div className="tabel-header">
 								<div className="cell-one product">产品详情</div>
+								<div className="cell">购买时长</div>
+								<div className="cell cell-small">数量</div>
 								<div className="cell">金额</div>
 							</div>
 							<div className="tabel-content">
 								<div className="cell-one machine-info">
 									<div className="item">
 										<div className="item-name">区域</div>
-										<div className="item-value">{orderInfo?.data.city}</div>
+										<div className="item-value">{Translate.city[orderInfo?.data.city]} ({Translate.country[orderInfo?.data.country]})</div>
 									</div>
-									{orderInfo?.data.country && <div className="item">
-											<div className="item-name">国家</div>
-											<div className="item-value">{orderInfo?.data.country}</div>
-										</div>
-									}
 									<div className="item">
 										<div className="item-name">机型</div>
-										<div className="item-value">{orderInfo?.data.model.split(/cpu|ram/).filter(item => item)[0]+'核CPU '+ orderInfo?.data.model.split(/cpu|ram/).filter(item => item)[1]+'G内存'}</div>
+										<div className="item-value">
+											{Translate.model[orderInfo?.data.model]?.['title']} ({Translate.model[orderInfo?.data.model]?.['name']})
+										</div>
 									</div>
 									<div className="item">
 										<div className="item-name">镜像</div>
-										<div className="item-value">{orderInfo?.data.os + ' ' +  orderInfo?.data.os_distribution + ' ' + orderInfo?.data.os_bits.replace('x', '') + '位' }</div>
+										<div className="item-value">{Translate.os[orderInfo?.data.os] + ' ' +  orderInfo?.data.os_distribution + ' ' + orderInfo?.data.os_bits.replace('x', '') + '位' }</div>
 									</div>
 									<div className="item">
 										<div className="item-name">系统存储</div>
@@ -220,15 +220,9 @@ const BillDetail = (props) => {
 										<div className="item-name">是否需要独立IP</div>
 										<div className="item-value">{orderInfo?.data.need_public_ip ? '是' : '否'}</div>
 									</div>
-									<div className="item">
-										<div className="item-name">购买数量</div>
-										<div className="item-value">{orderInfo?.data.purchase_nb}</div>
-									</div>
-									<div className="item">
-										<div className="item-name">购买时长</div>
-										<div className="item-value">{orderInfo?.data.purchase_month}个月</div>
-									</div>
 								</div>
+								<div className="cell value-cell cell-small">{orderInfo?.data.purchase_month}个月</div>
+								<div className="cell value-cell cell-small">{orderInfo?.data.purchase_nb}</div>
 								<div className="cell value-cell">¥{orderInfo?.data.price} RMB</div>
 							</div>
 						</div>

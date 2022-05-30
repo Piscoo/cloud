@@ -5,6 +5,7 @@ import Header from '@/components/header/header'
 import Breadcrumb from '@/components/breadcrumb/breadcrumb'
 import './customize.scss'
 import { hostParameter, customizePrice } from '@/request/api'
+import Translate from '@/utils/translation'
 
 const { TabPane } = Tabs;
 const { Option } = Select;
@@ -70,11 +71,12 @@ const Customize = (props) => {
 
 
 	const propsCustomizeData = props.location.state?.customizeData;
+	if(propsCustomizeData.cpu && propsCustomizeData.ram && !propsCustomizeData.model) propsCustomizeData.model = 'cpu' + propsCustomizeData?.cpu + 'ram' + propsCustomizeData?.ram;
 	const [parameterList, setParameterList] = useState<IParam>(defaultParam);
 	const [totalPrice, setTotalPrice] = useState<number | string>(propsCustomizeData?.price || '_ _');
 	const [choosedArea, setChoosedArea] = useState<string>(propsCustomizeData?.city ||'');
 	const [choosedCountry, setChoosedCountry] = useState<string>(propsCustomizeData?.country || '');
-	const [choosedModel, setChoosedModel] = useState<string>(propsCustomizeData.model || propsCustomizeData?.cpu ? 'cpu' + propsCustomizeData?.cpu + 'ram' + propsCustomizeData?.ram : '');
+	const [choosedModel, setChoosedModel] = useState<string>(propsCustomizeData?.model || propsCustomizeData?.cpu ? 'cpu' + propsCustomizeData?.cpu + 'ram' + propsCustomizeData?.ram : '');
 	const [systemOperator, setSystemOperator] = useState<string>(propsCustomizeData?.os || 'ubuntu');
 	const [systemBits, setSystemBits] = useState<string>('x86');
 	const [systemPlatform, setSysTemPlatform] = useState<string>('18.04');
@@ -142,7 +144,7 @@ const Customize = (props) => {
 					const obj: ICountry = (item[1] as ICountry);
 					Object.values(obj).forEach(city => {
 						if(city.includes(choosedArea)) {
-							setActiveTab(item[0])
+							setActiveTab(item[0]);
 						}
 					})
 				})
@@ -151,13 +153,13 @@ const Customize = (props) => {
 			setSystemBits(propsCustomizeData.os_bits);
 			setSysTemPlatform(propsCustomizeData.os_distribution);
 			setDistributionName(propsCustomizeData.os + ' ' + propsCustomizeData.os_distribution.toUpperCase() + ' ' + propsCustomizeData.os_bits.replace('x', '') + '位');
-			setChoosedModel(propsCustomizeData.model || 'cpu' + propsCustomizeData?.cpu + 'ram' + propsCustomizeData?.ram);
+			setChoosedModel(propsCustomizeData.model);
 			setIsUseFreeNet(propsCustomizeData.need_public_ip);
 			setBuyNumber(propsCustomizeData.purchase_nb);
 			setPlatformValue(propsCustomizeData?.platform || 'both');
 			const cusData = {
 				city: propsCustomizeData?.city,
-				model: choosedModel,
+				model: propsCustomizeData.model,
 				os: propsCustomizeData?.os,
 				os_bits: propsCustomizeData?.os_bits,
 				os_distribution: propsCustomizeData?.os_distribution,
@@ -178,6 +180,7 @@ const Customize = (props) => {
 			});
 			setDataDiskList(copy);
 		}
+		if(!activeTab) setActiveTab('china_mainland');
 	}
 	
 	const changeAreaTab = (key) => {
@@ -195,6 +198,8 @@ const Customize = (props) => {
 		setBitsList(Object.keys(parameterList.os[value]));
 		setSystemBits('');
 		setSysTemPlatform('');
+		setDistributionName('');
+		setDistributionList([]);
 		setCustomizeReqData({...customizeReqData, ['os']: value});
 	};
 
@@ -208,6 +213,7 @@ const Customize = (props) => {
 
 	const changeSystemPlatform = (value) => {
 		setSysTemPlatform(value);
+		setDistributionName(Translate.os[systemOperator] + ' ' + value.toUpperCase() + ' ' + systemBits.replace('x', '') + '位');
 		setCustomizeReqData({...customizeReqData, ['os_distribution']: value});
 	};
 
@@ -247,11 +253,11 @@ const Customize = (props) => {
 	};
 
 	const areaTabPaneContent = (Object.entries(parameterList.areas) || []).map(([key, area]) => (
-		<TabPane tab={key} key={key} className="area-tabpane">
+		<TabPane tab={Translate.area[key]} key={key} className="area-tabpane">
 			{(Object.entries(area) || []).map(([country, citylist]) => (
 				<div className="area-list-box" key={`${country}+${citylist}`}>
 					{citylist.map(item => (
-					<div className={`area-item ${choosedArea === item ? 'active' : ''} `} key={item} onClick={() => chooseAreaItem(item, country)}>{item} ({country})</div>
+					<div className={`area-item ${choosedArea === item ? 'active' : ''} `} key={item} onClick={() => chooseAreaItem(item, country)}>{Translate.city[item]} ({Translate.country[country]})</div>
 				))}
 				</div>
 			))}
@@ -259,7 +265,7 @@ const Customize = (props) => {
 	));
 
 	const radioItem = parameterList.platform.map(item => (
-		<Radio value={item} key={item}>{item}</Radio>
+		<Radio value={item} key={item}>{Translate.platform[item]}</Radio>
 	));
 
 	const changeDataDiskItemValue = (key: string, e: string | number, index: number) => {
@@ -382,11 +388,9 @@ const Customize = (props) => {
 									{parameterList.model.map((item, index) => (
 										<div className={`machine-item ${choosedModel == item ? 'active' : ''}`} key={item} onClick={() => chooseMachineItem(item, index)}>
 											<div className="machine-name">
-												{parameterList.model[index]}
+												{Translate.model[item]['title']} ({Translate.model[item]['name']})
 											</div>
-											<div className="machine-suit">有一定访问量的网站或APP</div>
-											<div className="machine-system">系统盘：50GB，高性能云硬盘</div>
-											<div className="machine-disk">数据盘：有</div>
+											<div className="machine-suit">{Translate.model[item]['describe']}</div>
 										</div>
 									))}
 								</div>
@@ -403,8 +407,7 @@ const Customize = (props) => {
 											{Object.keys(parameterList.os || {}).map(k => {
 												return (
 													<Option value={k} key={k} className={k}>
-														{/* <img className='sys-logo' src={`src/images/customize/${k}.png`} /> */}
-														{k}
+														{Translate.os[k]}
 													</Option>
 												)
 											})}
@@ -420,11 +423,10 @@ const Customize = (props) => {
 										</Select>
 									</Col>
 									<Col span={6}>
-									{/* systemPlatform */}
 										<Select value={distributionName} style={{width: '90%'}} onChange={changeSystemPlatform}>
 											{distributionList.map(k => (
-													<Option value={k} key={k}>{systemOperator} {k} {systemBits.replace('x', '')}位</Option>
-												))}
+												<Option value={k} key={k}>{Translate.os[systemOperator]} {k} {systemBits.replace('x', '')}位</Option>
+											))}
 										</Select>
 									</Col>
 								</Row>

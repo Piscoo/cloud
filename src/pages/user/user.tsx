@@ -2,14 +2,30 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import Layout from '@/components/layout/layout'
 import './user.scss'
-import {orderList, productsList} from '@/request/api'
+import {orderList, productsList, userDashboard} from '@/request/api'
 
+
+interface IDashboard {
+	product_nb: number
+	order_nb: number
+	workflow_nb: number
+	coupon_value: number
+	balance: number
+}
+const dashboard: IDashboard = {
+	product_nb: 0.00,
+	order_nb: 0,
+	workflow_nb: 0,
+	coupon_value: 0,
+	balance: 0.00
+}
 
 const User = () => {
 	const localInfo = localStorage.getItem('userInfo');
 	const userInfo = localInfo ? JSON.parse(localInfo) : {};
 	const [billList, setBillList] = useState<Array<any>>([]);
 	const [productList, setProductList] = useState<Array<any>>([]);
+	const [userDashboardInfo, setUserDashboardInfo] = useState<IDashboard>(dashboard);
 
 	useEffect(() => {
 		const data = {
@@ -35,6 +51,13 @@ const User = () => {
 		}
 		getProductsList();
 	}, [])
+	useEffect(() => {
+		const getUserDashboard = async () => {
+			const res = await userDashboard();
+			if(res.data.code == 0) setUserDashboardInfo(res.data);
+		}
+		getUserDashboard();
+	}, [])
 
 
 	return (
@@ -50,28 +73,28 @@ const User = () => {
 							<div className="money-left">
 								<div>可用余额</div>
 								<div className="money-num">
-									<span className="num">0.00 </span>元
+									<span className="num">{userDashboardInfo?.balance} </span>元
 								</div>
 							</div>
 							<div className="money-coupon">
 								<div>优惠券</div>
 								<div className="money-num">
-									<span className="num">0.00 </span>元
+									<span className="num">{userDashboardInfo?.coupon_value} </span>元
 								</div>
 							</div>
 						</div>
 						<div className="user-objects">
 							<Link to="/user/products" className="obj-item">
 								<div className="obj-item-name product">产品服务</div>
-								<div className="obj-item-num">0</div>
+								<div className="obj-item-num">{userDashboardInfo?.product_nb}</div>
 							</Link>
 							<Link to='/user/bill' className="obj-item">
 								<div className="obj-item-name bill">账单管理</div>
-								<div className="obj-item-num">0</div>
+								<div className="obj-item-num">{userDashboardInfo?.order_nb}</div>
 							</Link>
 							<div className="obj-item obj-item-big">
 								<div className="obj-item-name ticket">我的工单</div>
-								<div className="obj-item-num">0</div>
+								<div className="obj-item-num">{userDashboardInfo?.workflow_nb}</div>
 								<div className="submit-ticket">提交工单</div>
 							</div>
 						</div>
