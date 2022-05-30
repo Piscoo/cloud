@@ -113,6 +113,7 @@ const Home = (props) => {
 	const buyThis = (item) => {
 		props.history.push({pathname: buyLink, state: {customizeData: item}})
 	}
+	const btnWord = '优选方案';
 
 	return <div className="Home-page">
 		<div className="banner">
@@ -144,7 +145,7 @@ const Home = (props) => {
 							低至<span className="num">¥29</span>/月
 						</div>
 						<div className="home-banner-btns">
-							<div className="home-banner-btn plan" onClick={scrollToPick}>优选方案</div>
+							<div className="home-banner-btn plan" onClick={() => scrollToPick}>{btnWord}</div>
 							<Link className="home-banner-btn buy-now" to={buyLink}>立即选购</Link>
 						</div>
 					</div>

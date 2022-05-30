@@ -13,20 +13,19 @@ interface formProps {
 
 export default function LoginForm(props: formProps) {
 	const [autoLogin, setAutoLogin] = useState<boolean>(false);
+	const [email, setEmail] = useState<string>('');
+	const [password, setPassword] = useState<string | number>('');
 	const { changeFormType, loginSuccess } = props;
-	let email: string = '';
-	let password: string | number = '';
 	
 	const inputEmail = (e: { target: { value: string } }) => {
-		email = e.target.value;
+		setEmail(e.target.value);
 	}
 
 	const inputPassword = (e: { target: { value: string | number } }) => {
-		password = e.target.value;
+		setPassword(e.target.value);
 	}
 
 	const changeAutoLogin = (e: { target: { checked: boolean } }) => {
-		console.log(e)
 		setAutoLogin(e.target.checked);
 	}
 
