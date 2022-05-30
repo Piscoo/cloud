@@ -7,6 +7,9 @@ import { promoteDetail } from '@/request/api'
 
 
 const GetNew = (props) => {
+	useEffect(() => {
+		document.title = '用户中心 - mCloud';
+	}, []);
 	const [pageIndex, setPageIndex] = useState<number>(0);
 	const [pageSize, setPageSize] = useState<number>(10);
 	const [total, setTotal] = useState<number>(0);
@@ -15,9 +18,6 @@ const GetNew = (props) => {
 	const [tableData, setTableData] = useState<Array<any>>([]);
 	
 	useEffect(() => {
-		useEffect(() => {
-			document.title = '用户中心 - mCloud';
-		}, []);
 		const getPromoteDetail = async () => {
 			const data = {
 				page_index: pageIndex,

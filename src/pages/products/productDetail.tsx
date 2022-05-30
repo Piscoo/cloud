@@ -46,6 +46,10 @@ const ProductDetail = (props) => {
 		if(byte.toString().length > byte.toFixed(2).toString().length) byte = byte.toFixed(2);
 		return byte + units[i];
 	}
+	const getProductNameTranslate = (name) => {
+		const nameList = name.split('-');
+		return Translate.country[nameList[0]] + '-' + Translate.city[nameList[1]] + '-' + Translate.model[nameList[2]]['name'];
+	}
 	return (
 		<Layout pageName='product' lastBreadcrumbName='产品详情'>
 			<div className="product-detail-container">
@@ -63,7 +67,7 @@ const ProductDetail = (props) => {
 				<div className="product-display-info">
 					<div className="product-status-box">
 						<div className="name-id">
-							<div className="product-name">{productInfo?.name}</div>
+							<div className="product-name">{getProductNameTranslate(productInfo?.name)}</div>
 							<div className="product-id">{productInfo?.id}</div>
 						</div>
 						<div className="product-status">{productStatus[productInfo?.runtime?.status]}</div>

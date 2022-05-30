@@ -1,4 +1,5 @@
 import './login.scss'
+import {useState} from 'react'
 import { Input, Checkbox, message } from 'antd'
 import { UserOutlined, LockOutlined  } from '@ant-design/icons'
 import { login } from '@/request/api'
@@ -11,10 +12,10 @@ interface formProps {
 }
 
 export default function LoginForm(props: formProps) {
+	const [autoLogin, setAutoLogin] = useState<boolean>(false);
 	const { changeFormType, loginSuccess } = props;
 	let email: string = '';
 	let password: string | number = '';
-	let autoLogin: boolean = false;
 	
 	const inputEmail = (e: { target: { value: string } }) => {
 		email = e.target.value;
@@ -25,7 +26,8 @@ export default function LoginForm(props: formProps) {
 	}
 
 	const changeAutoLogin = (e: { target: { checked: boolean } }) => {
-		autoLogin = e.target.checked;
+		console.log(e)
+		setAutoLogin(e.target.checked);
 	}
 
 	const loginNow = () => {

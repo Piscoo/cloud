@@ -1,15 +1,25 @@
 .layout-asider {
-	width: 16.7%;
+	width: 15%;
 	max-width: 320px;
 	height: 100vh;
 	background: #1F222C;
+	.top-logo-box {
+		width: 100%;
+		background: #2F3443;
+	}
 	.top-logo {
 		display: block;
-		width: 100%;
+		width: max-content;
+		margin: 0 auto;
+		padding-left: 56px;
 		height: 64px;
 		box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.09);
-		background: #2F3443 url("@/images/logo.svg") center no-repeat;
+		background: url("@/images/logo.svg") left center no-repeat;
 		background-size: 48px;
+		color: #fff;
+		line-height: 64px;
+		font-size: 26px;
+		font-weight: bold;
 	}
 	.block {
 		width: 100%;

@@ -4,6 +4,7 @@ import "./index.scss"
 import { Link } from 'react-router-dom'
 import UserDropdown from '@/components/userDropdown/userDropdown'
 import { recommendHosts } from '@/request/api'
+import Translate from '@/utils/translation'
 
 
 interface benefit {
@@ -61,8 +62,8 @@ const Home = (props) => {
 	const machineItem = (machineList || []).map((machine, index) =>
 		<div className="machine" key={index}>
 			<div className="machine-info">
-				<div className="name">{machine.city}</div>
-				<div className="city">{machine.country}</div>
+				<div className="name">{Translate.city[machine.city]}</div>
+				<div className="city">{Translate.country[machine.country]}</div>
 			</div>
 			<div className="machine-config">
 				<div className="config-list">
@@ -117,7 +118,7 @@ const Home = (props) => {
 		<div className="banner">
 			<div className="wrapper content">
 				<div className="top">
-					<Link className="logo" to="/">云主机</Link>
+					<Link className="logo" to="/">mCloud</Link>
 					<div className="right-nav">
 						<div className="nav-item language">中文</div>
 						{!userInfo && 
@@ -142,9 +143,9 @@ const Home = (props) => {
 						<div className="price">
 							低至<span className="num">¥29</span>/月
 						</div>
-						<div className="btns">
-							<div className="btn plan" onClick={scrollToPick}>优选方案</div>
-							<Link className="btn buy-now" to={buyLink}>立即选购</Link>
+						<div className="home-banner-btns">
+							<div className="home-banner-btn plan" onClick={scrollToPick}>优选方案</div>
+							<Link className="home-banner-btn buy-now" to={buyLink}>立即选购</Link>
 						</div>
 					</div>
 				</div>
@@ -173,7 +174,6 @@ const Home = (props) => {
 									低至<span className="num">¥29</span>/月
 								</div>
 							</div>
-							<div className="coupon">优惠码：welcome</div>
 						</div>
 						<Link className="buy-now" to={buyLink}>立即订购</Link>
 					</div>
@@ -219,8 +219,8 @@ const Home = (props) => {
 						<div className="icp">《中华人民共和国增值电信业务经营许可证》B1-20195368 , 沪ICP备16045823号 , 北京XX网络科技有限公司</div>
 					</div>
 					<div className="contact">
-						<Popover content={wechatPopover} trigger="click"><div className="wechat"></div></Popover>
-						<div className="email"></div>
+						<Popover content={wechatPopover}><div className="wechat"></div></Popover>
+						<div className="email"><a href="https://t.me/horizencommunity" target="_blank"></a></div>
 					</div>
 				</div>
 			</div>

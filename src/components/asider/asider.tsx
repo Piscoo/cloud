@@ -10,7 +10,9 @@ const Asider = (props) => {
 
 	return (
 		<div className="layout-asider">
-			<Link to="/" className="top-logo"></Link>
+			<div className="top-logo-box">
+				<Link to="/" className="top-logo">mCloud</Link>
+			</div>
 			<div className="block">
 				<div className="block-title">会员中心</div>
 				<Link to='/user' className={`block-item user ${activeItemName == 'user' ? 'active' : ''}`}>

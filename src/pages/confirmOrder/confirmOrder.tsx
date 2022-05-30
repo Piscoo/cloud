@@ -212,10 +212,6 @@ const ConfirmOrder = (props) => {
 									<div className="final-price"><span className="num">{customizeData.price - (choosedCoupon?.value || 0)}</span>元</div>
 								</div>
 								<div className="confirm-btn" onClick={orderNow}>确认订单</div>
-								<div className="ticket-tip">
-									所有消费 (包括购买、开通、续费等）均可开票，订单支付成功后，可前往
-									<span className="blue">费用中心 {'>'} 发票管理开票</span>
-								</div>
 							</div>
 						</div>
 					</div>

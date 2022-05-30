@@ -118,9 +118,9 @@ const NewPassword = (props) => {
 			<div className="how-to">
 				<div className="how-words">
 					<div className="words-title">如何设置一个高强度的密码：</div>
-					<p>1、同时使用大小写字符；</p>
-					<p>2、至少使用一个符号（# $ ! % & 等等…）；</p>
-					<p>3、不要使用连续字符；</p>
+					<p className="password-tip-line">1、同时使用大小写字符；</p>
+					<p className="password-tip-line">2、至少使用一个符号（# $ ! % & 等等…）；</p>
+					<p className="password-tip-line">3、不要使用连续字符；</p>
 				</div>
 			</div>
 			<div className="psd-item">

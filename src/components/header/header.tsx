@@ -7,7 +7,7 @@ const Header = () => {
 	return (
 		<div className="page-header">
 			<div className="wrapper">
-				<Link to="/" className="logo"></Link>
+				<Link to="/" className="logo">mCloud</Link>
 				<UserDropdown></UserDropdown>
 			</div>
 		</div>

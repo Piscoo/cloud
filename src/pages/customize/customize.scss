@@ -56,6 +56,9 @@
 			.ant-tabs-tab {
 				padding: 0 0 12px;
 			}
+			.ant-tabs-nav::before {
+				border-color: #999999;
+			}
 			.area-tabpane, .area-list-box {
 				display: flex;
 				flex-wrap: wrap;
@@ -295,9 +298,8 @@
 				.notice {
 					margin-left: 20px;
 					font-size: 12px;
-					color: #0360ff;
+					color: #999999;
 					width: max-content;
-					cursor: pointer;
 				}
 			}
 			.data-disk-container {
@@ -353,11 +355,11 @@
 						background: url('@/images/customize/add.svg') center no-repeat;
 						background-size: contain;
 					}
-					&::after {
-						right: 0;
-						background: url('@/images/customize/question.svg') center no-repeat;
-						background-size: contain;
-					}
+					// &::after {
+					// 	right: 0;
+					// 	background: url('@/images/customize/question.svg') center no-repeat;
+					// 	background-size: contain;
+					// }
 				}
 			}
 			&.login-way {
@@ -423,7 +425,7 @@
 		box-shadow: 0px -13px 19px 1px rgba(0, 0, 0, 0.05);
 		backdrop-filter: blur(3px);
 		.block {
-			padding: 24px 40px;
+			padding: 24px 40px 0;
 			display: flex;
 			align-items: center;
 			.block-label {

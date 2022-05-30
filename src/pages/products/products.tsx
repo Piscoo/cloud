@@ -4,6 +4,7 @@ import { Table, Tag, Pagination, Select } from 'antd'
 import Layout from '@/components/layout/layout'
 import './products.scss'
 import { productsList } from '@/request/api'
+import Translate from '@/utils/translation'
 
 const { Option } = Select;
 
@@ -31,6 +32,10 @@ const myProduct = () => {
 		getProductsList();
 	}, [pageIndex, pageSize, productStatus])
 
+	const getProductNameTranslate = (name) => {
+		const nameList = name.split('-');
+		return Translate.country[nameList[0]] + '-' + Translate.city[nameList[1]] + '-' + Translate.model[nameList[2]]['name'];
+	}
 	const statusWordList = {
 		0: '运行中',
 		1: '已终止',
@@ -46,7 +51,7 @@ const myProduct = () => {
 			key: 'productname',
 			render: (text, product) => (
 				<>
-					<p className="product-name">{product.name}</p>
+					<p className="product-name">{getProductNameTranslate(product.name)}</p>
 					<p className="product-id">{product.id}</p>
 				</>
 			)

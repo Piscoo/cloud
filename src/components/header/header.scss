@@ -19,9 +19,13 @@
 			width: 75%;
 		}
 		.logo {
-			width: 64px;
 			height: 50px;
-			background: url("@/images/logo.svg") center no-repeat;
+			line-height: 50px;
+			padding-left: 74px;
+			color: #fff;
+			font-size: 26px;
+			font-weight: bold;
+			background: url("@/images/logo.svg") left center no-repeat;
 			background-size: contain;
 		}
 	}

@@ -150,6 +150,8 @@ const Customize = (props) => {
 						}
 					})
 				})
+			} else {
+				setActiveTab('china_mainland');
 			}
 			setSystemOperator(propsCustomizeData.os);
 			setSystemBits(propsCustomizeData.os_bits);
@@ -181,8 +183,7 @@ const Customize = (props) => {
 				return newItem;
 			});
 			setDataDiskList(copy);
-		}
-		if(!activeTab) setActiveTab('china_mainland');
+		} 
 	}
 	
 	const changeAreaTab = (key) => {
@@ -198,9 +199,9 @@ const Customize = (props) => {
 		setSystemOperator(value);
 		// 选择os之后重置bits和distribution列表和值
 		setBitsList(Object.keys(parameterList.os[value]));
-		setSystemBits('');
+		setSystemBits('请选择');
 		setSysTemPlatform('');
-		setDistributionName('');
+		setDistributionName('请选择');
 		setDistributionList([]);
 		setCustomizeReqData({...customizeReqData, ['os']: value});
 	};
@@ -208,6 +209,7 @@ const Customize = (props) => {
 	const changeSystemBits = (value) => {
 		setSystemBits(value);
 		// 选中bits之后重置distribution列表和值
+		setDistributionName('请选择');
 		setSysTemPlatform('');
 		setDistributionList(parameterList.os[systemOperator][value]);
 		setCustomizeReqData({...customizeReqData, ['os_bits']: value});
@@ -496,9 +498,6 @@ const Customize = (props) => {
 												/>GB
 											</Tooltip>
 										</Col>
-										<Col className="buy-guide">
-											选购指引
-										</Col>
 									</Row>
 							</div>
 						</div>
@@ -546,7 +545,7 @@ const Customize = (props) => {
 							<div className="block-label">登录方式</div>
 							<div className="block-content login-way">
 								<div className="auto-password">自动生成密码</div>
-								<div className="tip">自动生成的密码将在服务器创建完成后通过站内信发送给您。您也可以在创建完成后，登录CVM控制台重置密码，<span className="blue">如何重置密码？</span></div>
+								<div className="tip">自动生成的密码将在服务器创建完成后通过站内信发送给您。您也可以在创建完成后，登录CVM控制台重置密码</div>
 							</div>
 						</div>
 					</div>
