@@ -91,7 +91,7 @@ const Customize = (props) => {
 	const [systemDiskType, setSystemDiskType] = useState<string>('high');
 	const [rebuyOrNot, setRebuyOrNot] = useState<boolean>(propsCustomizeData?.auto_renewal ||false);
 	const [buyNumber, setBuyNumber] = useState<number>(propsCustomizeData?.purchase_nb || 1);
-	const [agreeContract, setAgreeContract] = useState<boolean>(!!propsCustomizeData);
+	// const [agreeContract, setAgreeContract] = useState<boolean>(!!propsCustomizeData);
 	const [isNeedLoginModalVisible, setIsNeedLoginModalVisible] = useState<boolean>(false);
 	const [activeTab, setActiveTab] = useState<string>('china_mainland');
 	const [bitsList, setBitsList] = useState<string[]>([]);
@@ -137,9 +137,10 @@ const Customize = (props) => {
 	const setDefaultValues = (param) => {
 		const osList = Object.keys(param.os);
 		const bitList = propsCustomizeData?.os ? Object.keys(param.os[propsCustomizeData?.os]) : Object.keys(param.os[osList[0]]);
-		const disList = propsCustomizeData?.os_distribution ? param.os[propsCustomizeData?.os][propsCustomizeData?.os_bits || 'x64'] : Object.keys(param.os[osList[0]][bitList[0]]);
 		setBitsList(bitList);
-		setDistributionList(disList);
+		if(systemOperator && systemBits) {
+			setDistributionList(param.os[systemOperator][systemBits]);
+		}
 		if(propsCustomizeData) {
 			if(choosedArea) {
 				Object.entries(param.areas).map(item => {
@@ -337,19 +338,19 @@ const Customize = (props) => {
 		setCustomizeReqData({...customizeReqData, ['purchase_nb']: e});
 	}
 
-	const changeAgreeContract = (e) => {
-		setAgreeContract(e.target.checked);
-	};
+	// const changeAgreeContract = (e) => {
+	// 	setAgreeContract(e.target.checked);
+	// };
 
 	const buyNow = () => {
 		if(!localStorage.userInfo) {
 			setIsNeedLoginModalVisible(true);
 			return;
 		}
-		if(!agreeContract) {
-			message.warning('请勾选同意服务条款');
-			return;
-		}
+		// if(!agreeContract) {
+		// 	message.warning('请勾选同意服务条款');
+		// 	return;
+		// }
 		if(!choosedArea || !choosedModel || !systemOperator || !systemBits || !systemPlatform || !platformValue) {
 			message.warning('请选择您需要的配置');
 			return;
@@ -525,9 +526,9 @@ const Customize = (props) => {
 												/>GB
 											</Tooltip>
 										</Col>
-										<Col className="notice">
+										{/* <Col className="notice">
 											用快照创建硬盘
-										</Col>
+										</Col> */}
 										{dataDiskList.length > 1 && <div className="delete-item" onClick={() => deleteDataDiskItem(index)}></div>}
 									</Row>
 								))}
@@ -566,7 +567,7 @@ const Customize = (props) => {
 							<div className="block-label"></div>
 							<div className="block-content rebuy-content">
 								<Checkbox checked={rebuyOrNot} className="auto-rebuy" onChange={changeRebuyOrNot}>账户余额足够时，设备到期后按月自动续费</Checkbox>
-								<div className="tip">如需备案请购买国内服务器3个月及以上<span className="know-more">了解详情</span></div>
+								{/* <div className="tip">如需备案请购买国内服务器3个月及以上<span className="know-more">了解详情</span></div> */}
 							</div>
 						</div>
 						<div className="block-item buy-number">
@@ -591,9 +592,9 @@ const Customize = (props) => {
 							<div className="money">
 								{totalPrice || '_ _'} <span className="fee">元</span>
 							</div>
-							<div className="contract">
+							{/* <div className="contract">
 								<Checkbox checked={agreeContract} onChange={changeAgreeContract}>同意<span className="blue">《云服务协议》</span>、<span className="blue">《退款规则》</span>和<span className="blue">《云服务虚拟货币相关活动声明》</span></Checkbox>
-							</div>
+							</div> */}
 							<div className="buy-now" onClick={buyNow}>立即购买</div>
 						</div>
 					</div>

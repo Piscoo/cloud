@@ -145,7 +145,7 @@ const Home = (props) => {
 							低至<span className="num">¥29</span>/月
 						</div>
 						<div className="home-banner-btns">
-							<div className="home-banner-btn plan" onClick={() => scrollToPick}>{btnWord}</div>
+							<div className="home-banner-btn plan" onClick={scrollToPick}>{btnWord}</div>
 							<Link className="home-banner-btn buy-now" to={buyLink}>立即选购</Link>
 						</div>
 					</div>
@@ -187,7 +187,7 @@ const Home = (props) => {
 					<div className="word-box">
 						<div className="title">立即订购 属于您的私人云主机</div>
 						<div className="sub-title">快速，便利，高效开启您的云生活</div>
-						<div className="btn">了解详情</div>
+						<Link className="btn" to={buyLink}>了解详情</Link>
 					</div>
 				</div>
 				<div className="computer-logo">

@@ -248,7 +248,7 @@ const BillDetail = (props) => {
 							<Select value={payType} onChange={changePayType}>
 								<Option value="alipay">支付宝</Option>
 								<Option value="wechat">微信</Option>
-								<Option value="digital">数字货币</Option>
+								{/* <Option value="digital">数字货币</Option> */}
 							</Select>
 						</div>
 						{payType != 'digital' && <div className="payment">

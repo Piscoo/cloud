@@ -22,14 +22,14 @@
 	.logo {
 		width: max-content;
 		height: 54.5px;
-		padding-left: 80px;
+		padding-left: 70px;
 		line-height: 54px;
 		font-size: 26px;
 		font-weight: bold;
 		color: #fff;
 		display: block;
 		background: url('@/images/logo.svg') left center no-repeat;
-		background-size: contain;
+		background-size: 60px;
 	}
 	.bot-info {
 		margin-top: 18%;
