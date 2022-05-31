@@ -93,7 +93,7 @@ const Customize = (props) => {
 	const [buyNumber, setBuyNumber] = useState<number>(propsCustomizeData?.purchase_nb || 1);
 	const [agreeContract, setAgreeContract] = useState<boolean>(!!propsCustomizeData);
 	const [isNeedLoginModalVisible, setIsNeedLoginModalVisible] = useState<boolean>(false);
-	const [activeTab, setActiveTab] = useState<string>('');
+	const [activeTab, setActiveTab] = useState<string>('china_mainland');
 	const [bitsList, setBitsList] = useState<string[]>([]);
 	const [distributionList, setDistributionList] = useState<string[]>([]);
 	const [distributionName, setDistributionName] = useState<string>(systemOperator + ' ' + systemPlatform.toUpperCase() + ' ' + systemBits.replace('x', '') + '位');

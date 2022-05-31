@@ -9,8 +9,8 @@ const UserHeader = (props) => {
 		<div className="user-header">
 			<Breadcrumb lastBreadcrumbName = {lastBreadcrumbName}></Breadcrumb>
 			<div className="user-header-right">
-				<div className="translate"></div>
-				<div className="notify"></div>
+				{/* <div className="translate"></div> */}
+				{/* <div className="notify"></div> */}
 				<UserDropdown userPage={userPage}></UserDropdown>
 			</div>
 		</div>

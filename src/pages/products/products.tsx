@@ -1,6 +1,6 @@
 import { useState, useEffect, SetStateAction } from 'react'
 import { Link } from 'react-router-dom'
-import { Table, Tag, Pagination, Select } from 'antd'
+import { Table, Tag, Pagination, Select, Tooltip } from 'antd'
 import Layout from '@/components/layout/layout'
 import './products.scss'
 import { productsList } from '@/request/api'
@@ -51,7 +51,7 @@ const myProduct = () => {
 			key: 'productname',
 			render: (text, product) => (
 				<>
-					<p className="product-name">{getProductNameTranslate(product.name)}</p>
+					<Link to={`/user/products/${product.id}`} className="product-name">{getProductNameTranslate(product.name)}</Link>
 					<p className="product-id">{product.id}</p>
 				</>
 			)
@@ -82,7 +82,7 @@ const myProduct = () => {
 			title: '操作',
 			key: 'todetail',
 			render: (text, item) => (
-				<Link to={`/user/products/${item.id}`} className="to-detail-icon"></Link>
+				<Tooltip placement="top" title="进入"><Link to={`/user/products/${item.id}`} className="to-detail-icon"></Link></Tooltip>
 			)
 		}
 	];

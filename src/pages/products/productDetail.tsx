@@ -67,7 +67,7 @@ const ProductDetail = (props) => {
 				<div className="product-display-info">
 					<div className="product-status-box">
 						<div className="name-id">
-							<div className="product-name">{getProductNameTranslate(productInfo?.name)}</div>
+							<div className="product-name">{productInfo?.name && getProductNameTranslate(productInfo?.name)}</div>
 							<div className="product-id">{productInfo?.id}</div>
 						</div>
 						<div className="product-status">{productStatus[productInfo?.runtime?.status]}</div>
