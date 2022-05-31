@@ -181,7 +181,7 @@ const Home = (props) => {
 				</div>
 			</div>
 		</div>
-		<div className="order-now">
+		{/* <div className="order-now">
 			<div className="wrapper">
 				<div className="top-content">
 					<div className="word-box">
@@ -198,13 +198,13 @@ const Home = (props) => {
 					}
 				</div>
 			</div>
-		</div>
-		<div className="start">
+		</div> */}
+		{/* <div className="start">
 			<div className="wrapper words">
 				<div className="word">快速、便利、高效开启您的云生活</div>
 				<Link className="buy-now" to={buyLink}>立即订购</Link>
 			</div>
-		</div>
+		</div> */}
 		<div className="footer">
 			{/* <div className="foot-top">
 				<div className="wrapper">

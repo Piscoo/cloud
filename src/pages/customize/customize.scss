@@ -3,7 +3,7 @@
 	color: #333;
 	font-size: 16px;
 	background: #F9F9FB;
-	padding-bottom: 176px;
+	padding-bottom: 140px;
 	.wrapper {
 		width: 62.5%;
 		max-width: 1200px;
@@ -114,12 +114,6 @@
 						top: 0;
 						right: 0;
 					}
-				}
-			}
-			.system-select {
-				.sys-logo {
-					width: 14px;
-					vertical-align: middle;
 				}
 			}
 			.machine-container {
@@ -417,7 +411,7 @@
 	}
 	.page-bot {
 		width: 100%;
-		height: 176px;
+		height: 140px;
 		position: absolute;
 		bottom: 0;
 		left: 0;
@@ -425,7 +419,7 @@
 		box-shadow: 0px -13px 19px 1px rgba(0, 0, 0, 0.05);
 		backdrop-filter: blur(3px);
 		.block {
-			padding: 24px 40px 0;
+			padding: 8px 40px 0;
 			display: flex;
 			align-items: center;
 			.block-label {
@@ -528,6 +522,21 @@
 						color: #fff;
 					}
 				}
+			}
+		}
+	}
+}
+
+.system-select {
+	$logos: ('windows', 'ubuntu', 'tencentos', 'suse', 'freebsd', 'debian', 'centos');
+	.sys-logo {
+		display: inline-block;
+		padding-left: 20px;
+		vertical-align: middle;
+		@each $logo in $logos {
+			&.#{$logo} {
+				background: url('@/images/customize/#{$logo}.png') left center no-repeat;
+				background-size: 16px;
 			}
 		}
 	}

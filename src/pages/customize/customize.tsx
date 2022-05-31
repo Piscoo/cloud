@@ -362,7 +362,17 @@ const Customize = (props) => {
 			state: {customizeData: pageData}
 		});
 	};
-
+	const systemOperatorDropdownItems = (
+		<div>
+			{Object.keys(parameterList.os || {}).map(k => {
+				return (
+					<div className="system-select" key={k}>
+						<span className={`${k} sys-logo`}>{Translate.os[k]}</span>
+					</div>
+				)
+			})}
+		</div>
+	)
 
 
 	return (
@@ -408,11 +418,11 @@ const Customize = (props) => {
 							<div className="block-content">
 								<Row>
 									<Col span={4} className="system-select">
-										<Select value={systemOperator} onChange={changeSystemOperator} style={{width: '90%'}}>
+										<Select value={systemOperator} onChange={changeSystemOperator} style={{width: '90%'}} dropdownClassName="system-select">
 											{Object.keys(parameterList.os || {}).map(k => {
 												return (
-													<Option value={k} key={k} className={k}>
-														{Translate.os[k]}
+													<Option value={k} key={k}>
+														<span className={`${k} sys-logo`}>{Translate.os[k]}</span>
 													</Option>
 												)
 											})}

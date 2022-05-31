@@ -1,8 +1,8 @@
 #root {
-	/* height: 100%; */
-	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-family: PingFang SC, PingFangSC-Regular, PingFangSC-Bold;
 }
 body {
+	font-family: PingFang SC, PingFangSC-Regular, PingFangSC-Bold;
 	line-height: 1.2;
 	-ms-overflow-style: none;
 	scrollbar-width: none;
