@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import LeftBlock from './leftBlock'
-import LoginForm from './loginForm'
+import ResetForm from './resetForm'
 import './login.scss'
 
 
@@ -18,8 +18,8 @@ function LoginPage(props) {
 	}
 	return (
     <div className="loginPage">
-			<LeftBlock></LeftBlock>
-			<LoginForm changeFormType={changeFormType} loginSuccess={loginSuccess}></LoginForm>
+		<LeftBlock></LeftBlock>
+		<ResetForm changeFormType={changeFormType}></ResetForm>
     </div>
   )
 }

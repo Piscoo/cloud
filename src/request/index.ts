@@ -33,7 +33,7 @@ class Request {
 			(res: AxiosResponse) => {
 				// console.log('全局响应拦截器', res);
 				if(res.data.code == -7) {
-					location.href = '/login';
+					location.href = '/signin';
 				}
 				return res;
 			},

@@ -39,7 +39,7 @@
 					margin-top: 50px;
 				}
 				&:not(:first-child)  {
-					margin-top: 30px;
+					margin-top: 70px;
 				}
 				&.login-way-block {
 					padding-bottom: 32px;
@@ -300,7 +300,7 @@
 				background: #F9F9FA;
 				border-radius: 4px;
 				padding: 16px 16px 40px;
-				margin-top: 20px;
+				margin-bottom: 20px;
 				position: relative;
 				.delete-item {
 					width: 24px;
@@ -320,7 +320,6 @@
 			}
 			&.data-disk {
 				.add-new-one {
-					margin-top: 16px;
 					font-size: 12px;
 					width: max-content;
 					position: relative;

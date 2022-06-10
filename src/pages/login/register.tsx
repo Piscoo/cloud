@@ -145,7 +145,7 @@ function Register(props) {
 				case 0:
 					message.success('注册成功，请登录');
 					const timer = setTimeout(() => {
-						props.history.push('/login');
+						props.history.push('/signin');
 						clearTimeout(timer);
 					}, 1000);
 					break;
@@ -228,7 +228,7 @@ function Register(props) {
     <div className="register-page">
 			<LeftBlock></LeftBlock>
 			<div className="register-form-side">
-				<div className="to-login">已经注册？<Link to='/login' className="go">用户登录</Link></div>
+				<div className="to-login">已经注册？<Link to='/signin' className="go">用户登录</Link></div>
 				<div className="form-box">
 					<div className="form">
 						<div className="form-title">以第三方服务注册</div>

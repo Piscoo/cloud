@@ -80,12 +80,12 @@ const Customize = (props) => {
 	const [choosedCountry, setChoosedCountry] = useState<string>(propsCustomizeData?.country || '');
 	const [choosedModel, setChoosedModel] = useState<string>(propsCustomizeData?.model || propsCustomizeData?.cpu ? 'cpu' + propsCustomizeData?.cpu + 'ram' + propsCustomizeData?.ram : '');
 	const [systemOperator, setSystemOperator] = useState<string>(propsCustomizeData?.os || 'ubuntu');
-	const [systemBits, setSystemBits] = useState<string>('x86');
-	const [systemPlatform, setSysTemPlatform] = useState<string>('18.04');
+	const [systemBits, setSystemBits] = useState<string>('x64');
+	const [systemPlatform, setSysTemPlatform] = useState<string>('18.04.1 LTS');
 	const [platformValue, setPlatformValue] = useState<string>(propsCustomizeData?.platform || 'both');
 	const [systemDiskSize, setSystemDiskSize] = useState<number>(propsCustomizeData?.system_disk_capacity || 50);	
 	const [buyTimeValue, setBuyTimeValue] = useState<number>(propsCustomizeData?.purchase_month || 6);
-	const [dataDiskList, setDataDiskList] = useState<Array<DataDiskItem>>([defaultDataDiskItem]);
+	const [dataDiskList, setDataDiskList] = useState<Array<DataDiskItem>>([]);
 	const [internetSpeed, setInternetSpeed] = useState<number>(200);
 	const [isUseFreeNet, setIsUseFreeNet] = useState<boolean>(propsCustomizeData?.need_public_ip || true);
 	const [systemDiskType, setSystemDiskType] = useState<string>('high');
@@ -156,7 +156,7 @@ const Customize = (props) => {
 			}
 			setSystemOperator(propsCustomizeData.os);
 			setSystemBits(propsCustomizeData.os_bits);
-			setSysTemPlatform(propsCustomizeData.os_distribution);
+			setSysTemPlatform(propsCustomizeData.os_distribution.toUpperCase());
 			setDistributionName(propsCustomizeData.os + ' ' + propsCustomizeData.os_distribution.toUpperCase() + ' ' + propsCustomizeData.os_bits.replace('x', '') + '位');
 			setChoosedModel(propsCustomizeData.model);
 			setIsUseFreeNet(propsCustomizeData.need_public_ip);
@@ -167,7 +167,7 @@ const Customize = (props) => {
 				model: propsCustomizeData.model,
 				os: propsCustomizeData?.os,
 				os_bits: propsCustomizeData?.os_bits,
-				os_distribution: propsCustomizeData?.os_distribution,
+				os_distribution: propsCustomizeData?.os_distribution.toUpperCase(),
 				platform: platformValue,
 				bandwidth: propsCustomizeData?.bandwidth,
 				system_disk_capacity: propsCustomizeData?.system_disk_capacity,
@@ -338,24 +338,15 @@ const Customize = (props) => {
 		setCustomizeReqData({...customizeReqData, ['purchase_nb']: e});
 	}
 
-	// const changeAgreeContract = (e) => {
-	// 	setAgreeContract(e.target.checked);
-	// };
-
 	const buyNow = () => {
 		if(!localStorage.userInfo) {
 			setIsNeedLoginModalVisible(true);
 			return;
 		}
-		// if(!agreeContract) {
-		// 	message.warning('请勾选同意服务条款');
-		// 	return;
-		// }
 		if(!choosedArea || !choosedModel || !systemOperator || !systemBits || !systemPlatform || !platformValue) {
 			message.warning('请选择您需要的配置');
 			return;
 		}
-		// localStorage.setItem('customizeData', JSON.stringify(customizeReqData));
 		const pageData = {...customizeReqData,['tab']: activeTab, ['country']: choosedCountry, ['price']: totalPrice, ['auto_renewal']: rebuyOrNot};
 		props.history.push({
 			pathname: '/confirm-order',
@@ -512,7 +503,7 @@ const Customize = (props) => {
 									</Row>
 							</div>
 						</div>
-						<div className="block-item">
+						<div className="block-item data-disk-block">
 							<div className="block-label">数据盘</div>
 							<div className="block-content data-disk">
 								{dataDiskList.map((disk, index) => (
@@ -536,9 +527,6 @@ const Customize = (props) => {
 												/>GB
 											</Tooltip>
 										</Col>
-										{/* <Col className="notice">
-											用快照创建硬盘
-										</Col> */}
 										{dataDiskList.length > 1 && <div className="delete-item" onClick={() => deleteDataDiskItem(index)}></div>}
 									</Row>
 								))}
@@ -622,7 +610,7 @@ const Customize = (props) => {
 							<div>请先登录账户后购买本产品！</div>
 							<div className="btns">
 								<Link to="/register" className="btn register">立即注册</Link>
-								<Link to={{pathname: "/login/", state:{callbackUrl: location.pathname}}} className="btn login">账号登录</Link>
+								<Link to={{pathname: "/signin/", state:{callbackUrl: location.pathname}}} className="btn login">账号登录</Link>
 							</div>
 						</div>
 					</div>

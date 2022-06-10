@@ -124,8 +124,8 @@ const Home = (props) => {
 						<div className="nav-item language">中文</div>
 						{!userInfo && 
 							<>
-								<Link to='/register' className="nav-item register">注册账号</Link>
-								<Link to='/login' className="nav-item login">用户登录</Link>
+								<Link to='/signup' className="nav-item register">注册账号</Link>
+								<Link to='/signin' className="nav-item login">用户登录</Link>
 							</>
 						}
 						{userInfo && <UserDropdown />}

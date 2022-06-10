@@ -47,7 +47,7 @@ const Bill = () => {
 			dataIndex: 'id',
 			key: 'id',
 			render: text => (
-				<Link to={`/user/bill/${text}`}>#{text}</Link>
+				<Link to={`/user/bills/${text}`}>#{text}</Link>
 			)
 		},
 		{

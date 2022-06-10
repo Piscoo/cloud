@@ -70,6 +70,7 @@ const User = () => {
 					<div className="user-info">
 						<div className="user-avatar"></div>
 						<div className="username">{userInfo?.firstName + ' ' + userInfo?.lastName}</div>
+						<div className="useremail">{userInfo?.email}</div>
 					</div>
 					<div className="user-account">
 						<div className="user-money">
@@ -91,7 +92,7 @@ const User = () => {
 								<div className="obj-item-name product">产品服务</div>
 								<div className="obj-item-num">{userDashboardInfo?.product_nb}</div>
 							</Link>
-							<Link to='/user/bill' className="obj-item">
+							<Link to='/user/bills' className="obj-item">
 								<div className="obj-item-name bill">账单管理</div>
 								<div className="obj-item-num">{userDashboardInfo?.order_nb}</div>
 							</Link>
@@ -127,7 +128,7 @@ const User = () => {
 						</div>}
 						{billList?.length > 0 && <div className="msg-list-box">
 							{billList.map((item) => (
-								<Link to={`/user/bill/${item.id}`} className="msg-list-item bill-list-item" key={item.id}>
+								<Link to={`/user/bills/${item.id}`} className="msg-list-item bill-list-item" key={item.id}>
 									<div className="bill-info">
 										<div className="bill-number">#{item.id}</div>
 										<div className="bill-time">到期时间：{new Date(item.expired_ts * 1000).toLocaleDateString()}</div>

@@ -3,15 +3,11 @@ import {useState} from 'react'
 import { Input, Checkbox, message } from 'antd'
 import { UserOutlined, LockOutlined  } from '@ant-design/icons'
 import { login } from '@/request/api'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import { isEmail } from '@/utils/is'
 
-interface formProps {
-	changeFormType: (value: string) => void
-	loginSuccess: () => void
-}
 
-export default function LoginForm(props: formProps) {
+function LoginForm(props) {
 	const [autoLogin, setAutoLogin] = useState<boolean>(false);
 	const [email, setEmail] = useState<string>('');
 	const [password, setPassword] = useState<string | number>('');
@@ -27,6 +23,10 @@ export default function LoginForm(props: formProps) {
 
 	const changeAutoLogin = (e: { target: { checked: boolean } }) => {
 		setAutoLogin(e.target.checked);
+	}
+
+	const toReset = () => {
+		props.history.push('/reset')
 	}
 
 	const loginNow = () => {
@@ -77,13 +77,15 @@ export default function LoginForm(props: formProps) {
 					<div className="auto-login">
 						<Checkbox checked={autoLogin} onChange={changeAutoLogin}>自动登录</Checkbox>
 					</div>
-					<div className="forgot" onClick={() => {changeFormType('reset')}}>忘记密码？</div>
+					<div className="forgot" onClick={toReset}>忘记密码？</div>
 				</div>
 				<div className="login-now" onClick={loginNow}>立即登录</div>
 			</div>
 			<div className="to-register">
-				注册账号...<Link to='/register' className="go">以第三方服务注册</Link>
+				注册账号...<Link to='/signup' className="go">以第三方服务注册</Link>
 			</div>
 		</div>
   )
 }
+
+export default withRouter(LoginForm)

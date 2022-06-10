@@ -20,7 +20,7 @@ const ChangePassword = (props) => {
 		if(res.data.code == 0) {
 			message.success('密码修改成功，请重新登录');
 			const timer = setTimeout(() => {
-				props.history.push('/login');
+				props.history.push('/signin');
 				clearTimeout(timer);
 			}, 1000);
 		} else {

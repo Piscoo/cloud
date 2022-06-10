@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Button, message, Space } from 'antd'
+import { Button, message, Space, Tooltip } from 'antd'
 import Layout from '@/components/layout/layout'
 import './productDetail.scss'
 import { productDetail } from '@/request/api'
@@ -47,8 +47,9 @@ const ProductDetail = (props) => {
 		return byte + units[i];
 	}
 	const getProductNameTranslate = (name) => {
-		const nameList = name.split('-');
-		return Translate.country[nameList[0]] + '-' + Translate.city[nameList[1]] + '-' + Translate.model[nameList[2]]['name'];
+		//const nameList = name.split('-');
+		//return Translate.country[nameList[0]] + '-' + Translate.city[nameList[1]] + '-' + Translate.model[nameList[2]]['name'];
+		return name;
 	}
 	return (
 		<Layout pageName='product' lastBreadcrumbName='产品详情'>
@@ -67,8 +68,12 @@ const ProductDetail = (props) => {
 				<div className="product-display-info">
 					<div className="product-status-box">
 						<div className="name-id">
-							<div className="product-name">{productInfo?.name && getProductNameTranslate(productInfo?.name)}</div>
-							<div className="product-id">{productInfo?.id}</div>
+							<Tooltip placement="right" title="实例名称">
+								<div className="product-name">{productInfo?.name && getProductNameTranslate(productInfo?.name)}</div>
+							</Tooltip>
+							<Tooltip placement="right" title="实例ID">
+								<div className="product-id">{productInfo?.id}</div>
+							</Tooltip>
 						</div>
 						<div className="product-status">{productStatus[productInfo?.runtime?.status]}</div>
 					</div>

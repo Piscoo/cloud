@@ -5,9 +5,9 @@ const breadcrumbNameMap = {
 	'/user': '用户中心',
 	'/user/products': '我的产品',
 	'/customize': '自定义配置',
-	'/login': 'Login',
-	'/register': 'Register',
-	'/user/bill': '我的账单'
+	'/signin': 'Login',
+	'/signup': 'Register',
+	'/user/bills': '我的账单'
 };
 
 const BreadcrumbList = (props) => {

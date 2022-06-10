@@ -69,7 +69,10 @@ const ConfirmOrder = (props) => {
 		if(res.data.code == 0) {
 			const id = res.data.order_id;
 			message.success("下单成功");
-			props.history.push({pathname: `/user/bill/${id}`, state: {id}});
+			props.history.push({pathname: `/user/bills/${id}`, state: {id}});
+		} else {
+
+			message.error(res.data.msg);
 		}
 	}
 

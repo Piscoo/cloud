@@ -14,6 +14,7 @@ const BillDetail = lazy(() => import('@/pages/bill/billDetail'));
 const ChangePassword = lazy(() => import('@/pages/changePassword/changePassword'));
 const Coupon = lazy(() => import('@/pages/coupon/coupon'));
 const GetNew = lazy(() => import('@/pages/getNew/getNew'));
+const Reset = lazy(() => import('@/pages/login/reset'));
 
 const routers = [
 	{
@@ -48,11 +49,15 @@ const routers = [
 		exact: true
 	},
 	{
-		path: '/login',
+		path: '/signin',
 		component: Login,
 	},
 	{
-		path: '/register',
+		path: '/reset',
+		component: Reset,
+	},
+	{
+		path: '/signup',
 		component: Register,
 	},
 	{
@@ -64,12 +69,12 @@ const routers = [
 		component: ConfirmOrder
 	},
 	{
-		path: '/user/bill',
+		path: '/user/bills',
 		component: Bill,
 		exact: true
 	},
 	{
-		path: '/user/bill/:id',
+		path: '/user/bills/:id',
 		component: BillDetail,
 		exact: true
 	},
@@ -78,11 +83,11 @@ const routers = [
 		component: ChangePassword
 	},
 	{
-		path: '/user/coupon',
+		path: '/user/coupons',
 		component: Coupon
 	},
 	{
-		path: '/user/get-new',
+		path: '/user/promote',
 		component: GetNew
 	}
 ]

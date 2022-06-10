@@ -33,8 +33,9 @@ const myProduct = () => {
 	}, [pageIndex, pageSize, productStatus])
 
 	const getProductNameTranslate = (name) => {
-		const nameList = name.split('-');
-		return Translate.country[nameList[0]] + '-' + Translate.city[nameList[1]] + '-' + Translate.model[nameList[2]]['name'];
+		//const nameList = name.split('-');
+		//return Translate.country[nameList[0]] + '-' + Translate.city[nameList[1]] + '-' + Translate.model[nameList[2]]['name'];
+		return name;
 	}
 	const statusWordList = {
 		0: '运行中',
@@ -51,8 +52,8 @@ const myProduct = () => {
 			key: 'productname',
 			render: (text, product) => (
 				<>
-					<Link to={`/user/products/${product.id}`} className="product-name">{getProductNameTranslate(product.name)}</Link>
-					<p className="product-id">{product.id}</p>
+					<Tooltip placement="right" title="实例名称"><Link to={`/user/products/${product.id}`} className="product-name">{getProductNameTranslate(product.name)}</Link></Tooltip>
+					<Tooltip placement="right" title="实例ID"><p className="product-id">{product.id}</p></Tooltip>
 				</>
 			)
 		},

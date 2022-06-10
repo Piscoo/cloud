@@ -128,6 +128,7 @@ interface orderReq {
 // 下单
 export const generateOrder = (data: orderReq) => {
 	interface Res {
+		msg: string
 		code: number
 		order_id: string
 	}
