@@ -33,13 +33,17 @@
 			.block-item {
 				display: flex;
 				align-items: center;
-				// justify-content: ;
-
+				&:not(:first-child)  {
+					margin-top: 30px;
+				}
 				&.system-block {
 					margin-top: 50px;
 				}
-				&:not(:first-child)  {
+				&.data-disk-block {
 					margin-top: 70px;
+				}
+				&.rebuy-item {
+					margin-top: 16px;
 				}
 				&.login-way-block {
 					padding-bottom: 32px;
@@ -140,9 +144,6 @@
 						line-height: 26px;
 						font-weight: bold;
 					}
-					.machine-suit {}
-					.machine-system {}
-					.machine-disk {}
 					&.active {
 						box-shadow: 0px 15px 15px 0px rgba(0, 0, 0, 0.04);
 						border: 1px solid #0360FF;
@@ -447,6 +448,7 @@
 				.buy-now {
 					width: max-content;
 					height: 36px;
+					padding: 0;
 					margin-top: 20px;
 					background: #E9661E;
 					border-radius: 4px;
