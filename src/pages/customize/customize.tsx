@@ -109,7 +109,7 @@ const Customize = (props) => {
 		platform: platformValue,
 		bandwidth: 200,
 		system_disk_capacity: systemDiskSize,
-		data_disk_capacity: [50],
+		data_disk_capacity: [],
 		purchase_month: buyTimeValue,
 		need_public_ip: isUseFreeNet,
 		purchase_nb: buyNumber
