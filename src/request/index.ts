@@ -4,7 +4,7 @@ import qs from 'qs'
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 import { RequestConfig, RequestInterceptors } from './types'
 
-const baseUrl = import.meta.env.PROD ? 'http://49.233.34.234:8899' : '/api';
+const baseUrl = import.meta.env.PROD ? 'https://mcloud.global' : '/api';
 class Request {
 	instance: AxiosInstance
 	interceptorsObj?: RequestInterceptors

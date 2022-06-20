@@ -64,9 +64,9 @@ const BillDetail = (props) => {
 			if(res.data.code == 0) {
 				if(payType == 'digital') {
 					setDigitalInfo(res.data.data);
-					setPayQrcode('http://49.233.34.234:8899/' + res.data.data.path);
+					setPayQrcode(res.data.data.path);
 				} else {
-					setPayQrcode('http://49.233.34.234:8899/' + res.data.data);
+					setPayQrcode(res.data.data);
 				}
 			}
 		}

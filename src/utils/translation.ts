@@ -1,29 +1,49 @@
 const Translate = {
 	model: {
 		"cpu1ram1": {
-			name: "1核1GB",
-			title: "基础配置",
-			describe: "有一定访问量的网站或APP"
+			"name": "1核1GB",
+			"title": "共享标准型",
+			"describe": "适合各个行业通用计算需求，如：小型 Web 应用、中小型数据等"
 		},
-		cpu1ram2: {
-			name: "1核2GB",
-			title: "基础配置",
-			describe: "有一定访问量的网站或APP"
+		"cpu1ram2": {
+			"name": "1核2GB",
+			"title": "共享标准型",
+			"describe": "适合各个行业通用计算需求，如：小型 Web 应用、中小型数据等"
 		},
-		cpu2ram4: {
-			name: "2核4GB",
-			title: "普及配置",
-			describe: "并发适中的APP或普通数据处理"
+		"cpu1ram4": {
+			"name": "1核4GB",
+			"title": "共享标准型",
+			"describe": "适合各个行业通用计算需求，如：小型 Web 应用、中小型数据等"
 		},
-		cpu4ram8: {
-			name: "4核8GB",
-			title: "专业配置",
-			describe: "适用于并发要求较高的APP"
+		"cpu2ram2": {
+			"name": "2核2GB",
+			"title": "计算型",
+			"describe": "适合企业级通用应用，视频编解码，游戏开发，高网络包收发场景"
 		},
-		cpu8ram16: {
-			name: "8核16GB",
-			title: "增强配置",
-			describe: "具有高计算或IO需求的APP"
+		"cpu2ram4": {
+			"name": "2核4GB",
+			"title": "计算型",
+			"describe": "适合企业级通用应用，视频编解码，游戏开发，高网络包收发场景"
+		},
+		"cpu4ram8": {
+			"name": "4核8GB",
+			"title": "计算平衡增强型",
+			"describe": "适合视频编解码，高网络包收发场景，其他通用类型的企业级应用"
+		},
+		"cpu4ram16": {
+			"name": "4核16GB",
+			"title": "内存型",
+			"describe": "适用于各种内存型应用，如Redis、MySQL等数据库、消息中间件等"
+		},
+		"cpu8ram16": {
+			"name": "8核16GB",
+			"title": "高主频计算型",
+			"describe": "适合高性能前端集群、Web 服务器、分布式分析、视频编码等场景"
+		},
+		"cpu16ram32": {
+			"name": "16核32GB",
+			"title": "突发性能实例",
+			"describe": "适合高网络收发包场景，数据分析和渲染，基因计算等固定性能计算场景"
 		},
 	},
 	area: {
@@ -108,7 +128,7 @@ const Translate = {
 		"buenos_aires": "布宜诺斯艾利斯"
 	},
 	platform: {
-		"both": "二者皆可",
+		"both": "随机",
 		"amd": "AMD",
 		"intel": "Intel"
 	},

@@ -33,13 +33,17 @@
 			.block-item {
 				display: flex;
 				align-items: center;
-				// justify-content: ;
-
+				&:not(:first-child)  {
+					margin-top: 30px;
+				}
 				&.system-block {
 					margin-top: 50px;
 				}
-				&:not(:first-child)  {
+				&.data-disk-block {
 					margin-top: 70px;
+				}
+				&.rebuy-item {
+					margin-top: 16px;
 				}
 				&.login-way-block {
 					padding-bottom: 32px;
@@ -49,7 +53,7 @@
 		.block-label {
 			width: 90px;
 			text-align: left;
-			font-weight: 500;
+			font-weight: bold;
 		}
 		.block-content {
 			width: calc(100% - 90px);
@@ -140,9 +144,6 @@
 						line-height: 26px;
 						font-weight: bold;
 					}
-					.machine-suit {}
-					.machine-system {}
-					.machine-disk {}
 					&.active {
 						box-shadow: 0px 15px 15px 0px rgba(0, 0, 0, 0.04);
 						border: 1px solid #0360FF;
@@ -228,6 +229,10 @@
 					display: flex;
 					// justify-content: ;
 					align-items: center;
+					margin-left: 40px;
+					.unit {
+						margin-left: 8px;
+					}
 				}
 			}
 			.system-disk-container, .data-disk-container {
@@ -256,6 +261,9 @@
 						color: #333;
 						font-size: 16px;
 						margin-right: 10px;
+					}
+					.number-counter-unit {
+						margin-left: 8px;
 					}
 				}
 				.num-inputer {
@@ -406,6 +414,37 @@
 					}
 				}
 			}
+			&.buy-time-content {
+				width: max-content;
+				display: flex;
+				border-radius: 2px;
+				color: #333;
+				overflow: hidden;
+				.buy-time-item {
+					width: 72px;
+					height: 46px;
+					cursor: pointer;
+					line-height: 46px;
+					border: 1px solid #CCD1D9;
+					text-align: center;
+					position: relative;
+					&.active {
+						color: #0360FF;
+						border: 1px solid #0360FF;
+					}
+					&::after {
+						content: attr(data-content);
+						position: absolute;
+						right: -1px;
+						top: -1px;
+						color: #fff;
+						background: #ff8035;
+						padding: 0 4px;
+						font-size: 12px;
+						line-height: 14px;
+					}
+				}
+			}
 		}
 	}
 	.page-bot {
@@ -450,7 +489,6 @@
 					margin-top: 20px;
 					background: #E9661E;
 					border-radius: 4px;
-					line-height: 36px;
 					color: #fff;
 					font-size: 16px;
 					padding: 0 16px;

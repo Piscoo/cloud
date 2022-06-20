@@ -54,7 +54,7 @@ const Coupon = (props) => {
 			key: 'product',
 			dataIndex: 'product',
 			render: (text) => (
-				<span className="product-name">{text == 0 ? 'VPS' : 'SHADOWSOCKS'}</span>
+				<span className="product-name">{text == 0 ? '云主机' : 'SHADOWSOCKS'}</span>
 			)
 		},
 		{

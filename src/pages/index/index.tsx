@@ -17,7 +17,7 @@ const buyLink = '/customize';
 
 const Home = (props) => {
 	useEffect(() => {
-		document.title = 'mCloud - 全球云主机.海外VPS.美国VPS.俄罗斯VPS.中国VPS';
+		document.title = 'mCloud - 全球云主机.海外VPS.美国VPS.俄罗斯VPS.中国VPS.免备案';
 	}, [ ]);
 	const [userInfo, setUserInfo] = useState<string>();
 	useEffect(() => {
@@ -69,19 +69,19 @@ const Home = (props) => {
 				<div className="config-list">
 					<div className="config-item">
 						<div className="config-name">CPU</div>
-						<div className="config-value">{machine.cpu}核 CPU</div>
-					</div>
-					<div className="config-item">
-						<div className="config-name">宽带</div>
-						<div className="config-value">{machine.bandwidth}Mbps</div>
+						<div className="config-value">{machine.cpu}核</div>
 					</div>
 					<div className="config-item">
 						<div className="config-name">内存</div>
 						<div className="config-value">{machine.ram}GB 内存</div>
 					</div>
 					<div className="config-item">
+						<div className="config-name">宽带</div>
+						<div className="config-value">{machine.bandwidth}Mbps</div>
+					</div>
+					<div className="config-item">
 						<div className="config-name">硬盘驱动器</div>
-						<div className="config-value">{machine.system_disk_capacity + machine.data_disk_capacity.reduce((a,b)=> a+b)}GB HDD</div>
+						<div className="config-value">{machine.data_disk_capacity.length > 0 ? machine.system_disk_capacity + machine.data_disk_capacity.reduce((a,b)=> a+b) : machine.system_disk_capacity}GB HDD</div>
 					</div>
 				</div>
 				<div className="machine-support">
@@ -136,13 +136,13 @@ const Home = (props) => {
 						<div className="img"></div>
 					</div>
 					<div className="banner-info">
-						<div className="main-title">全球云主机</div>
+						<div className="main-title">永久免备案云主机</div>
 						<div className="sub-title">
-							<span className="asia">亚太优化</span>
-							<span>中国多运营商直连</span>
+							<span className="asia">全球40国家和地区</span>
+							<span>百兆带宽任意用</span>
 						</div>
 						<div className="price">
-							低至<span className="num">¥29</span>/月
+							低至<span className="num">¥18</span>/月
 						</div>
 						<div className="home-banner-btns">
 							<div className="home-banner-btn plan" onClick={scrollToPick}>{btnWord}</div>
@@ -157,7 +157,7 @@ const Home = (props) => {
 		</div>
 		<div className="pick-one">
 			<div className="wrapper">
-				<div className="title">选购主机</div>
+				<div className="title">选购云主机</div>
 				<div className="suggest">我们精心为您推荐了以下几款云主机，可满足多数业务的需求</div>
 				<div className="machine-box">{machineItem}</div>
 			</div>
@@ -168,11 +168,11 @@ const Home = (props) => {
 					<div className="img-info"><div className="img"></div></div>
 					<div className="info">
 						<div className="words">
-							<div className="name">可永久享受终身</div>
+							<div className="name">终身免备案</div>
 							<div className="price-info">
 								<div className="discount"></div>
 								<div className="price-num">
-									低至<span className="num">¥29</span>/月
+									低至<span className="num">¥19</span>/月
 								</div>
 							</div>
 						</div>
@@ -216,12 +216,12 @@ const Home = (props) => {
 			<div className="foot-bot">
 				<div className="wrapper">
 					<div className="rights">
-						<div>All rights reserved Copyright © 2018 Hoster by - CloudIPLC 版权所有</div>
+						<div>All rights reserved Copyright © 2021 Hoster by - mCloud 版权所有</div>
 						<div className="icp">《中华人民共和国增值电信业务经营许可证》B1-20195368 , 沪ICP备16045823号 , 北京XX网络科技有限公司</div>
 					</div>
 					<div className="contact">
 						<Popover content={wechatPopover}><div className="wechat"></div></Popover>
-						<div className="email"><a href="https://t.me/horizencommunity" target="_blank"></a></div>
+						<div className="email"><a href="https://t.me/mcloud" target="_blank"></a></div>
 					</div>
 				</div>
 			</div>
