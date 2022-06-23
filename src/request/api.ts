@@ -261,7 +261,8 @@ export const payOrder = (data) => {
 		order_id: number
 	}
 	interface Res {
-		code: number
+		code: number,
+		msg?: string
 	}
 	return cloudRequest<Req, Res>({
 		url: '/order/pay',

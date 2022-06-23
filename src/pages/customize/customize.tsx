@@ -80,7 +80,7 @@ const Customize = (props) => {
 	const [choosedArea, setChoosedArea] = useState<string>(propsCustomizeData?.city || '');
 	const [choosedCountry, setChoosedCountry] = useState<string>(propsCustomizeData?.country || '');
 	const [choosedModel, setChoosedModel] = useState<string>(propsCustomizeData?.model || propsCustomizeData?.cpu ? 'cpu' + propsCustomizeData?.cpu + 'ram' + propsCustomizeData?.ram : '');
-	const [systemOperator, setSystemOperator] = useState<string>(propsCustomizeData?.os || 'ubuntu');
+	const [systemOperator, setSystemOperator] = useState<string>(propsCustomizeData?.os || 'Ubuntu');
 	const [systemBits, setSystemBits] = useState<string>('x64');
 	const [systemPlatform, setSysTemPlatform] = useState<string>('21.04 LTS');
 	const [platformValue, setPlatformValue] = useState<string>(propsCustomizeData?.platform || 'both');

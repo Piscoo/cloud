@@ -130,8 +130,8 @@ const ConfirmOrder = (props) => {
 											</div>
 											<div className="item">
 												<div className="item-name">数据存储</div>
-												<div className="item-value">{
-												customizeData.data_disk_capacity.reduce((a, b) => a + b)}GB SSD云硬盘({customizeData.data_disk_capacity.length}块)</div>
+												{customizeData.data_disk_capacity.length > 0 && <div className="item-value">{customizeData.data_disk_capacity.reduce((a, b) => a + b)}GB SSD云硬盘({customizeData.data_disk_capacity.length}块)</div>}
+												{(customizeData.data_disk_capacity.length == 0 || !customizeData.data_disk_capacity) && <div className="item-value">0GB SSD云硬盘(0块)</div>}
 											</div>
 											<div className="item">
 												<div className="item-name">带宽</div>

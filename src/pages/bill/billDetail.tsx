@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Select, Input, Spin } from 'antd'
+import { Select, Input, Spin, message } from 'antd'
 import { LoadingOutlined } from '@ant-design/icons'
 import Layout from '@/components/layout/layout'
 import { orderDetail, payOrder, paymentCode } from '@/request/api'
@@ -89,7 +89,11 @@ const BillDetail = (props) => {
 			order_id: orderId
 		};
 		const res = await payOrder(data);
-		if(res.data.code == 0) getOrderDetail();
+		if(res.data.code == 0) {
+			getOrderDetail();
+		} else {
+			message.error(res.data.msg);
+		}
 	}
 	const confirmDigitalPay = () => {
 		setPayType('alipay');
@@ -214,7 +218,7 @@ const BillDetail = (props) => {
 									<div className="item">
 										<div className="item-name">数据存储</div>
 										<div className="item-value">{
-										orderInfo?.data.data_disk_capacity.reduce((a, b) => a + b)}GB SSD云硬盘({orderInfo?.data.data_disk_capacity.length}块)</div>
+										orderInfo?.data.data_disk_capacity.length > 0 ? orderInfo?.data.data_disk_capacity.reduce((a, b) => a + b) : 0}GB SSD云硬盘({orderInfo?.data.data_disk_capacity.length}块)</div>
 									</div>
 									<div className="item">
 										<div className="item-name">带宽</div>

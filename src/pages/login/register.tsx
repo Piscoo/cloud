@@ -97,9 +97,13 @@ function Register(props) {
 			noPassword: '请输入密码',
 			passwordWrong: '密码至少八位',
 			passwordNotSame: '两次输入的密码不一致',
-			emailWrong: '请输入正确的邮箱地址'
+			emailWrong: '请输入正确的邮箱地址',
+			notAgree: '请先阅读并同意服务条款',
 		};
-
+		if(!agreeTerms) {
+			message.warning(msgList.notAgree);
+			return false;
+		}
 		if(!firstName || !lastName) {
 			message.warning(msgList.noName);
 			return false;
@@ -161,6 +165,7 @@ function Register(props) {
 
 	// 使用随机生成的密码当作密码
 	const setRandomPasswordToUse = () => {
+		copyRandomPassword();
 		inputPassword({target: {value: randomPassword}});
 		inputPasswordAgain({target: {value: randomPassword}});
 		setIsGeneratePsdModalVisible(false);

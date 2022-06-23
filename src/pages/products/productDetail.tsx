@@ -98,7 +98,7 @@ const ProductDetail = (props) => {
 							<div className="config-name">数据盘</div>
 							<div className="config-value">
 								<div className="value-num">
-									{productInfo?.configure.data_disk_capacity.reduce((a: number, b: number): number => a + b)}
+									{productInfo?.configure.data_disk_capacity.length > 0 ? productInfo?.configure.data_disk_capacity.reduce((a: number, b: number): number => a + b) : 0}
 									<span className="unit"> GB</span>
 								</div>
 								<div className="config-icon disk"></div>
